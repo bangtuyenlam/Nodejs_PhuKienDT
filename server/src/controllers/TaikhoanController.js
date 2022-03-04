@@ -17,11 +17,15 @@ let login = (req, res) => {
       if (data[0]) {
         var token = jwt.sign(data[0].id, 'mk');
         return res.json({
+            error: false,
             message: 'Đăng nhập thành công',
             token: token
         });
       } else {
-        return res.json("Đăng nhập thất bại");
+        return res.status(401).json({
+          error: true,
+          message: "Tài khoản hoặc mật khẩu chưa đúng!"
+        });
       }
     })
     .catch((err) => {

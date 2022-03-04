@@ -1,28 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from 'react';
+import Login from './component/Login';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Home from './component/Home';
 
 function App() {
-  const [backendData, setbackendData] = useState([{}]);
-
-  useEffect(() => {
-    fetch("/baidang")
-      .then((res) => res.json())
-      .then((data) => {
-        setbackendData(data);
-      });
-  }, []);
   return (
-    <div>
-      {backendData.map((user) => {
-        return (
-          <div>
-            <p>{user.id}</p>
-            <p>{user.TenTK}</p>
-            <p>{user.Matkhau}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/login' element={<Login/>}/>
+        </Routes>
+        </div>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App

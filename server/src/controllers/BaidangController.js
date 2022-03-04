@@ -8,7 +8,7 @@ class BaidangController {
     })
       .then((data) => {
         console.log(data[0].id);
-        res.json(data[0].TenTK);
+        res.json(data);
       })
       .catch((err) => {
         res.status(500).json(err);

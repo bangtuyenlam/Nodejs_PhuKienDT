@@ -5,12 +5,14 @@ const bodyParser = require("body-parser");
 const app = express();
 const route = require("./src/routes/index");
 const connectDB = require("./src/config/connect");
+var cors = require('cors');
 
 app.use(express.json());
 dotenv.config();
 
 connectDB();
 route(app);
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("combined"));

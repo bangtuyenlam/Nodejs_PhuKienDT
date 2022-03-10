@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { Link } from 'react-router-dom';
 import Home from './Home';
+import {setUserSession} from '../Utils/Common';
 
 
 function Login(props) {
@@ -19,14 +20,15 @@ function Login(props) {
         })
         .then((res) => {
             console.log('login');
-            console.log(res.data);
+            console.log(res.data.token);
+            setUserSession(res.data.token, res.data.tentk);
             window.location.href = "/";
         })
         .catch((error)=> {
             if (error.response.status === 401)
             console.log(error.response.data.message);
           else if (error.response.status === 400)
-            console.log(error.response.data.message);
+            console.log("Mật khẩu chưa đúng");
           else console.log("Lỗi. Vui lòng thử lại lần nữa.");
         })
   }

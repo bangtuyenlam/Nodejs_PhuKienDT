@@ -16,7 +16,7 @@ function Navbar() {
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item">
         
-          <Link className='nav-link active' aria-current="page" to={'/login'}> Đăng ký</Link>
+          <Link className='nav-link active' aria-current="page" to={'/register'}> Đăng ký</Link>
         </li>
         <li className="nav-item">
         <Link className='nav-link active' aria-current="page" to={'/login'}> Đăng nhập </Link>

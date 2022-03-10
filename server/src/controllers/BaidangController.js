@@ -7,7 +7,7 @@ class BaidangController {
       raw: true,
     })
       .then((data) => {
-        console.log(data[0].id);
+        console.log(data[0]);
         res.json(data);
       })
       .catch((err) => {

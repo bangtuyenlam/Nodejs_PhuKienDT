@@ -17,7 +17,7 @@ function Products() {
        .catch((err) => {
          console.log(err);
        })
-   }, [])
+   }, []);
   return (
       <div>
     <div>Products</div>

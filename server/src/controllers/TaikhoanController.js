@@ -24,10 +24,9 @@ let login = async (req, res) => {
         { expiresIn: 3600 }
       );
       return res.json({
-        error: false,
         message: "Đăng nhập thành công",
         token: token,
-        tentk: "Admin",
+        username: user[0].TenTK,
       });
     } else {
       return res.status(401).json({
@@ -111,6 +110,8 @@ const verifyToken = (req, res, next) => {
     // Chưa signing or chưa xác thực
   }
 };
+
+
 
 module.exports = {
   login: login,

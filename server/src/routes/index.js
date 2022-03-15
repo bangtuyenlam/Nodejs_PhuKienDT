@@ -2,7 +2,6 @@ const baidangRouter = require("./baidang");
 const homeRouter = require("./HomeRouter");
 const taikhoanRouter = require("./taikhoanRouter");
 var bodyParser = require("body-parser");
-const TaikhoanController = require('../controllers/TaikhoanController');
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 

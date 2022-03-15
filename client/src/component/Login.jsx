@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import { Link } from 'react-router-dom';
-import Home from './Home';
 import {setUserSession} from '../Utils/Common';
+import { useNavigate } from 'react-router';
 
 
 function Login(props) {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
   const loginSubmit = () => {
       axios
@@ -22,7 +22,7 @@ function Login(props) {
             console.log('login');
             console.log(res.data.token);
             setUserSession(res.data.token, res.data.tentk);
-            window.location.href = "/";
+            navigate('/');
         })
         .catch((error)=> {
             if (error.response.status === 401)
@@ -33,7 +33,7 @@ function Login(props) {
         })
   }
   const handleCancel = () => {
-      window.location.href = "/";
+      navigate('/');
   };
     
   return (

@@ -3,6 +3,6 @@ const router = express.Router();
 const baidangController = require('../controllers/BaidangController');
 const TaikhoanController = require('../controllers/TaikhoanController');
 router.get('/:id', baidangController.show);
-router.get('/',baidangController.index);
+router.get('/', baidangController.index);
 
 module.exports = router;

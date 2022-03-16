@@ -15,7 +15,9 @@ export default function Sidebar() {
           <ul className="sidebarList">
             <li className="sidebarListItem">
               <LineStyle className='sidebarIcon'/>
+              <Link className='sidebarLink' to={'/admin/'}>
               Trang chủ
+              </Link>
             </li>
             <li className="sidebarListItem">
               <Timeline className='sidebarIcon'/>

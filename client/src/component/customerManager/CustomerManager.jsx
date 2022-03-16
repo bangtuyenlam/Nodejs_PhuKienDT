@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './customerManger.css';
 import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
+import {DeleteOutline} from '@material-ui/icons'
+import { Link} from 'react-router-dom';
 
 export default function CustomerManager() {
+  
 
   const [customers, setCustomers] = useState([]);
 
@@ -18,6 +21,10 @@ export default function CustomerManager() {
       })
   }, []);
 
+  const handleDelete = (id) => {
+
+  }
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 100 },
     {
@@ -29,6 +36,16 @@ export default function CustomerManager() {
       field: 'KH_Hoten',
       headerName: 'Họ và tên',
       width: 160,
+    },
+    {
+      field: 'gioitinh',
+      headerName: 'Giới tính',
+      width: 160,
+      renderCell: (params) => {
+        if(params.row.KH_Gioitinh === 1)
+          return <div>Nam</div>
+          else return <div>Nữ</div>
+      }
     },
     {
       field: 'KH_Ngaysinh',
@@ -43,13 +60,31 @@ export default function CustomerManager() {
     {
       field: 'KH_Email',
       headerName: 'Email',
-      width: 130,
+      width: 200,
     },
     {
       field: 'KH_SDT',
       headerName: 'Số điện thoại',
       width: 200,
     },
+    {
+      field: 'action',
+      headerName: 'Điều khiển',
+      width: 150,
+      renderCell: (params) => {
+        
+        return(
+          <>
+          <Link to={`/admin/customer/${params.row.id}`}>
+          <button className="customerManagerEdit">Edit</button>
+          </Link>
+          <DeleteOutline className="customerManagerDelete"
+              onClick = {() => handleDelete(params.row.id)}
+          />
+          </>
+        )
+      }
+    }
   ];
   
   

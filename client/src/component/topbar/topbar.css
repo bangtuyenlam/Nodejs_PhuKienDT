@@ -48,3 +48,8 @@
     font-size: 10px;
     display: flex;
 }
+
+.topbarLink{
+    text-decoration: none;
+    color: blueviolet;
+}

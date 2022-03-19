@@ -90,6 +90,10 @@ export default function CustomerManager() {
   
   return (
     <div className="customerManager">
+      <div className='customerManagerContainer'>
+        <h1 className="customerManagerTitle">Danh sách khách hàng</h1>
+        <button className="customerAddButton">Thêm</button>
+      </div>
       {customers && (
        <DataGrid
         rows={customers}

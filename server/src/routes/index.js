@@ -9,7 +9,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 function route(app) {
  // app.use("/verifyToken", TaikhoanController.verifyToken);
   app.use("/baidang", baidangRouter);
-  app.use("/khachhang", khachhangRouter);
+  app.use("/khachhang", khachhangRouter, urlencodedParser, jsonParser);
   app.use("/account",taikhoanRouter, urlencodedParser, jsonParser);
   app.use("/", homeRouter);
 }

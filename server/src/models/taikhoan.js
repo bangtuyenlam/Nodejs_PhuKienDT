@@ -4,11 +4,14 @@ module.exports = (sequelize, DataTypes) => {
   class Taikhoan extends Model {
     static associate(models) {
       Taikhoan.hasMany(models.Quyensudung);
+      Taikhoan.hasOne(models.Khachhang, {foreignKey: "MaTK"});
     }
   }
   Taikhoan.init(
     {
-      // MaTK: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true},
       TenTK: DataTypes.STRING,
       Matkhau: DataTypes.STRING,
     },

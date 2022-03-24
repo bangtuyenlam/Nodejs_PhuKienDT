@@ -17,6 +17,7 @@
 .customerShow {
     flex: 1;
     padding: 2px;
+   
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow:  0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 }
@@ -30,10 +31,12 @@
     height: 40px;
     background-repeat: 50%;
     object-fit: cover;
+    margin-left: 20px;
+    margin-top: 5px;
 }
 
 .customerEdit {
-    flex: 2;
+    flex: 1.5;
     padding: 2px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow:  0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -69,6 +72,7 @@
 
 .customerShowIcon {
     font-style: 16px, !important;
+    margin-left: 20px;
 }
 
 .customerInfoTitle {
@@ -76,3 +80,50 @@
     
 }
 
+.customerUpdateTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.customerUpdateForms {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+    margin-left: 20px;
+}
+
+.customerUpdateItem {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.customerUpdateItem>label{
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.customerUpdateInput {
+    border: none;
+    width: 300px;
+    height: 30px;
+    border-bottom: 1px solid gray;
+}
+
+.customerUpdateRight{
+    display: flex;
+    flex-direction: column;
+    justify-content:end;
+}
+
+.customerUpdateButton{
+    cursor: pointer;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: cornflowerblue;
+    font-weight: 500;
+    width: 150px;
+}

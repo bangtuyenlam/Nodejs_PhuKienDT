@@ -41,7 +41,50 @@ let customerId = async (req, res) => {
       }
 }
 
+let customerUpdate = async (req, res) => {  
+  const id = req.body.customerId;
+  const customerName = req.body.customerName;
+  const gender = req.body.gender;
+  const email = req.body.email;
+  const birthday = req.body.selectedDate;
+  const phoneNumber = req.body.phoneNumber;
+  const location = req.body.location;
+  const value = {
+    KH_Hoten: customerName,
+    KH_Ngaysinh: birthday,
+    KH_Gioitinh: gender,
+    KH_Email: email,
+    KH_SDT: phoneNumber,
+    KH_Diachi: location,
+    id: id
+  }
+  console.log(value);
+  try{
+        const result = await db.Khachhang.update(
+          {KH_Hoten: customerName,
+            KH_Ngaysinh: birthday,
+            KH_Gioitinh: gender,
+            KH_Email: email,
+            KH_SDT: phoneNumber,
+            KH_Diachi: location}
+        , {
+          where: {
+            id: id
+          }
+        })
+      return res.json(result[0]);
+    }
+
+  catch(err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server"
+  });
+  }
+}
+
 module.exports = {
     customerList: customerList,
-    customerId: customerId
+    customerId: customerId,
+    customerUpdate: customerUpdate
 }

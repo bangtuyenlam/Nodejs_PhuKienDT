@@ -32,8 +32,12 @@ export default function Customer() {
       })
       .then((res) => {
         setCustomer(res.data);
-        console.log(res.data);
-      
+        setCustomerName(res.data.KH_Hoten);
+        setSelectedDate(res.data.KH_Ngaysinh);
+        setGender(res.data.KH_Gioitinh);
+        setEmail(res.data.KH_Email);
+        setPhoneNumber(res.data.KH_SDT);
+        setLocation(res.data.KH_Diachi);
       })
       .catch((err) => {
         
@@ -50,7 +54,7 @@ export default function Customer() {
   const handleUpdate = (e) => { 
    
     axios
-      .post("/khachhang/capnhat", {
+      .put("/khachhang/capnhat", {
         customerId: customerId.id,
         customerName: customerName,
         gender: gender,

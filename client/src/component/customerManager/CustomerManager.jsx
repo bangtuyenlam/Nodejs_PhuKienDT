@@ -22,7 +22,8 @@ export default function CustomerManager() {
   }, []);
 
   const handleDelete = (id) => {
-
+     axios.delete(`/khachhang/xoa/${id}`)
+     console.log("xóa");
   }
 
   const columns = [

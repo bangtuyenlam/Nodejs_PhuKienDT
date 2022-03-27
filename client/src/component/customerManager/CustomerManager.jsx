@@ -93,7 +93,9 @@ export default function CustomerManager() {
     <div className="customerManager">
       <div className='customerManagerContainer'>
         <h1 className="customerManagerTitle">Danh sách khách hàng</h1>
+        <Link to={"/admin/newcustomer"}>
         <button className="customerAddButton">Thêm</button>
+        </Link>
       </div>
       {customers && (
        <DataGrid

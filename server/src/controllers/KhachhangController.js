@@ -96,9 +96,60 @@ let customerDelete = async (req, res) => {
   }
 };
 
+let customerCreate = async (req, res) => {
+  const TenTK = req.body.account;
+  const Matkhau = req.body.pwd;
+  const value = {
+    KH_Hoten: req.body.customerName,
+    KH_Ngaysinh: req.body.selectedDate,
+    KH_Gioitinh: req.body.gender,
+    KH_Email: req.body.email,
+    KH_SDT: req.body.phoneNumber,
+    KH_Diachi: req.body.location,
+  };
+ 
+  try {
+    if(!value.KH_Hoten || !value.KH_Ngaysinh || !value.KH_Gioitinh 
+      ||!value.KH_Email ||!value.KH_SDT ||!value.KH_Diachi){
+      return res.status(402).json({
+        err: true,
+        message: "Vui lòng nhập đủ các trường"
+      });
+    }
+    console.log(value);
+    console.log(TenTK + Matkhau);
+    return res.json({
+      message: "Ok"
+    })
+    
+    // const result = await db.Khachhang.update(
+    //   {
+    //     KH_Hoten: customerName,
+    //     KH_Ngaysinh: birthday,
+    //     KH_Gioitinh: gender,
+    //     KH_Email: email,
+    //     KH_SDT: phoneNumber,
+    //     KH_Diachi: location,
+    //   },
+    //   {
+    //     where: {
+    //       id: id,
+    //     },
+    //   }
+    // );
+    // return res.json(result[0]);
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+};
+
 module.exports = {
   customerList: customerList,
   customerId: customerId,
   customerUpdate: customerUpdate,
-  customerDelete: customerDelete
+  customerDelete: customerDelete,
+  customerCreate: customerCreate
 };

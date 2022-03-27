@@ -39,7 +39,7 @@ let login = async (req, res) => {
   }
 };
 
-let register = async (req, res) => {
+let register = async (req, res, next) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -85,7 +85,9 @@ let register = async (req, res) => {
         Matkhau: password,
       });
       return res.json(newUser);
+     
     }
+    
   }} catch (error) {
     res.status(400).send(error.message);
   }

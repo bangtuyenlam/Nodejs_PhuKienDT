@@ -5,13 +5,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Nhanvien.belongsTo(models.Quyensudung, { foreignKey: "Maquyen" });
       Nhanvien.belongsTo(models.Taikhoan, { foreignKey: "MaTK" });
-      Nhanvien.hasMany(models.Baidang);
-      Nhanvien.hasMany(models.Dondat);
+      // Nhanvien.hasMany(models.Baidang);
+      // Nhanvien.hasMany(models.Dondat);
     }
   }
   Nhanvien.init(
     {
-      NV_Ma: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       Maquyen: DataTypes.INTEGER,
       MaTK: DataTypes.INTEGER,
       NV_Hoten: DataTypes.STRING,

@@ -1,5 +1,4 @@
 import "./newCustomer.css";
-import { useNavigate } from "react-router";
 import React, { useState } from "react";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -8,6 +7,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import axios from "axios";
+import { useNavigate } from 'react-router';
 
 export default function NewCustomer() {
   const [customerName, setCustomerName] = useState("");
@@ -18,6 +18,7 @@ export default function NewCustomer() {
   const [account, setAccount] = useState("");
   const [pwd, setPwd] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [error, setError] = useState();
   const navigate = useNavigate();
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -36,14 +37,18 @@ export default function NewCustomer() {
         location: location,
       })
       .then((res) => {
-        console.log(res.data);
-          
+       console.log(res.data);
+       navigate("/admin/customerManager");
       })
       .catch((error) => {
-        if (error.response.status === 500)
+        if (error.response.status === 402){
+          setError(error.response.data.message);
+          console.log("Lỗi nhập chưa nhập đủ thông tin");
+        }
+        else
           console.log("Cập nhật không thành công");
       });
-      navigate("/admin/customerManager")
+    
   }
 
   return (
@@ -68,7 +73,7 @@ export default function NewCustomer() {
         <div className="newCustomerItem">
           <label>Mật khẩu</label>
           <input
-           type="text"
+           type="password"
            value={pwd}
            onChange={(value) => setPwd(value.target.value)}></input>
         </div>
@@ -111,7 +116,7 @@ export default function NewCustomer() {
         <div className="newCustomerItem">
           <label> Email</label>
           <input
-           type="text"
+           type="email"
            value={email}
            onChange={(value) => setEmail(value.target.value)}></input>
         </div>
@@ -129,8 +134,10 @@ export default function NewCustomer() {
            value={location}
            onChange={(value) => setLocation(value.target.value)}></input>
         </div>
+        
         <button
          className="newCustomerButton"
+         type="button"
          onClick={handleCreate}>Lưu</button>
       </form>
     </div>

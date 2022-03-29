@@ -3,12 +3,16 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Quyensudung extends Model {
     static associate(models) {
-      Quyensudung.hasMany(models.Nhanvien);
+      Quyensudung.hasMany(models.Nhanvien, { foreignKey: "Maquyen" });
+      Quyensudung.hasMany(models.Khachhang, { foreignKey: "Maquyen" });
     }
   }
   Quyensudung.init(
     {
-      Maquyen: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       Tenquyen: DataTypes.STRING,
     },
     {

@@ -7,32 +7,42 @@ import { Link} from 'react-router-dom';
 
 export default function CustomerManager() {
   
-
+  
   const [customers, setCustomers] = useState([]);
-
-  useEffect(() => {
-    axios.get("/khachhang")
-      .then((res) => {
-        setCustomers(res.data);
-       // console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err + " Không thể lấy được khách hàng");
-      })
+  
+  useEffect( () => {
+    getData();
   }, []);
 
-  const handleDelete = (id) => {
-     axios.delete(`/khachhang/xoa/${id}`)
+  const handleDelete = (id, MaTK) => {
+     axios.delete(`/khachhang/xoa/${id}`, {
+       data: {
+         MaTK: MaTK
+       }
+     })
      console.log("xóa");
+     getData()
+    }
+
+  const getData = async () => {
+   await axios.get("/khachhang")
+    .then((res) => {
+      setCustomers(res.data);
+     // console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err + " Không thể lấy được khách hàng");
   }
+    )}
+
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    {
-      field: 'MaTK',
-      headerName: 'Tài khoản',
-      width: 140,
-    },
+    // { field: 'id', headerName: 'ID', width: 100 },
+    // {
+    //   field: 'MaTK',
+    //   headerName: 'Tài khoản',
+    //   width: 140,
+    // },
     {
       field: 'KH_Hoten',
       headerName: 'Họ và tên',
@@ -80,7 +90,7 @@ export default function CustomerManager() {
           <button className="customerManagerEdit">Edit</button>
           </Link>
           <DeleteOutline className="customerManagerDelete"
-              onClick = {() => handleDelete(params.row.id)}
+              onClick = {() => handleDelete(params.row.id, params.row.MaTK)}
           />
           </>
         )
@@ -101,7 +111,7 @@ export default function CustomerManager() {
        <DataGrid
         rows={customers}
         columns={columns}
-        pageSize={5}
+        pageSize={8}
         checkboxSelection
         disableSelectionOnClick
       />

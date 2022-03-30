@@ -44,7 +44,9 @@ export default function Sidebar() {
             </li>
             <li className="sidebarListItem">
               <AssignmentIndOutlined className='sidebarIcon'/>
+              <Link className='sidebarLink' to={'/admin/employeeManager'}>
               Nhân viên
+              </Link>
             </li>
             <li className="sidebarListItem">
               <RateReview className='sidebarIcon'/>

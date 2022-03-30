@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import './customerManager.css'
+import React, {useEffect, useState} from 'react';
+import './employeeManager.css';
 import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
 import {DeleteOutline} from '@material-ui/icons'
 import { Link} from 'react-router-dom';
 
-export default function CustomerManager() {
+export default function EmployeeManager() {
   
-  
-  const [customers, setCustomers] = useState([]);
+  const [employees, setEmployees] = useState([]);
   
   useEffect( () => {
     getData();
   }, []);
 
   const handleDelete = (id, MaTK) => {
-     axios.delete(`/khachhang/xoa/${id}`, {
+     axios.delete(`/nhanvien/xoa/${id}`, {
        data: {
          MaTK: MaTK
        }
@@ -25,13 +24,13 @@ export default function CustomerManager() {
     }
 
   const getData = async () => {
-   await axios.get("/khachhang")
+   await axios.get("/nhanvien")
     .then((res) => {
-      setCustomers(res.data);
+      setEmployees(res.data);
      // console.log(res.data);
     })
     .catch((err) => {
-      console.log(err + " Không thể lấy được khách hàng");
+      console.log(err + " Không thể lấy được danh sách nhân viên");
   }
     )}
 
@@ -44,7 +43,7 @@ export default function CustomerManager() {
     //   width: 140,
     // },
     {
-      field: 'KH_Hoten',
+      field: 'NV_Hoten',
       headerName: 'Họ và tên',
       width: 160,
     },
@@ -53,30 +52,35 @@ export default function CustomerManager() {
       headerName: 'Giới tính',
       width: 160,
       renderCell: (params) => {
-        if(params.row.KH_Gioitinh === 1)
+        if(params.row.NV_Gioitinh === 1)
           return <div>Nam</div>
           else return <div>Nữ</div>
       }
     },
     {
-      field: 'KH_Ngaysinh',
+      field: 'NV_Ngaysinh',
       headerName: 'Ngày sinh',
       width: 180,
     },
     {
-      field: 'KH_Diachi',
+      field: 'NV_Diachi',
       headerName: 'Địa chỉ',
       width: 500,
     },
     {
-      field: 'KH_Email',
+      field: 'NV_Email',
       headerName: 'Email',
       width: 200,
     },
     {
-      field: 'KH_SDT',
+      field: 'NV_SDT',
       headerName: 'Số điện thoại',
       width: 200,
+    },
+    {
+        field: 'Chucvu',
+        headerName: 'Chức vụ',
+        width: 200,
     },
     {
       field: 'action',
@@ -86,10 +90,10 @@ export default function CustomerManager() {
         
         return(
           <>
-          <Link to={`/admin/customer/${params.row.id}`}>
-          <button className="customerManagerEdit">Edit</button>
+          <Link to={`/admin/employee/${params.row.id}`}>
+          <button className="employeeManagerEdit">Edit</button>
           </Link>
-          <DeleteOutline className="customerManagerDelete"
+          <DeleteOutline className="employeeManagerDelete"
               onClick = {() => handleDelete(params.row.id, params.row.MaTK)}
           />
           </>
@@ -100,16 +104,16 @@ export default function CustomerManager() {
   
   
   return (
-    <div className="customerManager">
-      <div className='customerManagerContainer'>
-        <h1 className="customerManagerTitle">Danh sách khách hàng</h1>
-        <Link to={"/admin/newcustomer"}>
-        <button className="customerAddButton">Thêm</button>
+    <div className="employeeManager">
+      <div className='employeeManagerContainer'>
+        <h1 className="employeeManagerTitle">Danh sách nhanvien</h1>
+        <Link to={"/admin/newEmployee"}>
+        <button className="employeeAddButton">Thêm</button>
         </Link>
       </div>
-      {customers && (
+      {employees && (
        <DataGrid
-        rows={customers}
+        rows={employees}
         columns={columns}
         pageSize={8}
         checkboxSelection

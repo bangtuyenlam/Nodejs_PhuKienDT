@@ -18,14 +18,20 @@ let DanhSachNhanVien = async (req, res) => {
 
 let NhanVienId = async (req, res) => {
   const Id = req.body.NhanvienId;
-
   try {
     const Nhanvien = await db.Nhanvien.findAll({
       raw: true,
       where: {
         id: Id,
       },
-      include: db.Taikhoan,
+      include: [{
+        model: db.Taikhoan,
+      },
+      {
+        model: db.Quyensudung
+      }
+    ]
+      ,
     });
     if (Nhanvien[0]) return res.json(Nhanvien[0]);
     else return res.status(404).json("Không tồn tại nhân viên!");
@@ -151,6 +157,9 @@ let ThemNhanVien = async (req, res) => {
   const NV_SDT = req.body.phoneNumber;
   const NV_Diachi = req.body.location;
   const Chucvu = req.body.chucvu;
+  const Maquyen = 2;
+  console.log(NV_Diachi + NV_Email + NV_Gioitinh + TenTK + Matkhau +
+    NV_Hoten + NV_SDT + NV_Ngaysinh + Chucvu );
   try {
     if (
       !NV_Hoten ||
@@ -169,9 +178,11 @@ let ThemNhanVien = async (req, res) => {
       });
     } else {
       const MaTK = await CreateandFindAccount(TenTK, Matkhau);
+      if (Chucvu === "Quản lý" )
+        Maquyen = 1;
       if (MaTK) {
         const result = await db.Nhanvien.create({
-          Maquyen: 2,
+          Maquyen: Maquyen,
           MaTK: MaTK.id,
           NV_Hoten: NV_Hoten,
           NV_Ngaysinh: NV_Ngaysinh,

@@ -3,7 +3,7 @@ const router = express.Router();
 const nhanvienController = require("../controllers/NhanvienController");
 
 router.put("/capnhat", nhanvienController.ChinhSuaNhanVien);
-router.post("/them", nhanvienController.NhanvienId);
+router.post("/them", nhanvienController.ThemNhanVien);
 router.post("/id", nhanvienController.NhanvienId);
 router.delete("/xoa/:id", nhanvienController.XoaNhanVien);
 router.get("/", nhanvienController.DanhSachNhanVien);

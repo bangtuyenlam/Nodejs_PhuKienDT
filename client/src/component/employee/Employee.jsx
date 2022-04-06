@@ -9,6 +9,7 @@ import {
   PhoneAndroid,
   MailOutline,
   LocationSearching,
+  Work,
 } from "@material-ui/icons";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -28,8 +29,8 @@ export default function Employee() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [location, setLocation] = useState("");
-  const [chucvu, setChucvu] = useState("");
-  const [tenquyen, setTenquyen] = useState("");
+  const [chucvu, setChucvu] = useState("Nhân viên");
+  const [tenquyen, setTenquyen] = useState("Nhân viên");
   useEffect(() => {
     axios
       .post("/nhanvien/id", {
@@ -43,8 +44,6 @@ export default function Employee() {
         setEmail(res.data.NV_Email);
         setPhoneNumber(res.data.NV_SDT);
         setLocation(res.data.NV_Diachi);
-        setChucvu(res.data.Chucvu);
-        setTenquyen(res.data["Quyensudung.Tenquyen"]);
         console.log(res.data);
       })
       .catch((err) => {
@@ -57,6 +56,13 @@ export default function Employee() {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+
+  const selectChange = (value) => {
+   
+    setChucvu(value.target.value);
+    setTenquyen(value.target.value);
+   
+  }
 
   const handleUpdate = (e) => {
     axios
@@ -121,6 +127,10 @@ export default function Employee() {
                 <span className="employeeInfoTitle">
                   {dateFormat(employee.NV_Ngaysinh, "dd/mm/yyyy")}
                 </span>
+              </div>
+              <div className="employeeShowInfo">
+                <Work className="employeeShowIcon" />
+                <span className="employeeInfoTitle">{employee.Chucvu}</span>
               </div>
               <span className="employeeShowTitle">Thông tin liên lạc</span>
               <div className="employeeShowInfo">
@@ -221,24 +231,23 @@ export default function Employee() {
                     onChange={(value) => setLocation(value.target.value)}
                   />
                 </div>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="juridical">
-                    Chức vụ <span>*</span>
-                  </label>
-                  <select
-                    className="form-control"
-                    id="district"
-                    onChange={(e) => {
-                      setChucvu(e.target.value);
-                      setTenquyen(e.target.value);
-                    }}
-                  >
-                    <option value="nhân viên" default>
-                      Nhân viên
-                    </option>
-                    <option value="quản lý">Quản lý</option>
-                  </select>
-                </div>
+                <div className="employeeUpdateItem">
+                <label >
+                  Chức vụ 
+                  {/* <span>*</span> */}
+                </label>
+                <select
+                  className="form-control"
+                  id="district"
+                  onChange={selectChange}
+                >
+                  <option value="Nhân viên" default>
+                    Nhân viên
+                  </option>
+                
+                  <option value="Quản lý">Quản lý</option>
+                </select>
+         </div>
               </div>
               <div className="employeeUpdateRight">
                 <button className="employeeUpdateButton" onClick={handleUpdate}>

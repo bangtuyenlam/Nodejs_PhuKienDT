@@ -140,9 +140,9 @@ export default function NewEmployee() {
            onChange={(value) => setLocation(value.target.value)}></input>
         </div>
         <div className="newEmployeeItem">
-                <label className="form-label" htmlFor="juridical">
+                <label >
                   Chức vụ 
-                  {/* <span>*</span> */}
+               
                 </label>
                 <select
                   className="form-control"
@@ -154,7 +154,7 @@ export default function NewEmployee() {
                   </option>
                   <option value="Quản lý">Quản lý</option>
                 </select>
-              </div>
+         </div>
                 
         <button
          className="newEmployeeButton"

@@ -53,7 +53,7 @@ let ChinhSuaNhanVien = async (req, res) => {
   const Diachi = req.body.location;
   const Chucvu = req.body.chucvu;
   const Tenquyen = req.body.tenquyen;
-  
+ 
   try {
     const Maquyen = await db.Quyensudung.findAll({
       attributes: ["id"],
@@ -62,10 +62,11 @@ let ChinhSuaNhanVien = async (req, res) => {
         Tenquyen: Tenquyen,
       },
     });
-    if(!Maquyen) {
+ 
+    if(Maquyen) {
     const result = await db.Nhanvien.update(
       {
-        Maquyen: Maquyen.id,
+        Maquyen: Maquyen[0].id,
         NV_Hoten: TenNV,
         NV_Ngaysinh: Ngaysinh,
         NV_Gioitinh: Gioitinh,
@@ -136,6 +137,7 @@ const CreateandFindAccount = async (TenTK, MK) => {
     }
   } catch (error) {
     console.log("Lỗi không tạo được tài khoản");
+    
   }
   const MaTK = await db.Taikhoan.findAll({
     attributes: ["id"],
@@ -157,9 +159,9 @@ let ThemNhanVien = async (req, res) => {
   const NV_SDT = req.body.phoneNumber;
   const NV_Diachi = req.body.location;
   const Chucvu = req.body.chucvu;
-  const Maquyen = 2;
+  let Maquyen = 2;
   console.log(NV_Diachi + NV_Email + NV_Gioitinh + TenTK + Matkhau +
-    NV_Hoten + NV_SDT + NV_Ngaysinh + Chucvu );
+    NV_Hoten + NV_SDT + NV_Ngaysinh + Chucvu  );
   try {
     if (
       !NV_Hoten ||
@@ -180,6 +182,7 @@ let ThemNhanVien = async (req, res) => {
       const MaTK = await CreateandFindAccount(TenTK, Matkhau);
       if (Chucvu === "Quản lý" )
         Maquyen = 1;
+      console.log(Maquyen);
       if (MaTK) {
         const result = await db.Nhanvien.create({
           Maquyen: Maquyen,
@@ -196,7 +199,7 @@ let ThemNhanVien = async (req, res) => {
           message: "Thêm nhân viên thành công",
         });
       }
-    }
+     }
   } catch (err) {
     return res.status(500).json({
       error: true,

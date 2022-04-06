@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import './customerManager.css'
-import {DataGrid} from '@material-ui/data-grid';
-import axios from 'axios';
-import {DeleteOutline} from '@material-ui/icons'
-import { Link} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import "./customerManager.css";
+import { DataGrid } from "@material-ui/data-grid";
+import axios from "axios";
+import { DeleteOutline } from "@material-ui/icons";
+import { Link } from "react-router-dom";
+import dateFormat from "dateformat";
 
 export default function CustomerManager() {
-  
-  
   const [customers, setCustomers] = useState([]);
-  
-  useEffect( () => {
+
+  useEffect(() => {
     getData();
   }, []);
 
+  //Xóa khách hàng và tài khoản của khách hàng đó
   const handleDelete = (id, MaTK) => {
-     axios.delete(`/khachhang/xoa/${id}`, {
-       data: {
-         MaTK: MaTK
-       }
-     })
-     console.log("xóa");
-     getData()
-    }
+    axios.delete(`/khachhang/xoa/${id}`, {
+      data: {
+        MaTK: MaTK,
+      },
+    });
+    console.log("xóa");
+    getData();
+  };
 
   const getData = async () => {
-   await axios.get("/khachhang")
-    .then((res) => {
-      setCustomers(res.data);
-     // console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err + " Không thể lấy được khách hàng");
-  }
-    )}
-
+    await axios
+      .get("/khachhang")
+      .then((res) => {
+        setCustomers(res.data);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err + " Không thể lấy được khách hàng");
+      });
+  };
 
   const columns = [
     // { field: 'id', headerName: 'ID', width: 100 },
@@ -44,79 +44,79 @@ export default function CustomerManager() {
     //   width: 140,
     // },
     {
-      field: 'KH_Hoten',
-      headerName: 'Họ và tên',
+      field: "KH_Hoten",
+      headerName: "Họ và tên",
       width: 160,
     },
     {
-      field: 'gioitinh',
-      headerName: 'Giới tính',
+      field: "gioitinh",
+      headerName: "Giới tính",
       width: 160,
       renderCell: (params) => {
-        if(params.row.KH_Gioitinh === 1)
-          return <div>Nam</div>
-          else return <div>Nữ</div>
-      }
+        if (params.row.KH_Gioitinh === 1) return <div>Nam</div>;
+        else return <div>Nữ</div>;
+      },
     },
     {
-      field: 'KH_Ngaysinh',
-      headerName: 'Ngày sinh',
+      field: "KH_Ngaysinh",
+      headerName: "Ngày sinh",
       width: 180,
+      renderCell: (params) => {
+        return dateFormat(params.row.KH_Ngaysinh, "dd/mm/yyyy");
+      },
     },
     {
-      field: 'KH_Diachi',
-      headerName: 'Địa chỉ',
+      field: "KH_Diachi",
+      headerName: "Địa chỉ",
       width: 500,
     },
     {
-      field: 'KH_Email',
-      headerName: 'Email',
+      field: "KH_Email",
+      headerName: "Email",
       width: 200,
     },
     {
-      field: 'KH_SDT',
-      headerName: 'Số điện thoại',
+      field: "KH_SDT",
+      headerName: "Số điện thoại",
       width: 200,
     },
     {
-      field: 'action',
-      headerName: 'Điều khiển',
+      field: "action",
+      headerName: "Điều khiển",
       width: 150,
       renderCell: (params) => {
-        
-        return(
+        return (
           <>
-          <Link to={`/admin/customer/${params.row.id}`}>
-          <button className="customerManagerEdit">Edit</button>
-          </Link>
-          <DeleteOutline className="customerManagerDelete"
-              onClick = {() => handleDelete(params.row.id, params.row.MaTK)}
-          />
+            <Link to={`/admin/customer/${params.row.id}`}>
+              <button className="customerManagerEdit">Edit</button>
+            </Link>
+            <DeleteOutline
+              className="customerManagerDelete"
+              onClick={() => handleDelete(params.row.id, params.row.MaTK)}
+            />
           </>
-        )
-      }
-    }
+        );
+      },
+    },
   ];
-  
-  
+
   return (
     <div className="customerManager">
-      <div className='customerManagerContainer'>
+      <div className="customerManagerContainer">
         <h1 className="customerManagerTitle">Danh sách khách hàng</h1>
         <Link to={"/admin/newcustomer"}>
-        <button className="customerAddButton">Thêm</button>
+          <button className="customerAddButton">Thêm</button>
         </Link>
       </div>
       {customers && (
-       <DataGrid
-        rows={customers}
-        columns={columns}
-        pageSize={8}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-      )
-}
+        <DataGrid
+          rows={customers}
+          columns={columns}
+          pageSize={8}
+          checkboxSelection
+          disableSelectionOnClick
+        />
+      )}
     </div>
-  )
+  );
 }

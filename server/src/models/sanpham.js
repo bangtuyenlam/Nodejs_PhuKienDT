@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Sanpham.init(
     {
-      SP_Ma: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       LSP_Ma: DataTypes.INTEGER,
       DT_Ma: DataTypes.INTEGER,
       SP_Ten: DataTypes.STRING,
@@ -20,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       SP_Mota: DataTypes.STRING,
       Anhdaidien: DataTypes.STRING,
       Mausac: DataTypes.STRING,
+      Soluong: DataTypes.INTEGER,
     },
     {
       sequelize,

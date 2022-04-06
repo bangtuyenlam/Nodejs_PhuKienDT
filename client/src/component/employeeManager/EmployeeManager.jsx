@@ -4,7 +4,7 @@ import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
 import {DeleteOutline} from '@material-ui/icons'
 import { Link} from 'react-router-dom';
-
+import dateFormat from 'dateformat';
 export default function EmployeeManager() {
   
   const [employees, setEmployees] = useState([]);
@@ -61,6 +61,9 @@ export default function EmployeeManager() {
       field: 'NV_Ngaysinh',
       headerName: 'Ngày sinh',
       width: 180,
+      renderCell: (params) => {
+        return  dateFormat(params.row.NV_Ngaysinh, "dd/mm/yyyy");
+      }
     },
     {
       field: 'NV_Diachi',

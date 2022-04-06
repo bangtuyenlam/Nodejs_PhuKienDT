@@ -34,7 +34,10 @@ export default function Sidebar() {
           <ul className="sidebarList">
             <li className="sidebarListItem">
               <StorefrontOutlined className='sidebarIcon'/>
+              <Link className='sidebarLink' to={'/admin/productManager'}>
               Sản phẩm
+              </Link>
+            
             </li>
             <li className="sidebarListItem">
               <PersonOutline className='sidebarIcon'/>

@@ -9,15 +9,18 @@ export default function NewProduct() {
   const [phone, setPhone] = useState("");
   const [price, setPrice] = useState("");
   const [describe, setDescribe] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState({file: []});
   const [amount, setAmount] = useState("");
   const [color, setColor] = useState("");
   const [error, setError] = useState();
   const navigate = useNavigate();
   
-  const handleCreate =  () => {
+  const handleCreate = async () => {
+    const formdata = new FormData();
+    formdata.append('avatar', avatar.file);
     axios
-      .post("/khachhang/them", {
+      .post("/khachhang/them",formdata, {
+        headers:{"Content-Type": "multipart/form-data"},
         loaisp: category,
         tendt: phone,
         tensp: productName,
@@ -46,6 +49,20 @@ export default function NewProduct() {
 }
   const selectPhoneChange = (value) => {
     setPhone(value.target.value);
+  }
+
+  const uploadImage = (e) => {
+        // if (e.target.files[0]) {
+        //   const reader = new FileReader();
+        //   reader.addEventListener("load", () => {
+        //     setAvatar(reader.result);
+        //   });
+        //   reader.readAsDataURL(e.target.files[0]);
+        // }
+        setAvatar({
+          ...avatar,
+          file: e.target.files[0],
+        });
   }
 
   return (
@@ -123,7 +140,14 @@ export default function NewProduct() {
         </div>
         <div className="newProductItem">
           <label>Ảnh đại diện</label>
-          <input type="file" id='file'></input>
+          <input 
+            type="file"
+            id='file'
+            onChange={
+              uploadImage
+             
+          }
+          ></input>
         </div> 
         
         <button

@@ -11,7 +11,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 function route(app) {
  // app.use("/verifyToken", TaikhoanController.verifyToken);
   app.use("/baidang", baidangRouter);
- // app.use("/sanpham", sanphamRouter, urlencodedParser, jsonParser);
+  app.use("/sanpham", sanphamRouter, urlencodedParser, jsonParser);
   app.use("/nhanvien", nhanvienRouter, urlencodedParser, jsonParser);
   app.use("/khachhang", khachhangRouter, urlencodedParser, jsonParser);
   app.use("/account",taikhoanRouter, urlencodedParser, jsonParser);

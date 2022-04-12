@@ -18,11 +18,12 @@ let createProduct = (req, res) => {
   const LSP = req.body.loaisp;
   const DT = req.body.tendt;
   const TenSP = req.body.tensp;
-  const Gia = req.body.price;
+  const Gia = req.body.gia;
   const Mota = req.body.mota;
-  const Anh = req.body.anh;
+  const Anh = req.file.filename;
   const Soluong = req.body.soluong;
   const Mausac = req.body.mausac;
+  console.log( LSP + DT+ TenSP + Gia + Mota + Anh + Soluong + Mausac);
   try {
     if (!LSP || !DT || !TenSP || !Gia || !Mota || !Anh || !Soluong || !Mausac) {
       return res.status(402).json({

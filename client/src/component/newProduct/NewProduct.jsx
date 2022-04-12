@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router';
 
 export default function NewProduct() {
   const [productName, setProductName] = useState("");
-  const [category, setCategory] = useState("");
-  const [phone, setPhone] = useState("");
+  const [category, setCategory] = useState(1);
+  const [phone, setPhone] = useState(1);
   const [price, setPrice] = useState("");
   const [describe, setDescribe] = useState("");
   const [avatar, setAvatar] = useState({file: []});
@@ -18,17 +18,16 @@ export default function NewProduct() {
   const handleCreate = async () => {
     const formdata = new FormData();
     formdata.append('avatar', avatar.file);
+    formdata.append('loaisp', category);
+    formdata.append('tendt', phone);
+    formdata.append('tensp', productName);
+    formdata.append('gia', price);
+    formdata.append('mota', describe);
+    formdata.append('soluong', amount);
+    formdata.append('mausac', color);
     axios
-      .post("/khachhang/them",formdata, {
-        headers:{"Content-Type": "multipart/form-data"},
-        loaisp: category,
-        tendt: phone,
-        tensp: productName,
-        gia: price,
-        mota: describe,
-        anh: avatar,
-        soluong: amount,
-        mausac: color,
+      .post("/sanpham/them", formdata, {
+        headers:{"Content-Type": "multipart/form-data"},   
       })
       .then((res) => {
        console.log(res.data);
@@ -87,16 +86,16 @@ export default function NewProduct() {
                   id="district"
                   onChange={selectChange}
                 >
-                  <option value="Nhân viên" default>
+                  <option value="1" default>
                     Nhân viên
                   </option>
-                  <option value="Quản lý">Quản lý</option>
+                  <option value="2">Quản lý</option>
                 </select>
          </div>
         <div className="newProductItem">
           <label>Giá tiền</label>
           <input
-           type="password"
+           type="text"
            value={price}
            onChange={(value) => setPrice(value.target.value)}></input>
         </div>
@@ -110,10 +109,10 @@ export default function NewProduct() {
                   id="district"
                   onChange={selectPhoneChange}
                 >
-                  <option value="Nhân viên" default>
+                  <option value="1" default>
                     Nhân viên
                   </option>
-                  <option value="Quản lý">Quản lý</option>
+                  <option value="2">Quản lý</option>
                 </select>
          </div>
         <div className="newProductItem">

@@ -44,7 +44,7 @@ export default function ProductManager() {
       renderCell: (params) => {
         return (
           <div className="productName">
-            <img className='productImg' src={params.row.Anhdaidien} alt="Anh dai dien"/>
+            <img className='productImg' src={`http://localhost:5000/image/${params.row.Anhdaidien}`} alt="Anh dai dien"/>
             {params.row.SP_Ten}
           </div>
         )

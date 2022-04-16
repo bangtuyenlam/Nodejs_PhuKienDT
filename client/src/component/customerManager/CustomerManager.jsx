@@ -54,7 +54,8 @@ export default function CustomerManager() {
       width: 160,
       renderCell: (params) => {
         if (params.row.KH_Gioitinh === 1) return <div>Nam</div>;
-        else return <div>Nữ</div>;
+        else if (params.row.KH_Gioitinh === 0) return <div>Nữ</div>;
+        else return <div></div>;
       },
     },
     {

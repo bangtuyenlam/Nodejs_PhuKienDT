@@ -5,10 +5,7 @@ import Products from "./Products";
 
 function Home() {
   return (
-    <div className="container">
-      <div>
-        <br></br>
-      </div>
+    <div >
       <Navbar />
       <br />
       <div>

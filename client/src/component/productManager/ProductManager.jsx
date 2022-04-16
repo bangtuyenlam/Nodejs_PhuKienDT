@@ -13,9 +13,13 @@ export default function ProductManager() {
     getData();
   }, []);
 
-  const handleDelete = (id) => {
-    axios.delete(`/sanpham/xoa/${id}`)
-    console.log("xóa");
+  const handleDelete = (id, avatar) => {
+    axios.delete(`/sanpham/xoa/${id}`, {
+      data: {
+        anhdaidien: avatar,
+      },
+    })
+    console.log("xóa thành công");
     getData()
    }
 
@@ -31,16 +35,11 @@ export default function ProductManager() {
    )}
 
    const columns = [
-    // { field: 'id', headerName: 'ID', width: 100 },
-    // {
-    //   field: 'MaTK',
-    //   headerName: 'Tài khoản',
-    //   width: 140,
-    // },
+  
     {
       field: 'SP_Ten',
       headerName: 'Tên sản phẩm',
-      width: 160,
+      width: 500,
       renderCell: (params) => {
         return (
           <div className="productName">
@@ -53,7 +52,7 @@ export default function ProductManager() {
     {
       field: 'SP_Gia',
       headerName: 'Giá bán',
-      width: 160,
+      width: 190,
       renderCell: (params) => {
           return <div>{params.row.SP_Gia} VNĐ</div>
       }
@@ -75,7 +74,7 @@ export default function ProductManager() {
           <button className="productManagerEdit">Edit</button>
           </Link>
           <DeleteOutline className="productManagerDelete"
-              onClick = {() => handleDelete(params.row.id)}
+              onClick = {() => handleDelete(params.row.id, params.row.Anhdaidien)}
           />
           </>
         )

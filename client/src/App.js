@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {
-  getToken,
-  getUser,
-  setUserSession,
-  removeUserSession,
-} from "./Utils/Common";
+// import {
+//   getToken,
+//   getUser,
+//   setUserSession,
+//   removeUserSession,
+// } from "./Utils/Common";
 import Login from "./component/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./component/Home";
 import axios from "axios";
 import Register from "./component/Register";
 import Admin from "./component/Admin";
-import HomeAdmin from "./component/adminpage/home/HomeAdmin";
-import CustomerManager from "./component/customerManager/CustomerManager";
 function App() {
   // const [authLoading, setAuthLoading] = useState(true);
 

@@ -39,6 +39,26 @@ let login = async (req, res) => {
   }
 };
 
+const CreateCustomer = async (TenTK) => {
+  try{
+  const MaTK = await db.Taikhoan.findAll({
+    attributes: ["id"],
+    raw: true,
+    where: {
+      TenTK: TenTK,
+    }
+  });
+  console.log(MaTK);
+  await db.Khachhang.create({
+    Maquyen: 3,
+    MaTK: MaTK[0].id,
+  });
+}
+catch(err) {
+
+  }
+}
+
 let register = async (req, res, next) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -84,6 +104,7 @@ let register = async (req, res, next) => {
         TenTK: username,
         Matkhau: password,
       });
+      await CreateCustomer(username);
       return res.json(newUser);
      
     }

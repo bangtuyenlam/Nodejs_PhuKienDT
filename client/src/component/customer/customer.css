@@ -80,6 +80,7 @@
     
 }
 
+
 .customerUpdateTitle {
     font-size: 24px;
     font-weight: 600;
@@ -116,6 +117,7 @@
     flex-direction: column;
     justify-content:end;
 }
+
 
 .customerUpdateButton{
     cursor: pointer;

@@ -1,6 +1,8 @@
 .productManager{
     flex: 4;
-    padding: 20px;
+    padding-left: 20px;
+    padding-top: 5px;
+    height: 500px;;
 }
 
 .productName{
@@ -45,4 +47,10 @@
 .productManagerDelete{
     color: red;
     cursor: pointer;
+}
+
+.productManagerTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 20px;
 }

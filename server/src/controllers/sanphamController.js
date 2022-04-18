@@ -25,7 +25,7 @@ let createProduct = (req, res) => {
   const Anh = req.file.filename;
   const Soluong = req.body.soluong;
   const Mausac = req.body.mausac;
-  console.log(LSP + DT + TenSP + Gia + Mota + Anh + Soluong + Mausac);
+  
   try {
     if (!LSP || !DT || !TenSP || !Gia || !Mota || !Anh || !Soluong || !Mausac) {
       return res.status(402).json({

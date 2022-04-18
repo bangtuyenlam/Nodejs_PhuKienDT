@@ -22,7 +22,16 @@ function Login(props) {
             console.log('login');
             console.log(res.data.token);
             setUserSession(res.data.token, res.data.tentk);
-            navigate('/');
+            if(res.data.user["Khachhang.Maquyen"]) {
+                navigate('/');
+                
+            }else{
+                // if(res.data.user["Nhanvien.Maquyen"] == 2) 
+                //     navigate('/');
+                //  else
+                navigate('/admin');
+            }
+          
         })
         .catch((error)=> {
             if (error.response.status === 401)
@@ -32,6 +41,7 @@ function Login(props) {
           else console.log("Lỗi. Vui lòng thử lại lần nữa.");
         })
   }
+
   const handleCancel = () => {
       navigate('/');
   };

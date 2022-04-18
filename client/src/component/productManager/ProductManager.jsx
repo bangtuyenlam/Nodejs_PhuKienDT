@@ -39,7 +39,7 @@ export default function ProductManager() {
     {
       field: 'SP_Ten',
       headerName: 'Tên sản phẩm',
-      width: 500,
+      width: 530,
       renderCell: (params) => {
         return (
           <div className="productName">
@@ -65,7 +65,7 @@ export default function ProductManager() {
     {
       field: 'action',
       headerName: 'Điều khiển',
-      width: 150,
+      width: 151,
       renderCell: (params) => {
         
         return(
@@ -94,7 +94,7 @@ export default function ProductManager() {
         <DataGrid
           rows={products}
           columns={columns}
-          pageSize={8}
+          pageSize={7}
           checkboxSelection
           disableSelectionOnClick
         />

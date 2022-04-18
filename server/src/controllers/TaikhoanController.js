@@ -10,6 +10,12 @@ let login = async (req, res) => {
     where: {
       TenTK: username
     },
+    include: [{
+      model: db.Khachhang,
+    },
+    {
+      model: db.Nhanvien
+    }],
   });
 
   try {
@@ -27,6 +33,7 @@ let login = async (req, res) => {
         message: "Đăng nhập thành công",
         token: token,
         username: user[0].TenTK,
+        user: user[0],
       });
     } else {
       return res.status(401).json({

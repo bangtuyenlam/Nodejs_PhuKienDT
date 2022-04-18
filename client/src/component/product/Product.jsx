@@ -154,7 +154,7 @@ export default function Product() {
               </div>
               <div className="productShowInfo">
                 <Description className="productShowIcon" />
-                <span className="productInfoTitle">{product.SP_Mota}</span>
+                <span className="productInfoTitle" style={{whiteSpace: 'pre-line'}}>{product.SP_Mota}</span>
               </div>
             </div>
           </div>

@@ -1,19 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AddShoppingCart, ExitToApp, PersonAdd } from "@material-ui/icons";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 
 function Navbar() {
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
-        <div class="container">
+      <nav className="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+        <div className="container">
           <Link className="navbar-brand fw-bold fs-4" to={"/"}>
-            Phụ kiện điện thoại
+            Phụ kiện XZ
           </Link>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -21,11 +20,11 @@ function Navbar() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto mb-4 mb-lg-0">
-              <li class="nav-item">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav mx-auto mb-4 mb-lg-0">
+              <li className="nav-item">
                 <Link
                   className="nav-link active"
                   to={"/"}
@@ -34,12 +33,12 @@ function Navbar() {
                   Trang chủ
                 </Link>
               </li>
-              <li class="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link" to={"/"} style={{ fontSize: 18 }}>
                   Blog
                 </Link>
               </li>
-              <li class="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link" to={"/"} style={{ fontSize: 18 }}>
                   Liên hệ
                 </Link>
@@ -76,8 +75,12 @@ function Navbar() {
               style={{ marginRight: 6, marginBottom: 3 }}
             >
               <div className="fa fa-login">
-                <AddShoppingCart />
-                Giỏ hàng
+                <AddShoppingCart/>
+              
+                <span style={{
+                  
+                  color: "red"
+                }}>(0)</span>
               </div>
             </Link>
             </div>

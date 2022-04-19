@@ -17,7 +17,7 @@ export default function NewProduct() {
   const [error, setError] = useState();
   const navigate = useNavigate();
 
-  const handleCreate = async () => {
+  const handleCreate = () => {
     const formdata = new FormData();
     formdata.append("avatar", avatar.file);
     formdata.append("loaisp", category);

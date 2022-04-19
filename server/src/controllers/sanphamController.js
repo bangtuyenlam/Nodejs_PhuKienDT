@@ -57,8 +57,8 @@ let createProduct = (req, res) => {
 
 let ProductId = async (req, res) => {
   const Id = req.params.id;
-
   try {
+ 
     const product = await db.Sanpham.findAll({
       raw: true,
       where: {
@@ -83,7 +83,7 @@ let ProductId = async (req, res) => {
   }
 };
 
-const ProductUpdate = async (req, res) => {
+const ProductUpdate =  (req, res) => {
   const id = req.body.id;
   const LSP = req.body.loaisp;
   const DT = req.body.tendt;
@@ -101,13 +101,14 @@ const ProductUpdate = async (req, res) => {
     Mausac: Mausac,
     Soluong: Soluong,
   };
+
   if (req.file) {
     const Anh = req.file.filename;
     update.Anhdaidien = Anh;
   }
-  console.log(id + LSP + DT + TenSP + Mota);
+  console.log(update);
   try {
-    const result = await db.Sanpham.update(update, {
+    const result = db.Sanpham.update(update, {
       where: {
         id: id,
       },

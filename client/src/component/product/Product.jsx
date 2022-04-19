@@ -49,6 +49,8 @@ export default function Product() {
   }, []);
 
   const handleUpdate = async (event) => {
+    console.log(category);
+    console.log(price);
     const formdata = new FormData();
     formdata.append("id", productId.id);
     formdata.append("avatar", avatar.file);
@@ -59,7 +61,7 @@ export default function Product() {
     formdata.append("mota", describe);
     formdata.append("soluong", amount);
     formdata.append("mausac", color);
-    axios
+   await axios
       .put("/sanpham/capnhat", formdata, {
         headers: { "Content-Type": "multipart/form-data" },
       })
@@ -70,8 +72,8 @@ export default function Product() {
         if (error.response.status === 500)
           console.log("Cập nhật không thành công");
       });
-  //    event.preventDefault();
   };
+
   useEffect(() => {
     axios
       .get("/loaisp")
@@ -239,7 +241,7 @@ export default function Product() {
                   <input
                    className="productUpdateInput"
                     type="text"
-                    value={color}
+                    defaultValue={color}
                     onChange={(value) => setColor(value.target.value)}
                   ></input>
                 </div>

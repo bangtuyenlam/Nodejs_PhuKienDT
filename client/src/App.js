@@ -7,10 +7,13 @@ import React, { useEffect, useState } from "react";
 // } from "./Utils/Common";
 import Login from "./component/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./component/Home";
+
 import axios from "axios";
 import Register from "./component/Register";
 import Admin from "./component/Admin";
+
+import HomeRouter from "./component/HomeRouter";
+
 function App() {
   // const [authLoading, setAuthLoading] = useState(true);
 
@@ -48,10 +51,9 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
           <Route path="/admin/*" element={<Admin />}></Route>
 
-          <Route path="/" element={<Home />} />
+          <Route path="/*" element={<HomeRouter />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 //   setUserSession,
 //   removeUserSession,
 // } from "./Utils/Common";
-import Login from "./component/Login";
+import Login from "./component/Login/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import axios from "axios";
-import Register from "./component/Register";
+import Register from "./component/register/Register";
 import Admin from "./component/Admin";
 
 import HomeRouter from "./component/HomeRouter";

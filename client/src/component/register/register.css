@@ -1,0 +1,17 @@
+.wrapper {
+    margin-top: 10%;
+    
+}
+
+.form-sign-up {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 15px 40px 50px;
+    border: 1px solid #f1e7e7;
+    border-radius: 10px;
+}
+
+.error {
+    color: rgb(196, 19, 19);
+    margin-bottom:10px ;
+  }

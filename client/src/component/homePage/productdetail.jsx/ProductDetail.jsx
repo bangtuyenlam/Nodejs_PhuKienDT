@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
-export default function ProductDetail() {
+export default function ProductDetail({handleClick}) {
   const productId = useParams();
   const [product, setProduct] = useState([]);
 
@@ -40,7 +40,7 @@ export default function ProductDetail() {
             <h4 className="display-6 fw-bold my-4">{product.SP_Gia} VNĐ</h4>
             <h4> Mô tả</h4>
             <p className="lead" style={{whiteSpace: 'pre-line'}}>{product.SP_Mota}</p>
-            <button className='btn btn-dark px-4 py-2'>Thêm vào giỏ hàng</button>
+            <button className='btn btn-dark px-4 py-2' onClick={() => handleClick(product)}>Thêm vào giỏ hàng</button>
             <Link className='btn btn-dark ms-2 px-3 py-2' to={"/buyproduct"}>Mua hàng</Link>
           </div>
         </div>

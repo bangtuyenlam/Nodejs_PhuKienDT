@@ -4,7 +4,7 @@ import React from "react";
 import cover from "./image/360_F_269841802_kK2onWwT5uWj9g11exq9MZH9zHq4WmZ6.jpg";
 import ListProduct from "./homePage/listproduct/ListProduct";
 
-function Home() {
+function Home({handleClick}) {
   return (
     <div>
     
@@ -22,7 +22,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <ListProduct/>
+        <ListProduct handleClick={handleClick}/>
       </div>
     </div>
   );

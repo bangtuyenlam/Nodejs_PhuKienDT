@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AddShoppingCart, ExitToApp, PersonAdd } from "@material-ui/icons";
 
 
-function Navbar() {
+function Navbar({size}) {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
@@ -71,7 +71,7 @@ function Navbar() {
             <div>
             <Link
               className="btn btn-outline-dark"
-              to={"/"}
+              to={"/showcart"}
               style={{ marginRight: 6, marginBottom: 3 }}
             >
               <div className="fa fa-login">
@@ -80,7 +80,7 @@ function Navbar() {
                 <span style={{
                   
                   color: "red"
-                }}>(0)</span>
+                }}>({size})</span>
               </div>
             </Link>
             </div>

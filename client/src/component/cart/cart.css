@@ -81,3 +81,18 @@
     color: dimgray;
     font-weight: bold;
   }
+
+  .checkout {
+    padding: 5px 5px;
+    font-size: 18px;
+    color: dimgray;
+    font-weight: bold;
+    text-decoration: none;
+    border: 2px solid blue;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+ 
+ 

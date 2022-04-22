@@ -5,6 +5,7 @@ import ProductDetail from './homePage/productdetail.jsx/ProductDetail';
 import Navbar from './Navbar';
 import Footer from "./Footer";
 import Cart from './cart/Cart';
+import Checkout from "./homePage/checkout/Checkout";
 
 export default function HomeRouter() {
   const [cart, setCart] = useState([]);
@@ -31,6 +32,7 @@ export default function HomeRouter() {
           <Route path="/" element={<Home handleClick={handleClick}/>} />
           <Route path="/product/:id" element= {<ProductDetail handleClick={handleClick}/>}/>
           <Route path="/showcart" element= {<Cart cart={cart} setCart={setCart} handleChange={handleChange}/>}/>
+          <Route path="/checkout" element={<Checkout cart={cart}/>}/>
         </Routes>
         <Footer/>
     </div>

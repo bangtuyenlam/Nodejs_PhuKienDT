@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link} from 'react-router-dom';
-
+import { getUser} from "../../../Utils/Common";
+import { useNavigate } from "react-router";
 function ListProduct({handleClick}) {
+  const user = getUser();
+  const navigate = useNavigate();
   const [products, setProducts] = useState();
   const [categoryList, setCategoryList] = useState([]);
   const [filter, setFilter] = useState(products);
@@ -41,6 +44,7 @@ function ListProduct({handleClick}) {
       setFilter(filterProduct);
   }
 
+  
   const CategoryList = () => {
     return (
         <>
@@ -71,7 +75,8 @@ function ListProduct({handleClick}) {
                     <div className="card-body">
                         <p className="card-title"><b>{product.SP_Ten.substring(0,50)}</b></p>
                         <p className="card-text lead fw-bold">{product.SP_Gia} VNĐ</p>
-       
+
+                        
                         <button className="btn btn-outline-dark" onClick={() => handleClick(product)}>
                         Thêm vào giỏ hàng
                             </button>

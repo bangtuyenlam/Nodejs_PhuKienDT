@@ -1,9 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AddShoppingCart, ExitToApp, PersonAdd } from "@material-ui/icons";
-
-
+import { AddShoppingCart, ExitToApp, PersonAdd, Person, CancelPresentation } from "@material-ui/icons";
+import { getUser, removeUserSession, getToken } from "../Utils/Common";
+import { useNavigate } from "react-router";
 function Navbar({size}) {
+   const user = getUser();
+   const token = getToken();
+   const navigate = useNavigate();
+   const handleLogout = () => {
+    removeUserSession();
+    navigate("/");
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
@@ -44,6 +52,8 @@ function Navbar({size}) {
                 </Link>
               </li>
             </ul>
+          {user == null && token == null ? (
+            <>
             <div className="buttons">
               <Link
                 className="btn btn-outline-dark"
@@ -68,6 +78,37 @@ function Navbar({size}) {
                 </div>
               </Link>
             </div>
+            </>
+          ) :  (
+            <>
+            <div className="buttons">
+              <Link
+                className="btn btn-outline-dark"
+                to={"/"}
+                style={{ marginRight: 6, marginBottom: 3 }}
+              >
+                <div className="fa fa-login">
+                  <Person />
+                  {user.TenTK}
+                </div>
+              </Link>
+              </div>
+              <div>
+              <Link
+                className="btn btn-outline-dark"
+                to={"/"}
+                onClick={handleLogout}
+                style={{ marginRight: 6, marginBottom: 3 }}
+              >
+                <div className="fa fa-login">
+                  <CancelPresentation/>
+                  Đăng xuất
+                </div>
+              </Link>
+            </div>
+            </>
+          ) 
+          }
             <div>
             <Link
               className="btn btn-outline-dark"
@@ -88,26 +129,7 @@ function Navbar({size}) {
         </div>
       </nav>
     </div>
-    //     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    //   <div className="container-fluid">
-    //     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    //       <span className="navbar-toggler-icon"></span>
-    //     </button>
-    //     <Link className='navbar-brand' to={'/'}> Trang chủ </Link>
-    //     <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
-    //       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-    //         <li className="nav-item">
-
-    //           <Link className='nav-link active' aria-current="page" to={'/register'}> Đăng ký</Link>
-    //         </li>
-    //         <li className="nav-item">
-    //         <Link className='nav-link active' aria-current="page" to={'/login'}> Đăng nhập </Link>
-    //         </li>
-
-    //       </ul>
-    //     </div>
-    //   </div>
-    // </nav>
+  
   );
 }
 

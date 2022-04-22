@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import {Link} from "react-router-dom";
 
 export default function ProductDetail({handleClick}) {
   const productId = useParams();
-  const [product, setProduct] = useState([]);
-
+  const [product, setProduct] = useState({});
+  
   useEffect( () => {
     axios
       .post(`/sanpham/${productId.id}`)
@@ -19,10 +18,13 @@ export default function ProductDetail({handleClick}) {
         else console.log(err + " Lỗi không lấy được thông tin sản phẩm");
       });
   }, []);
+  product.amount = 1;
+  
   return (
     <div>
       <div className="container py-5">
-      {product &&
+      {product  && (
+       
         <div className="row py-4">
           <div className="col-md-6">
           <img
@@ -40,10 +42,11 @@ export default function ProductDetail({handleClick}) {
             <h4 className="display-6 fw-bold my-4">{product.SP_Gia} VNĐ</h4>
             <h4> Mô tả</h4>
             <p className="lead" style={{whiteSpace: 'pre-line'}}>{product.SP_Mota}</p>
+            
             <button className='btn btn-dark px-4 py-2' onClick={() => handleClick(product)}>Thêm vào giỏ hàng</button>
-            <Link className='btn btn-dark ms-2 px-3 py-2' to={"/buyproduct"}>Mua hàng</Link>
           </div>
         </div>
+  )
       }
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './cart.css';
+import {Link} from 'react-router-dom';
 
 function Cart({ cart, setCart, handleChange }) {
   const [price, setPrice] = useState(0);
@@ -40,9 +41,13 @@ function Cart({ cart, setCart, handleChange }) {
         </div>
         ))}
         {price !== 0 ? (
+          <div>
         <div className="total">
         <span>Tổng tiền</span>
         <span>{price} VNĐ</span>
+        <Link className='checkout' to={'/checkout'}>Đặt hàng</Link>
+      </div>
+     
       </div>
         ) : <div className="on_product">Chưa có sản phẩm được thêm vào giỏ hàng</div>}
       

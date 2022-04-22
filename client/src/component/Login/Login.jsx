@@ -5,8 +5,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { setUserSession } from "../../Utils/Common";
 import { useNavigate } from "react-router";
 import "./login.css";
+import {Link} from "react-router-dom";
 
-function Login(props) {
+function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -20,9 +21,9 @@ function Login(props) {
       })
       .then((res) => {
         console.log("login");
-        console.log(res.data.token);
-        setUserSession(res.data.token, res.data.tentk);
-        if (res.data.user["Khachhang.Maquyen"]) {
+        console.log( res.data.user[0]["Khachhang.Maquyen"]);
+        setUserSession(res.data.token, res.data.user[0]);
+        if (res.data.user[0]["Khachhang.Maquyen"]) {
           navigate("/");
         } else {
           // if(res.data.user["Nhanvien.Maquyen"] == 2)
@@ -94,6 +95,10 @@ function Login(props) {
             Hủy
           </button>
         </div>
+        <div className="register">
+            <p>Bạn chưa có tài khoản? </p>
+            <Link to={"/register"}> Đăng kí tại đây</Link>
+          </div>
       </form>
     </div>
   );

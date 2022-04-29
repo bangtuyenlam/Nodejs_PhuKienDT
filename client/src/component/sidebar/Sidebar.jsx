@@ -53,7 +53,9 @@ export default function Sidebar() {
             </li>
             <li className="sidebarListItem">
               <RateReview className='sidebarIcon'/>
+              <Link className='sidebarLink' to={'/admin/postManager'}>
               Bài đăng
+              </Link>
             </li>
 
           </ul>

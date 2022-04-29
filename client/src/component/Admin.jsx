@@ -13,6 +13,8 @@ import NewEmployee from "./newEmployee/NewEmployee";
 import ProductManager from "./productManager/ProductManager";
 import NewProduct from "./newProduct/NewProduct";
 import Product from "./product/Product";
+import PostManager from "./postManager/PostManager";
+import NewPost from "./newPost/NewPost";
 function Admin() {
   return (
     <div>
@@ -33,6 +35,9 @@ function Admin() {
           <Route path="customerManager" element={<CustomerManager />} />
           <Route path="customer/:id" element={<Customer/>} />
           <Route path="newcustomer" element={<NewCustomer/>} />
+
+          <Route path="postManager" element={<PostManager/>}/>
+          <Route path="newpost" element={<NewPost/>}/>
         </Routes>
       </div>
     </div>

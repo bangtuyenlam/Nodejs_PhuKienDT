@@ -1,6 +1,8 @@
 .customerManager{
     flex: 4;
-    padding: 20px;
+    padding-left: 20px;
+    padding-top: 5px;
+    height: 500px;;
 }
 
 .customerManagerContainer{
@@ -34,4 +36,10 @@
 .customerManagerDelete{
     color: red;
     cursor: pointer;
+}
+
+.customerManagerTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 20px;
 }

@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Baidang.init(
     {
-      BD_Ma: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       NV_Ma: DataTypes.INTEGER,
       Tieude: DataTypes.STRING,
       Noidung: DataTypes.STRING,

@@ -1,17 +1,28 @@
-.employeeManager{
+.postManager{
     flex: 4;
     padding-left: 20px;
     padding-top: 5px;
     height: 500px;;
 }
 
-.employeeManagerContainer{
+.postName{
+    display: flex;
+    align-items: center;
+}
+.postImg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.postManagerContainer{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.employeeAddButton{
+.postAddButton{
     width: 80px;
     border: none;
     padding: 5px;
@@ -22,7 +33,7 @@
     font-size: 16px;
 }
 
-.employeeManagerEdit{
+.postManagerEdit{
     border: none;
     border-radius: 10px;
     padding: 5px 10px;
@@ -33,12 +44,12 @@
 
 }
 
-.employeeManagerDelete{
+.postManagerDelete{
     color: red;
     cursor: pointer;
 }
 
-.employeeManagerTitle {
+.postManagerTitle {
     font-size: 24px;
     font-weight: 600;
     margin-left: 20px;

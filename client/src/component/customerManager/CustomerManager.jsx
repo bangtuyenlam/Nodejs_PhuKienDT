@@ -89,7 +89,7 @@ export default function CustomerManager() {
         return (
           <>
             <Link to={`/admin/customer/${params.row.id}`}>
-              <button className="customerManagerEdit">Edit</button>
+              <button className="customerManagerEdit">Sửa</button>
             </Link>
             <DeleteOutline
               className="customerManagerDelete"

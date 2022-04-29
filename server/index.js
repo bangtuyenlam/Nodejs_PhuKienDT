@@ -6,8 +6,6 @@ const app = express();
 const route = require("./src/routes/index");
 const connectDB = require("./src/config/connect");
 var cors = require('cors');
-const path = require("path");
-
 
 app.use('/image', express.static('./src/image'));
 app.use(express.json());

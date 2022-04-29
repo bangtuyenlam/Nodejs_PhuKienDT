@@ -71,7 +71,7 @@ export default function ProductManager() {
         return(
           <>
           <Link to={`/admin/product/${params.row.id}`}>
-          <button className="productManagerEdit">Edit</button>
+          <button className="productManagerEdit">Sửa</button>
           </Link>
           <DeleteOutline className="productManagerDelete"
               onClick = {() => handleDelete(params.row.id, params.row.Anhdaidien)}

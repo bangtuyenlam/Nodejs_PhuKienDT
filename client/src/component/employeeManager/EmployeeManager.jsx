@@ -94,7 +94,7 @@ export default function EmployeeManager() {
         return(
           <>
           <Link to={`/admin/employee/${params.row.id}`}>
-          <button className="employeeManagerEdit">Edit</button>
+          <button className="employeeManagerEdit">Sửa</button>
           </Link>
           <DeleteOutline className="employeeManagerDelete"
               onClick = {() => handleDelete(params.row.id, params.row.MaTK)}
@@ -109,7 +109,7 @@ export default function EmployeeManager() {
   return (
     <div className="employeeManager">
       <div className='employeeManagerContainer'>
-        <h1 className="employeeManagerTitle">Danh sách nhanvien</h1>
+        <h1 className="employeeManagerTitle">Danh sách nhân viên</h1>
         <Link to={"/admin/newEmployee"}>
         <button className="employeeAddButton">Thêm</button>
         </Link>

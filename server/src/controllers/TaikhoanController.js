@@ -32,8 +32,7 @@ let login = async (req, res) => {
       return res.json({
         message: "Đăng nhập thành công",
         token: token,
-        username: user[0].TenTK,
-        user: user[0],
+        user: user,
       });
     } else {
       return res.status(401).json({

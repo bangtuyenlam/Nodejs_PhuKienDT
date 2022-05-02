@@ -10,10 +10,10 @@ function Home({handleClick}) {
     
       <div className="hero">
         <div className="card bg-dark text-white border-0">
-          <img src={cover} className="card-img" alt="Cover" height="550px" />
+          <img src={cover} className="card-img" alt="Cover" height="620px" />
           <div className="card-img-overlay d-flex flex-column justify-content-between">
             <div className="container">
-              <h5 className="card-title display-3 fw-bolder mb-0">
+              <h5 className="card-title display-3 fw-bolder mb-2 mt-5">
                 Cập nhật sản phẩm mới
               </h5>
               <p className="card-text lead fs-2">

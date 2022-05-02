@@ -15,10 +15,10 @@ const upload = multer({
     storage: storage
 })
 
-//router.put("/capnhat", upload.single('avatar'), sanphamController.ProductUpdate);
+router.put("/capnhat", upload.single('avatar'), baidangController.postUpdate);
 router.post("/them",upload.single('hinhanh'),baidangController.createPost);
-//router.post("/:id", sanphamController.ProductId);
-//router.delete("/xoa/:id", sanphamController.deleteProduct);
+router.post("/:id", baidangController.postId);
+router.delete("/xoa/:id", baidangController.deletePost);
 router.get("/", baidangController.listPost);
 
 module.exports = router;

@@ -1,50 +1,84 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './featuredinfo.css';
-import { ArrowDownward, ArrowUpward} from '@material-ui/icons';
+import {DataGrid} from '@material-ui/data-grid';
+import axios from 'axios';
+import { Link} from 'react-router-dom';
+import dateFormat from 'dateformat';
 
-export default function featuredinfo() {
+export default function Featuredinfo() {
+    const [dondat, setDondat] = useState([]);
+  
+  useEffect( () => {
+    getData();
+  }, []);
+
+
+  const getData = async () => {
+    await axios.get("/dathang/dondat")
+     .then((res) => {
+       setDondat(res.data);
+      console.log(res.data);
+     })
+     .catch((err) => {
+       console.log(err + " Không thể lấy được danh sách nhân viên");
+   }
+     )}
+ 
+ 
+   const columns = [
+     {
+       field: 'Khachhang.KH_Hoten',
+       headerName: 'Tên khách hàng',
+       width: 200,
+     },
+     {
+       field: 'Ngaydat',
+       headerName: 'Ngày đặt',
+       width: 180,
+       renderCell: (params) => {
+         return  dateFormat(params.row.Ngaydat, "h:MM:ss TT dd/mm/yyyy");
+       }
+     },
+    {
+        field: 'state',
+        headerName: 'Tình trạng đơn hàng',
+        width: 250,
+        renderCell: (params) => {
+            if (params.row.Trangthai === 0) return <div>Chưa duyệt</div>;
+            else if (params.row.Trangthai === 1) return <div>Đã duyệt</div>;
+        }
+    },
+     {
+       field: 'action',
+       headerName: 'Điều khiển',
+       width: 150,
+       renderCell: (params) => {
+         
+         return(
+           <>
+           <Link to={`/admin/orderDetail/${params.row.id}`}>
+           <button className="employeeManagerEdit">Chi tiết</button>
+           </Link>        
+           </>
+         )
+       }
+     },
+   ];
   return (
-    <div className="featured">
-        <div className="featuredItem">
-            <span className="featuredTitle">Revanue</span>
-            <div className="featuredMoneyContainer">
-                <span className="featuredMoney">$2,415</span>
-                <span className="featuredMoneyRate">
-                    -11.4 <ArrowDownward/>
-                </span>
-            </div>
-            <span className="featuredSub">Compared to last month</span>
-        </div>
-        <div className="featuredItem">
-            <span className="featuredTitle">Revanue</span>
-            <div className="featuredMoneyContainer">
-                <span className="featuredMoney">$2,415</span>
-                <span className="featuredMoneyRate">
-                    -1.4 <ArrowDownward/>
-                </span>
-            </div>
-            <span className="featuredSub">Compared to last month</span>
-        </div>
-        <div className="featuredItem">
-            <span className="featuredTitle">Revanue</span>
-            <div className="featuredMoneyContainer">
-                <span className="featuredMoney">$2,415</span>
-                <span className="featuredMoneyRate">
-                    +2.4 <ArrowUpward/>
-                </span>
-            </div>
-            <span className="featuredSub">Compared to last month</span>
-        </div>
-        <div className="featuredItem">
-            <span className="featuredTitle">Revanue</span>
-            <div className="featuredMoneyContainer">
-                <span className="featuredMoney">$2,415</span>
-                <span className="featuredMoneyRate">
-                    +2.4 <ArrowUpward/>
-                </span>
-            </div>
-            <span className="featuredSub">Compared to last month</span>
-        </div>
+    <div className="checkoutManager">
+    <div className='checkoutManagerContainer'>
+      <h1 className="checkoutManagerTitle">Danh sách đơn đặt</h1>
     </div>
+    {dondat && (
+     <DataGrid
+      rows={dondat}
+      columns={columns}
+      pageSize={8}
+      checkboxSelection
+      disableSelectionOnClick
+    />
+    )
+}
+  </div>
   )
 }

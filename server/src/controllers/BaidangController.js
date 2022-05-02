@@ -49,7 +49,89 @@ let createPost = (req, res) => {
   }
 };
 
+let postId = async (req, res) => {
+  const Id = req.params.id;
+  try {
+ 
+    const product = await db.Baidang.findAll({
+      raw: true,
+      where: {
+        id: Id,
+      },
+      include: db.Nhanvien
+    });
+    if (product[0]) return res.json(product[0]);
+    else return res.status(404).json("Không tồn tại bài đăng!");
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+};
+
+const postUpdate =  (req, res) => {
+  const NV_Ma = req.body.manv;
+  const Tieude = req.body.tieude;
+  const Noidung = req.body.noidung;
+  const Ngaydang = req.body.ngaydang;
+  const update = {
+    NV_Ma: NV_Ma,
+    Tieude: Tieude,
+    Noidung: Noidung,
+    Ngaydang: Ngaydang
+  };
+
+  if (req.file) {
+    const BD_Hinhanh = req.file.filename;
+    update.BD_Hinhanh = BD_Hinhanh;
+  }
+ // console.log(update);
+  try {
+    const result = db.Baidang.update(update, {
+      where: {
+        id: id,
+      },
+    });
+
+    return res.json(result[0]);
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+};
+
+let deletePost = async (req, res) => {
+  const id = req.params.id;
+  const hinhanh = req.body.hinhanh;
+  try {
+    await db.Baidang.destroy({
+      where: {
+        id: id,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+  const url = path.join(__dirname, '../', `image/${hinhanh}`);
+  
+  fs.unlink(url, (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+  });
+};
+
 module.exports = {
   createPost: createPost,
   listPost: listPost,
+  deletePost: deletePost,
+  postId: postId,
+  postUpdate: postUpdate
 };

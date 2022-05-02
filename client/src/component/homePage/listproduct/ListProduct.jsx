@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link} from 'react-router-dom';
 import { getUser} from "../../../Utils/Common";
-import { useNavigate } from "react-router";
 function ListProduct({handleClick}) {
   const user = getUser();
-  const navigate = useNavigate();
   const [products, setProducts] = useState();
   const [categoryList, setCategoryList] = useState([]);
   const [filter, setFilter] = useState(products);
@@ -77,10 +75,14 @@ function ListProduct({handleClick}) {
                         <p className="card-text lead fw-bold">{product.SP_Gia} VNĐ</p>
 
                         
-                        <button className="btn btn-outline-dark" onClick={() => handleClick(product)}>
+         {user !== null ? (
+                          <button className="btn btn-outline-dark" onClick={() => handleClick(product)}>
                         Thêm vào giỏ hàng
                             </button>
-                           
+         ):(
+         <Link className="btn btn-outline-dark" to={"/login"}>
+         Đăng nhập/Đăng ký để mua hàng
+           </Link> )}   
                         
                     </div>
                     </div>

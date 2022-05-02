@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Dondatct.init(
     {
+      
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       SP_Ma: DataTypes.INTEGER,
       DD_Ma: DataTypes.INTEGER,
       Soluongdat: DataTypes.INTEGER,

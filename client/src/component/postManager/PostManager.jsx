@@ -31,7 +31,7 @@ export default function PostManager() {
         console.log(res.data);
       })
       .catch((err) => {
-        console.log(err + " Không thể lấy được sản phẩm");
+        console.log(err + " Không thể lấy được bài đăng");
       });
   };
 

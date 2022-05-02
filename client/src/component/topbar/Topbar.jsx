@@ -1,8 +1,17 @@
 import React from 'react';
 import "./topbar.css";
-import {NotificationsNone, Settings, AccountCircle} from '@material-ui/icons'
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { AddShoppingCart, ExitToApp, PersonAdd, Person, CancelPresentation } from "@material-ui/icons";
+import { getUser, removeUserSession, getToken } from "../../Utils/Common";
+import { useNavigate } from "react-router";
 export default function Topbar() {
+  const user = getUser();
+  const token = getToken();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    removeUserSession();
+    navigate("/");
+  };
   return (
     <div className='topbar'>
         <div className="topbarWrapper">
@@ -14,20 +23,35 @@ export default function Topbar() {
                 </span>
         </div>
         <div className="topRight">
-            <div className="topbarIconContainer">
-                <NotificationsNone/>
-                <span className="topIconBadge">2</span>
+        <div className="buttons">
+              <Link
+                className="btn btn-outline-dark"
+                to={"/"}
+                style={{ marginRight: 6, marginBottom: 3 }}
+              >
+                <div className="fa fa-login">
+                  <ExitToApp />
+                  Trang chủ
+                </div>
+              </Link>
+              </div>
+           
+            <Link
+                className="btn btn-outline-dark"
+                to={"/"}
+                onClick={handleLogout}
+                style={{ marginRight: 6, marginBottom: 3 }}
+              >
+                <div className="fa fa-login">
+                  <CancelPresentation/>
+                  Đăng xuất
+                </div>
+              </Link>
+              </div>
             </div>
-            <div className="topbarIconContainer">
-                <Settings/>
-            </div>
-            <div className="topbarIconContainer">
-                <AccountCircle/>
-            </div>
-        </div>
         </div>
         
         
-        </div>
+    
   )
 }

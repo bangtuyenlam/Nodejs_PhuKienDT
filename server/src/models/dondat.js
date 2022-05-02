@@ -5,12 +5,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Dondat.belongsTo(models.Khachhang, { foreignKey: "KH_Ma" });
       Dondat.belongsTo(models.Nhanvien, { foreignKey: "NV_Ma" });
-      Dondat.hasMany(models.Dondatct);
+      Dondat.hasMany(models.Dondatct, { foreignKey: "DD_Ma" });
     }
   }
   Dondat.init(
     {
-      DD_Ma: DataTypes.INTEGER,
+      
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       NV_Ma: DataTypes.INTEGER,
       KH_Ma: DataTypes.INTEGER,
       Ngaydat: DataTypes.DATE,

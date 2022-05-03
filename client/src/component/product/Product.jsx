@@ -111,7 +111,7 @@ export default function Product() {
   return (
     <div className="product">
       <div className="productTitleContainer">
-        <h1 className="productTitle">Thông tin sản phẩm</h1>
+        <h4 className="productTitle">Thông tin sản phẩm</h4>
       </div>
       {product && (
         <div className="productContainer">

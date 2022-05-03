@@ -76,7 +76,7 @@ export default function Customer() {
   return (
     <div className="customer">
       <div className="customerTitleContainer">
-        <h1 className="customerTitle">Thông tin khách hàng</h1>
+        <h4 className="customerTitle">Thông tin khách hàng</h4>
       </div>
       {customer && (
         <div className="customerContainer">

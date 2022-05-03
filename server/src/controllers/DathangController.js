@@ -76,6 +76,26 @@ const danhSachDonDat = async (req, res) => {
   }
 };
 
+const DanhSachDonDatTheoKhachHang = async (req, res) => {
+  const makh = req.body.makh;
+  try {
+    const dondat = await db.Dondat.findAll({
+      raw: true,  
+      include: db.Khachhang,
+      where: {
+        KH_Ma: makh
+      },
+    });
+    return res.json(dondat);
+  } 
+  catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+};
+
 const DanhSachDatCT = async (req, res) => {
   const Id = req.params.id;
   
@@ -145,5 +165,6 @@ module.exports = {
     DatHang: DatHang,
     danhSachDonDat: danhSachDonDat,
     DanhSachDatCT: DanhSachDatCT,
-    DuyetDonHang: DuyetDonHang
+    DuyetDonHang: DuyetDonHang,
+    DanhSachDonDatTheoKhachHang: DanhSachDonDatTheoKhachHang,
 }

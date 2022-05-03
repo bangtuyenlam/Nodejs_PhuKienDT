@@ -9,9 +9,7 @@ function Checkout({ cart }) {
   const [note, setNote] = useState("");
   const ngaydat = new Date();
   const [error, setError] = useState("");
-  if (user == null) {
-    navigate("/login");
-  }
+
 
   console.log(cart);
 
@@ -26,7 +24,7 @@ function Checkout({ cart }) {
         dondatct: cart,
       })
       .then((res) => {
-        console.log(res.data);
+        navigate("/personal/listorder");
       })
       .catch((error) => {
         if (error.response.status === 402) {

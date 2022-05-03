@@ -26,6 +26,18 @@ export default function Topbar() {
         <div className="buttons">
               <Link
                 className="btn btn-outline-dark"
+                to={"/admin"}
+                style={{ marginRight: 6, marginBottom: 3 }}
+              >
+                <div className="fa fa-login">
+                  <Person />
+                  {user.TenTK}
+                </div>
+              </Link>
+              </div>
+        <div className="buttons">
+              <Link
+                className="btn btn-outline-dark"
                 to={"/"}
                 style={{ marginRight: 6, marginBottom: 3 }}
               >

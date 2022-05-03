@@ -94,7 +94,7 @@ function Navbar({size}) {
             <div className="buttons">
               <Link
                 className="btn btn-outline-dark"
-                to={"/"}
+                to={"/personal"}
                 style={{ marginRight: 6, marginBottom: 3 }}
               >
                 <div className="fa fa-login">

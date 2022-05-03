@@ -9,6 +9,7 @@ import Checkout from "./homePage/checkout/Checkout";
 import Listpost from "./homePage/listpost/Listpost";
 import PostId from "./homePage/postid/PostId";
 import Post from "./post/Post";
+import PersonalPage from "./homePage/personalPage/PersonalPage";
 export default function HomeRouter() {
   const [cart, setCart] = useState([]);
 
@@ -32,6 +33,7 @@ export default function HomeRouter() {
         <Navbar size={cart.length} />
         <Routes>
           <Route path="/" element={<Home handleClick={handleClick}/>} />
+          <Route path="/personal/*" element={<PersonalPage/>}/>
           <Route path="/product/:id" element= {<ProductDetail handleClick={handleClick}/>}/>
           <Route path="/showcart" element= {<Cart cart={cart} setCart={setCart} handleChange={handleChange}/>}/>
           <Route path="/checkout" element={<Checkout cart={cart}/>}/>

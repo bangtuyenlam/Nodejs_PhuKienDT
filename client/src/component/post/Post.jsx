@@ -29,7 +29,7 @@ export default function Post() {
     return (
       <div className="post">
         <div className="postTitleContainer">
-          <h1 className="postTitle">Thông tin bài đăng</h1>
+          <h4 className="postTitle">Thông tin bài đăng</h4>
         </div>
         {post && (
           <div className="postContainer">

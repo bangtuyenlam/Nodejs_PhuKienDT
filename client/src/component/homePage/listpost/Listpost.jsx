@@ -8,7 +8,7 @@ function Listpost() {
         axios.get("/baidang")
         .then((res) => {
             setPosts(res.data)
-            console.log(res.data);
+            
         }).catch((err) => {
             console.log(err + "Không lấy được bài đăng");
         })

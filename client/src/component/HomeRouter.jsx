@@ -1,5 +1,5 @@
 import Home from "./Home";
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Route, Routes } from "react-router-dom";
 import ProductDetail from './homePage/productdetail.jsx/ProductDetail';
 import Navbar from './Navbar';
@@ -10,9 +10,10 @@ import Listpost from "./homePage/listpost/Listpost";
 import PostId from "./homePage/postid/PostId";
 import Post from "./post/Post";
 import PersonalPage from "./homePage/personalPage/PersonalPage";
+
 export default function HomeRouter() {
   const [cart, setCart] = useState([]);
-
+ 
   const handleClick = (item) => {
     if (cart.indexOf(item) !== -1) return;
     setCart([...cart, item]);
@@ -28,9 +29,12 @@ export default function HomeRouter() {
     if (arr[ind].amount === 0) arr[ind].amount = 1;
     setCart([...arr]);
   };
+
+ 
+
   return (
     <div>
-        <Navbar size={cart.length} />
+        <Navbar size={cart.length}/>
         <Routes>
           <Route path="/" element={<Home handleClick={handleClick}/>} />
           <Route path="/personal/*" element={<PersonalPage/>}/>

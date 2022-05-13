@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AddShoppingCart, ExitToApp, PersonAdd, Person, CancelPresentation } from "@material-ui/icons";
 import { getUser, removeUserSession, getToken } from "../Utils/Common";
 import { useNavigate } from "react-router";
+import SearchProduct from "./homePage/searchproduct/SearchProduct";
 function Navbar({size}) {
    const user = getUser();
    const token = getToken();
@@ -26,7 +27,8 @@ function Navbar({size}) {
   
       }}>
         <div className="container">
-          <Link className="navbar-brand fw-bold fs-4" to={"/"}>
+          <Link className="navbar-brand fw-bold fs-4" to={"/"}
+           reloadDocument={true}>
             Phụ kiện XZ
           </Link>
           <button
@@ -47,6 +49,7 @@ function Navbar({size}) {
                   className="nav-link active"
                   to={"/"}
                   style={{ fontSize: 18 }}
+                  reloadDocument={true}
                 >
                   Trang chủ
                 </Link>
@@ -57,9 +60,9 @@ function Navbar({size}) {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/"} style={{ fontSize: 18 }}>
-                  Liên hệ
-                </Link>
+                <SearchProduct
+                 placeholer="Nhập tên sản phẩm..."
+                 />
               </li>
             </ul>
           {user == null && token == null ? (
@@ -69,6 +72,7 @@ function Navbar({size}) {
                 className="btn btn-outline-dark"
                 to={"/login"}
                 style={{ marginRight: 6, marginBottom: 3 }}
+               
               >
                 <div className="fa fa-login">
                   <ExitToApp />

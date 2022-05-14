@@ -45,16 +45,6 @@ let customerUpdate = async (req, res) => {
   const birthday = req.body.selectedDate;
   const phoneNumber = req.body.phoneNumber;
   const location = req.body.location;
-  // const value = {
-  //   KH_Hoten: customerName,
-  //   KH_Ngaysinh: birthday,
-  //   KH_Gioitinh: gender,
-  //   KH_Email: email,
-  //   KH_SDT: phoneNumber,
-  //   KH_Diachi: location,
-  //   id: id,
-  // };
-  // console.log(value);
   try {
     const result = await db.Khachhang.update(
       {

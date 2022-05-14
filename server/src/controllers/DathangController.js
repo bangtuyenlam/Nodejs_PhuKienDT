@@ -7,6 +7,7 @@ let DatHang = async (req, res) => {
     const Trangthai = req.body.trangthai;
     const Ghichu = req.body.ghichu;
     const dondatct = req.body.dondatct;
+
    // console.log(NV_Ma, KH_Ma, Ngaydat, Trangthai, Ghichu, dondatct);
     try{
         if(!NV_Ma || !KH_Ma || !Ngaydat) {
@@ -45,7 +46,7 @@ const ChiTietDonDat = async (ngaydat, dsdondat) => {
               Ngaydat: ngaydat,
             }
           });
-          console.log(MaDD);
+          
           dsdondat.map(dondat => {
                db.Dondatct.create({
                 SP_Ma: dondat.id,
@@ -136,7 +137,7 @@ const DanhSachDatCT = async (req, res) => {
   }
 }
 
-let DuyetDonHang = (req, res) => {
+const DuyetDonHang = (req, res) => {
   const NV_Ma = req.body.manv;
   const id = req.body.id;
   const Ngaygiao = req.body.ngaygiao;
@@ -161,10 +162,32 @@ let DuyetDonHang = (req, res) => {
   }
 }
 
+const XoaDonDat = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await db.Dondatct.destroy({
+      where: {
+        DD_Ma: id,
+      },
+    });
+    await db.Dondat.destroy({
+      where: {
+        id: id,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+}
+
 module.exports = {
     DatHang: DatHang,
     danhSachDonDat: danhSachDonDat,
     DanhSachDatCT: DanhSachDatCT,
     DuyetDonHang: DuyetDonHang,
     DanhSachDonDatTheoKhachHang: DanhSachDonDatTheoKhachHang,
+    XoaDonDat: XoaDonDat,
 }

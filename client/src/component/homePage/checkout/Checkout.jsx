@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getUser } from "../../../Utils/Common";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -9,9 +9,8 @@ function Checkout({ cart }) {
   const [note, setNote] = useState("");
   const ngaydat = new Date();
   const [error, setError] = useState("");
-
-
-  console.log(cart);
+  const check = user["Khachhang.KH_Hoten"] !== null && user["Khachhang.KH_SDT"] !== null
+  && user["Khachhang.KH_Diachi"] !== null ? false : true;
 
   const handleCheckOut = () => {
     axios
@@ -25,6 +24,7 @@ function Checkout({ cart }) {
       })
       .then((res) => {
         navigate("/personal/listorder");
+        window.location.reload();
       })
       .catch((error) => {
         if (error.response.status === 402) {
@@ -98,7 +98,6 @@ function Checkout({ cart }) {
                       <div className="form-group mb-3">
                         <label>Ghi chú</label>
                         <textarea
-                         
                           rows={3}
                           type="text"
                           name="name"
@@ -114,6 +113,7 @@ function Checkout({ cart }) {
                           name="email"
                           className="btn btn-primary"
                           onClick={handleCheckOut}
+                          disabled={check}
                         >
                           Đặt hàng
                         </button>

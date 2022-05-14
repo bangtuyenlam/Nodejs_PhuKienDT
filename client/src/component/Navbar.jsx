@@ -49,7 +49,7 @@ function Navbar({size}) {
                   className="nav-link active"
                   to={"/"}
                   style={{ fontSize: 18 }}
-                  reloadDocument={true}
+                 
                 >
                   Trang chủ
                 </Link>

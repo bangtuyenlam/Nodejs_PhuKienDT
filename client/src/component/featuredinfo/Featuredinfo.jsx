@@ -4,6 +4,7 @@ import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
 import { Link} from 'react-router-dom';
 import dateFormat from 'dateformat';
+import { DeleteOutline } from "@material-ui/icons";
 
 export default function Featuredinfo() {
     const [dondat, setDondat] = useState([]);
@@ -24,6 +25,10 @@ export default function Featuredinfo() {
    }
      )}
  
+     const handleDelete = (id) => {
+      axios.delete(`/dathang/xoa/${id}`);
+      getData();
+     }
  
    const columns = [
      {
@@ -58,7 +63,11 @@ export default function Featuredinfo() {
            <>
            <Link to={`/admin/orderDetail/${params.row.id}`}>
            <button className="employeeManagerEdit">Chi tiết</button>
-           </Link>        
+           </Link>
+           <DeleteOutline
+              className="customerManagerDelete"
+              onClick={() => handleDelete(params.row.id)}
+            />        
            </>
          )
        }

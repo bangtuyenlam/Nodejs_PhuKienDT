@@ -2,7 +2,7 @@ import React from 'react';
 import "./sidePersonal.css";
 import {
   StorefrontOutlined, AssignmentIndOutlined,
-  Update
+
   } from '@material-ui/icons';
   import { Link } from 'react-router-dom';
   import {getUser} from "../../../Utils/Common";

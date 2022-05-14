@@ -40,6 +40,13 @@ export default function DonDatCT() {
     const handleFinish = () => {
      console.log("Đã nhận được hàng")
     };
+
+    const handleDelete = (id) => {
+      
+      axios.delete(`/dathang/xoa/${id}`);
+      navigate("/personal/listorder");
+     
+     }
   
     return (
       <div className="customer">
@@ -182,11 +189,29 @@ export default function DonDatCT() {
                           <div></div>
                         )}
                    
-                          <div className="col-md-12">
-                            <div className="form-group text-end">
-                              <button
+                          <div className="col-md-6">
+                         
+                            <div className="form-group mb-3">
+                         
+                            {dondat.Trangthai === 0 ? (
+                                <button
                                 type="button"
                                 name="email"
+                                className="btn btn-danger"
+                                onClick={()=>handleDelete(dondat.id)}
+                              >
+                                Hủy đơn hàng
+                              </button>
+                              ) : (
+                                <></>
+                              )}
+                             </div >
+                             </div>
+                             <div className='col-md-6'>
+                             <div className="form-group mb-3">
+                              <button
+                                type="button"
+                                name="nhanhang"
                                 className="btn btn-primary"
                                 onClick={handleFinish}
                               >

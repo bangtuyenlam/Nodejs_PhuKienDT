@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getUser } from "../../../Utils/Common";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -6,11 +6,27 @@ function Checkout({ cart }) {
   var totalPrice = 0;
   const navigate = useNavigate();
   const user = getUser();
+  const [customer, setCustomer] = useState([]);
   const [note, setNote] = useState("");
   const ngaydat = new Date();
   const [error, setError] = useState("");
-  const check = user["Khachhang.KH_Hoten"] !== null && user["Khachhang.KH_SDT"] !== null
-  && user["Khachhang.KH_Diachi"] !== null ? false : true;
+  const check = customer.KH_Hoten !== null && customer.KH_SDT!== null
+  && customer.KH_Diachi !== null ? false : true;
+
+  useEffect(() => {
+    axios
+      .post("/khachhang/id", {
+        customerId: user["Khachhang.id"],
+      })
+      .then((res) => {
+        setCustomer(res.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 404)
+          console.log("Khách hàng này không tồn tại");
+        else console.log(err + " Lỗi không lấy được thông tin khách hàng");
+      });
+  }, []);
 
   const handleCheckOut = () => {
     axios
@@ -53,7 +69,7 @@ function Checkout({ cart }) {
                           type="text"
                           name="name"
                           className="form-control"
-                          value={user["Khachhang.KH_Hoten"]}
+                          value={customer.KH_Hoten}
                         ></input>
                       </div>
                     </div>
@@ -65,7 +81,7 @@ function Checkout({ cart }) {
                           type="text"
                           name="phone"
                           className="form-control"
-                          value={user["Khachhang.KH_SDT"]}
+                          value={customer.KH_SDT}
                         ></input>
                       </div>
                     </div>
@@ -77,7 +93,7 @@ function Checkout({ cart }) {
                           type="email"
                           name="email"
                           className="form-control"
-                          value={user["Khachhang.KH_Email"]}
+                          value={customer.KH_Email}
                         ></input>
                       </div>
                     </div>
@@ -90,7 +106,7 @@ function Checkout({ cart }) {
                           type="text"
                           name="name"
                           className="form-control"
-                          value={user["Khachhang.KH_Diachi"]}
+                          value={customer.KH_Diachi}
                         ></textarea>
                       </div>
                     </div>

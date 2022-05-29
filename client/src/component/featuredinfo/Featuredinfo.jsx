@@ -82,7 +82,7 @@ export default function Featuredinfo() {
      <DataGrid
       rows={dondat}
       columns={columns}
-      pageSize={8}
+      pageSize={7}
       checkboxSelection
       disableSelectionOnClick
     />

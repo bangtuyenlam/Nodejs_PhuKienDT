@@ -5,7 +5,7 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDateTimePicker,
+  DateTimePicker,
 } from "@material-ui/pickers";
 import axios from "axios";
 import { getUser } from "../../Utils/Common";
@@ -111,12 +111,12 @@ export default function OrderDetail() {
                           <div className="form-group mb-3">
                             <label>Ngày giao</label>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <KeyboardDateTimePicker
+                              <DateTimePicker
                                 id="date-picker-dialog"
                                 format="dd/MM/yyyy hh:mm a"
                                 value={selectedDate}
                                 onChange={handleDateChange}
-                      
+                                disablePast={true}
                               />
                             </MuiPickersUtilsProvider>
                           </div>
@@ -126,7 +126,7 @@ export default function OrderDetail() {
                           <div className="form-group mb-3">
                             <label>Ngày giao</label>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <KeyboardDateTimePicker
+                              <DateTimePicker
                                 id="date-picker-dialog"
                                 format="dd/MM/yyyy hh:mm a"
                                 value={dondat.Ngaygiao}

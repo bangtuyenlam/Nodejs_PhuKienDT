@@ -4,7 +4,7 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
+  DatePicker,
 } from "@material-ui/pickers";
 import axios from "axios";
 import { useNavigate } from 'react-router';
@@ -17,7 +17,7 @@ export default function NewCustomer() {
   const [location, setLocation] = useState("");
   const [account, setAccount] = useState("");
   const [pwd, setPwd] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date("2010-12-31"));
   const [error, setError] = useState();
   const navigate = useNavigate();
   const handleDateChange = (date) => {
@@ -80,11 +80,13 @@ export default function NewCustomer() {
         <div className="newCustomerItem">
           <label> Ngày sinh </label>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
+            <DatePicker
               id="date-picker-dialog"
               format="dd/MM/yyyy"
               value={selectedDate}
               onChange={handleDateChange}
+              maxDate={"2010-12-31"}
+              minDate={"1952-12-31"}
             />
           </MuiPickersUtilsProvider>
         </div>

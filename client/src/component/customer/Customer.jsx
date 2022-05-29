@@ -14,7 +14,7 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
+  DatePicker,
 } from "@material-ui/pickers";
 import axios from "axios";
 import dateFormat from "dateformat";
@@ -53,8 +53,8 @@ export default function Customer() {
     setSelectedDate(date);
   };
 
-  const handleUpdate = (e) => {
-    axios
+  const handleUpdate = async () => {
+    await axios
       .put("/khachhang/capnhat", {
         customerId: customerId.id,
         customerName: customerName,
@@ -66,6 +66,7 @@ export default function Customer() {
       })
       .then((res) => {
         console.log(res.data);
+        
       })
       .catch((error) => {
         if (error.response.status === 500)
@@ -176,11 +177,13 @@ export default function Customer() {
                 <div className="customerUpdateItem">
                   <label>Ngày sinh</label>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                    <DatePicker
                       id="date-picker-dialog"
                       format="dd/MM/yyyy"
                       value={selectedDate}
                       onChange={handleDateChange}
+                      maxDate={"2010-12-31"}
+                      minDate={"1952-12-31"}
                     />
                   </MuiPickersUtilsProvider>
                 </div>

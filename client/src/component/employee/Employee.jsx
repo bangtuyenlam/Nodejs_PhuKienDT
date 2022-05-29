@@ -15,7 +15,7 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
+  DatePicker,
 } from "@material-ui/pickers";
 import axios from "axios";
 import dateFormat from "dateformat";
@@ -193,11 +193,13 @@ export default function Employee() {
                 <div className="employeeUpdateItem">
                   <label>Ngày sinh</label>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                    <DatePicker
                       id="date-picker-dialog"
                       format="dd/MM/yyyy"
                       value={selectedDate}
                       onChange={handleDateChange}
+                      maxDate={"2010-12-31"}
+                      minDate={"1952-12-31"}
                     />
                   </MuiPickersUtilsProvider>
                 </div>

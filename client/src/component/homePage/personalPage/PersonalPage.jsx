@@ -11,6 +11,7 @@ export default function PersonalPage() {
   return (
     <div className="container" style={{ display: "flex", marginTop: "100px"}}>
         <SidePersonal/>
+     
         <Routes>
           <Route path="/:id" element={<Customer />} />
           <Route path='/listorder' element ={<ListOrder customer = {user}/>}/>

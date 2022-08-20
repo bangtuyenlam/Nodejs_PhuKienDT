@@ -30,7 +30,12 @@ function Cart({ cart, setCart, handleChange }) {
             <p>{item.SP_Ten}</p>
           </div>
           <div>
+            {
+              item.Soluong !== item.amount ? (
             <button onClick={() => handleChange(item, 1)}>+</button>
+              ) :
+              (<button disabled={true}>+</button>)
+            }
             <button>{item.amount}</button>
             <button onClick={() => handleChange(item, -1)}>-</button>
           </div>

@@ -7,12 +7,14 @@ const sanphamRouter = require("./sanphamRouter");
 const loaispRouter = require("./loaispRouter");
 const dienthoaiRouter = require("./dienthoaiRouter");
 const dathangRouter = require("./dathangRouter");
+const authenticationRouter = require("./authenticationRouter");
 var bodyParser = require("body-parser");
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 function route(app) {
  // app.use("/verifyToken", TaikhoanController.verifyToken);
+  app.use("/welcome", authenticationRouter, urlencodedParser, jsonParser);
   app.use("/baidang", baidangRouter, urlencodedParser, jsonParser);
   app.use("/dienthoai", dienthoaiRouter);
   app.use("/loaisp", loaispRouter);

@@ -7,6 +7,12 @@ import dateFormat from 'dateformat';
 
 export default function ListOrder({customer}) {
     const [dondat, setDondat] = useState([]);
+    const [sortModel, setSortModel] = useState([
+      {
+        field: 'Ngaydat',
+        sort: 'desc',
+      },
+    ]);
   
     useEffect( () => {
       getData();
@@ -81,6 +87,8 @@ export default function ListOrder({customer}) {
         pageSize={8}
         checkboxSelection
         disableSelectionOnClick
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)}
       />
       )
   }

@@ -167,6 +167,7 @@ export default function DonDatCT() {
                               type="text"
                               name="name"
                               className="form-control"
+                              style={{resize: "none"}}
                               value={dondat["Khachhang.KH_Diachi"]}
                             ></textarea>
                           </div>
@@ -182,6 +183,7 @@ export default function DonDatCT() {
                                 name="name"
                                 className="form-control"
                                 value={dondat.Ghichu}
+                                style={{resize: "none"}}
                               ></textarea>
                             </div>
                           </div>

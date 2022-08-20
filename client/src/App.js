@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-// import {
-//   getToken,
-//   getUser,
-//   setUserSession,
-//   removeUserSession,
-// } from "./Utils/Common";
+import {
+  getToken,
+  getUser,
+  setUserSession,
+  removeUserSession,
+} from "./Utils/Common";
 import Login from "./component/Login/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import axios from "axios";
 import Register from "./component/register/Register";
 import Admin from "./component/Admin";
-
+import { PrivateRoute } from "./Utils/PrivateRoute";
+import AdminRoute from "./Utils/AdminRoute";
 import HomeRouter from "./component/HomeRouter";
 
 function App() {
@@ -38,6 +38,9 @@ function App() {
   //     });
   // }, [])
 
+  // console.log(getToken());
+  // console.log(authLoading);
+
   // if (authLoading && getToken()) {
   //   return (
   //     <div className="App">
@@ -46,17 +49,20 @@ function App() {
   //   );
   // } else
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/admin/*" element={<Admin />}></Route>
+    <div className="App">
+      
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-          <Route path="/*" element={<HomeRouter />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+        <Route element={<PrivateRoute />}>
+          <Route element={<AdminRoute/>}>\
+          <Route path="/admin/*" element={<Admin />} />
+          </Route>
+        </Route>
+        <Route path="/*" element={<HomeRouter />} />
+      </Routes>
+    </div>
   );
 }
 

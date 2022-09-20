@@ -10,6 +10,7 @@ function Navbar({size}) {
    const navigate = useNavigate();
    const handleLogout = () => {
     removeUserSession();
+   //window.open("http://localhost:5000/auth/logout", "_self");
     navigate("/");
   };
 

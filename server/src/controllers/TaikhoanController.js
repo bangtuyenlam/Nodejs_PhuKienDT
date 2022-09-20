@@ -1,4 +1,5 @@
 const db = require("../models/index");
+const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
@@ -7,17 +8,22 @@ let login = async (req, res) => {
   const username = req.body.username;
   const user = await db.Taikhoan.findAll({
     raw: true,
-    where: {
-      TenTK: username
-    },
+    where:{
+    [Op.or]: [
+      {TenTK: username},
+      {'$Khachhang.KH_SDT$': username},
+      {'$Nhanvien.NV_SDT$': username}
+    ]
+  },
     include: [{
       model: db.Khachhang,
+      as: "Khachhang"
     },
     {
-      model: db.Nhanvien
+      model: db.Nhanvien,
+      as: "Nhanvien"
     }],
   });
-
   try {
     if (user[0]) {
       const password = await bcrypt.compare(req.body.password, user[0].Matkhau);
@@ -55,7 +61,7 @@ const CreateCustomer = async (TenTK) => {
       TenTK: TenTK,
     }
   });
-  console.log(MaTK);
+  //console.log(MaTK);
   await db.Khachhang.create({
     Maquyen: 3,
     MaTK: MaTK[0].id,

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
       TenTK: DataTypes.STRING,
       Matkhau: DataTypes.STRING,

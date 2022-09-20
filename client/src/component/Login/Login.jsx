@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import { setUserSession } from "../../Utils/Common";
+import { setUserSession, removeUserSession } from "../../Utils/Common";
 import { useNavigate } from "react-router";
 import "./login.css";
 import {Link} from "react-router-dom";
 
 
 function Login() {
-  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -48,7 +47,26 @@ function Login() {
 
   const handleCancel = () => {
     navigate("/");
+    removeUserSession();
   };
+
+  const google = () => {
+    window.open("http://localhost:5000/auth/google", "_self");
+    
+  }
+
+  useEffect(() => {
+    axios
+      .get("/auth/login/success")
+      .then((res)=> {
+        setUserSession(res.data.user[0].token, res.data.user[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, []);
+
+  
 
   return (
     <div className="wrapper">
@@ -95,6 +113,16 @@ function Login() {
           >
             {" "}
             Hủy
+          </button>
+        </div>
+        <br />
+        <div className="d-grid gap-2">
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={google}
+          >
+            Login with Google
           </button>
         </div>
         <div className="register">

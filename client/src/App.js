@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   getToken,
   getUser,
@@ -6,7 +6,7 @@ import {
   removeUserSession,
 } from "./Utils/Common";
 import Login from "./component/Login/Login";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import axios from "axios";
 import Register from "./component/register/Register";
 import Admin from "./component/Admin";
@@ -48,9 +48,31 @@ function App() {
   //     </div>
   //   );
   // } else
+
+  //const [user, setUser] = useState(null);
+  // useEffect(() => {
+  //   axios
+  //     .get("/auth/login/success")
+  //     .then((res)=> {
+  //       setUserSession(res.data.user[0].token, res.data.user[0]);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }, []);
+
+   console.log(getUser() , getToken());
+
+  const Wrapper = ({children}) => {
+    const location = useLocation();
+    useLayoutEffect(() => {
+      document.documentElement.scrollTo(0, 0);
+    }, [location.pathname]);
+    return children
+  } 
   return (
     <div className="App">
-      
+      <Wrapper>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -62,6 +84,7 @@ function App() {
         </Route>
         <Route path="/*" element={<HomeRouter />} />
       </Routes>
+      </Wrapper>
     </div>
   );
 }

@@ -17,8 +17,9 @@ function Postdetail({ post }) {
             </div>
           </div>
         );
-      }).reverse()}
+      }).reverse()} 
     </div>
+     //Hàm reverse trả về giá trị đơn đã đảo ngược trong mảng
   );
 }
 

@@ -1,12 +1,12 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { setUserSession, removeUserSession } from "../../Utils/Common";
 import { useNavigate } from "react-router";
 import "./login.css";
-import {Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import Googleicon from "../image/google.png";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -22,7 +22,7 @@ function Login() {
       })
       .then((res) => {
         console.log("login");
-        console.log( res.data.user[0]["Khachhang.Maquyen"]);
+        console.log(res.data.user[0]["Khachhang.Maquyen"]);
         setUserSession(res.data.token, res.data.user[0]);
         if (res.data.user[0]["Khachhang.Maquyen"]) {
           navigate("/");
@@ -52,28 +52,28 @@ function Login() {
 
   const google = () => {
     window.open("http://localhost:5000/auth/google", "_self");
-    
-  }
+  };
 
   useEffect(() => {
     axios
       .get("/auth/login/success")
-      .then((res)=> {
+      .then((res) => {
         setUserSession(res.data.user[0].token, res.data.user[0]);
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }, []);
 
-  
-
   return (
-    <div className="wrapper">
+    <div className="login">
+      <div className="margin-form">
       <form className="form-login">
         <div className="mb-3 row">
-          <label className="col-sm-3 col-form-label">Tên tài khoản: </label>
-          <div className="col-sm-9">
+          <label className="form-label fw-bold text-black-50">
+            Tên tài khoản:{" "}
+          </label>
+          <div className="col-sm">
             <input
               className="form-control"
               type="text"
@@ -83,8 +83,8 @@ function Login() {
           </div>
         </div>
         <div className="mb-3 row">
-          <label className="col-sm-3 col-form-label">Mật khẩu: </label>
-          <div className="col-sm-9">
+          <label className="form-label fw-bold text-black-50">Mật khẩu: </label>
+          <div className="col-sm">
             <input
               className="form-control"
               type="password"
@@ -116,20 +116,26 @@ function Login() {
           </button>
         </div>
         <br />
+
         <div className="d-grid gap-2">
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={google}
-          >
-            Login with Google
+          <div className="below">
+            <div className="line" />
+            <div className="or"> Hoặc</div>
+          </div>
+          <button className="btn btn-danger" type="button" onClick={google}>
+            <img src={Googleicon} alt="" className="icon" />
+            Đăng nhập bằng Google
           </button>
         </div>
+        <br />
         <div className="register">
-            <p>Bạn chưa có tài khoản? </p>
+          <p>
+            Bạn chưa có tài khoản?{" "}
             <Link to={"/register"}> Đăng kí tại đây</Link>
-          </div>
+          </p>
+        </div>
       </form>
+      </div>
     </div>
   );
 }

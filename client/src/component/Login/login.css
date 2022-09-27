@@ -1,15 +1,29 @@
-.wrapper {
-    margin-top: 10%;
-    
+.login {
+    background-image: url("../image/cover_accessories.jpg");
+  
+
+    /* Control the height of the image */
+    min-height: 370px;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.margin-form {
+    padding: 5%;
 }
 
 .form-login {
-    max-width: 600px;
+    background-color: white;
+    max-width: 500px;
     margin: 0 auto;
     padding: 15px 40px 50px;
     border: 1px solid #f1e7e7;
     border-radius: 10px;
-}
+} 
 
 .error {
     color: rgb(196, 19, 19);
@@ -20,3 +34,62 @@
     margin-top: 10px;
     display: flex;
 }
+
+.below{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .or{
+    border: 2px solid lightgray;
+    border-radius: 50%;
+    padding: 10px;
+    color: gray;
+    background-color: white;
+    font-weight: bold;
+    z-index: 1;
+  }
+
+.line{
+    width: 90%;
+    height: 2px;
+    background-color: lightgray;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 0;
+  }
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.loginButton{
+    width: 150px;
+    padding: 15px 25px;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  
+  .google{
+    background-color: #df4930;
+  }
+
+  .icon{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+

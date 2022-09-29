@@ -1,10 +1,21 @@
-.wrapper {
-    margin-top: 10%;
-    
+.signup{
+    background-image: url("../image/cover_accessories.jpg");
+  
+    min-height: 370px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.margin-form{
+    padding: 3%;
 }
 
 .form-sign-up {
-    max-width: 600px;
+    background-color: white;
+    max-width: 500px;
     margin: 0 auto;
     padding: 15px 40px 50px;
     border: 1px solid #f1e7e7;

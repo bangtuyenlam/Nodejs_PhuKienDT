@@ -4,6 +4,7 @@ import "./register.css";
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [confirmPwd, setConfirmpwd] = useState("");
   const [error, setError] = useState("");
 
@@ -13,6 +14,7 @@ function Register() {
         username: username,
         password: password,
         confirmPwd: confirmPwd,
+        email: email
       })
       .then((res) => {
         console.log("register success");
@@ -35,11 +37,32 @@ function Register() {
     window.location.href = "/";
   };
   return (
-    <div className="wrapper">
+    <div className="signup">
+      <div className="margin-form">
       <form className="form-sign-up">
+      <div class="form-group text-center">
+      <label className="form-label fw-bold text-black-50 fs-2">
+            Đăng ký tài khoản
+         </label>
+         </div>
+      <div className="mb-3 row">
+      <label className="form-label fw-bold text-black-50">
+              Email
+            </label>
+          <div className="col-sm">
+            <input
+              className="form-control"
+              type="email"
+              value={email}
+              onChange={(value) => setEmail(value.target.value)}
+            ></input>
+          </div>
+        </div>
         <div className="mb-3 row">
-          <label className="col-sm-4 col-form-label">Tên tài khoản: </label>
-          <div className="col-sm-8">
+        <label className="form-label fw-bold text-black-50">
+              Tên tài khoản
+            </label>
+          <div className="col-sm">
             <input
               className="form-control"
               type="text"
@@ -49,8 +72,10 @@ function Register() {
           </div>
         </div>
         <div className="mb-3 row">
-          <label className="col-sm-4 col-form-label">Mật khẩu: </label>
-          <div className="col-sm-8">
+        <label className="form-label fw-bold text-black-50">
+              Mật khẩu
+            </label>
+          <div className="col-sm">
             <input
               className="form-control"
               type="password"
@@ -60,8 +85,10 @@ function Register() {
           </div>
         </div>
         <div className="mb-3 row">
-          <label className="col-sm-4 col-form-label">Xác nhận mật khẩu: </label>
-          <div className="col-sm-8">
+        <label className="form-label fw-bold text-black-50">
+              Xác nhận mật khẩu:
+            </label>
+          <div className="col-sm">
             <input
               className="form-control"
               type="password"
@@ -92,6 +119,7 @@ function Register() {
           </button>
         </div>
       </form>
+      </div>
     </div>
   );
 }

@@ -2,9 +2,19 @@ const db = require("../models/index");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const axios = require("axios");
 require("dotenv").config();
 
 let login = async (req, res) => {
+  const recaptcha_token =  req.body.recaptcha_token;
+  const human = await validateHuman(recaptcha_token);
+  console.log(human);
+  if(!human) {
+    return res.status(402).json({
+      error: true,
+      message: "You're a bot!",
+    })
+  }
   const username = req.body.username;
   const user = await db.Taikhoan.findAll({
     raw: true,
@@ -27,7 +37,7 @@ let login = async (req, res) => {
   try {
     if (user[0]) {
       const password = await bcrypt.compare(req.body.password, user[0].Matkhau);
-      if (!password) return res.status(400).json("Mật khẩu chưa đúng");
+      if (!password) return res.status(400).json({error: true, message: "Mật khẩu chưa đúng"});
       const token = jwt.sign(
         {
           id: user[0].id,
@@ -52,7 +62,21 @@ let login = async (req, res) => {
   }
 };
 
-const CreateCustomer = async (TenTK) => {
+const validateHuman = async (recaptcha_token) => {
+  try{
+  const secret = process.env.GOOGLE_RECAPTCHA_SECRET_KEY;
+  const response = await axios.post(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${recaptcha_token}`
+  )
+
+  return response.data.success;
+  }
+  catch(err) {
+    console.log(err.message);
+  };
+}
+
+const CreateCustomer = async (TenTK, Email) => {
   try{
   const MaTK = await db.Taikhoan.findAll({
     attributes: ["id"],
@@ -65,6 +89,7 @@ const CreateCustomer = async (TenTK) => {
   await db.Khachhang.create({
     Maquyen: 3,
     MaTK: MaTK[0].id,
+    KH_Email: Email
   });
 }
 catch(err) {
@@ -78,10 +103,11 @@ let register = async (req, res, next) => {
   const username = req.body.username;
   const password = hashedPassword;
   const pwd = req.body.password;
+  const email = req.body.email;
   const confirmPwd = req.body.confirmPwd;
   console.log(password);
   try {
-    if(!username || !password || !confirmPwd){
+    if(!email || !username || !password || !confirmPwd){
       return res.status(402).json({
         err: true,
         message: "Vui lòng nhập đủ các trường"
@@ -93,7 +119,7 @@ let register = async (req, res, next) => {
         message: "Mật khẩu xác thực không đúng"
       });
     }
-    else if (pwd.length < 6 || pwd.length > 20){
+    else if (pwd.length < 5 || pwd.length > 20){
       return res.status(404).json({
         err: true,
         message: "Mật khẩu phải nhiều hơn 5 kí tự và không quá 20 kí tự"
@@ -116,7 +142,7 @@ let register = async (req, res, next) => {
         TenTK: username,
         Matkhau: password,
       });
-      await CreateCustomer(username);
+      await CreateCustomer(username, email);
       return res.json(newUser);
      
     }

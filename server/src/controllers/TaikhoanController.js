@@ -106,6 +106,15 @@ let register = async (req, res, next) => {
   const email = req.body.email;
   const confirmPwd = req.body.confirmPwd;
   console.log(password);
+  const recaptcha_token =  req.body.recaptcha_token;
+  const human = await validateHuman(recaptcha_token);
+  console.log(human);
+  if(!human) {
+    return res.status(402).json({
+      error: true,
+      message: "You're a bot!",
+    })
+  };
   try {
     if(!email || !username || !password || !confirmPwd){
       return res.status(402).json({

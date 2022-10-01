@@ -8,7 +8,6 @@ import "./login.css";
 import { Link } from "react-router-dom";
 import Googleicon from "../image/google.png";
 import ReCAPTCHA from "react-google-recaptcha";
-const GOOGLE_RECAPTCHA_SITE_KEY = "6LdcyD0iAAAAAHmkUwUZHbJj0nYXyNJRJlOX1mdJ";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,13 +15,12 @@ function Login() {
   const [recaptcha_token, setRecaptcha_token] = useState("");
   const navigate = useNavigate();
   const reRef = useRef();
-
   const loginSubmit = () => {
     if (!recaptcha_token) {
       setError("Vui lòng xác thực reCAPTCHA");
       return;
   }
-
+  
     reRef.current.reset();
 
     axios
@@ -56,7 +54,8 @@ function Login() {
 
           console.log("Mật khẩu chưa đúng");
         } else setError("Lỗi. Vui lòng thử lại lần nữa.");
-      });
+      }) 
+      
   };
 
   const handleCancel = () => {
@@ -73,12 +72,12 @@ function Login() {
       .get("/auth/login/success")
       .then((res) => {
         setUserSession(res.data.user[0].token, res.data.user[0]);
-      })
+        })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
+  
   return (
     <div className="login">
       <div className="margin-form">
@@ -113,9 +112,9 @@ function Login() {
             </div>
           </div>
 
-          <div className="form-group">
+          <div className="col-sm">
             <ReCAPTCHA
-              sitekey={GOOGLE_RECAPTCHA_SITE_KEY}
+              sitekey={process.env.REACT_APP_RECAPTCHA}
               ref={reRef}
               onChange={(recaptcha_token) => setRecaptcha_token(recaptcha_token)}
               onExpired={(e) => setRecaptcha_token("")}

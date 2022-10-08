@@ -53,7 +53,14 @@ const ChiTietDonDat = async (ngaydat, dsdondat) => {
                 DD_Ma: MaDD[0].id,
                 Soluongdat: dondat.amount,
                 Gia: dondat.SP_Gia
-              })
+              });
+             db.Sanpham.update({
+              Soluong: dondat.Soluong - dondat.amount
+             },
+                {where: {
+                  id: dondat.id
+                }
+              });
           })
     }
     catch(err) {
@@ -164,7 +171,17 @@ const DuyetDonHang = (req, res) => {
 
 const XoaDonDat = async (req, res) => {
   const id = req.params.id;
+  const ddct = req.body.ddct;
   try {
+    ddct.map(async dondat => {
+     await db.Sanpham.update({
+        Soluong: dondat["Sanpham.Soluong"] + dondat.Soluongdat
+       },
+          {where: {
+            id: dondat["Sanpham.id"]
+          }
+        });
+    })
     await db.Dondatct.destroy({
       where: {
         DD_Ma: id,

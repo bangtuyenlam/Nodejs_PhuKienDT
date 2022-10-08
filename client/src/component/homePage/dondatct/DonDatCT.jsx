@@ -17,6 +17,7 @@ export default function DonDatCT() {
     const [dondatct, setDondatct] = useState([]);
     const [dondat, setDondat] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [slKho, setSlKho] = useState([]);
     var totalPrice = 0;
   
     useEffect(() => {
@@ -43,7 +44,11 @@ export default function DonDatCT() {
 
     const handleDelete = (id) => {
       
-      axios.delete(`/dathang/xoa/${id}`);
+      axios.delete(`/dathang/xoa/${id}`, {
+        data: {
+          ddct: dondatct,
+        }
+      });
       navigate("/personal/listorder");
      
      }

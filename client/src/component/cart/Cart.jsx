@@ -31,6 +31,7 @@ function Cart({ cart, setCart, handleChange }) {
           </div>
           <div>
             {
+              //Số lượng đặt hàng không vượt quá sl có trong kho
               item.Soluong !== item.amount ? (
             <button onClick={() => handleChange(item, 1)}>+</button>
               ) :

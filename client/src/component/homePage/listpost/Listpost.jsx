@@ -23,7 +23,7 @@ function Listpost() {
         {posts.map(() => {
           return(
             
-            <div class="card mb-3">
+            <div className="card mb-3">
             <Skeleton height={120}/>
             <Skeleton height={20}/>
             <Skeleton height={30}/>

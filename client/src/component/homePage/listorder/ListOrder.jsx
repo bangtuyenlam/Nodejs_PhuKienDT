@@ -7,17 +7,20 @@ import dateFormat from 'dateformat';
 
 export default function ListOrder({customer}) {
     const [dondat, setDondat] = useState([]);
-    const [sortModel, setSortModel] = useState([
-      {
-        field: 'Ngaydat',
-        sort: 'desc',
-      },
-    ]);
+    // const [sortModel, setSortModel] = useState([
+    //   {
+    //     field: 'Ngaydat',
+    //     sort: 'desc',
+    //   },
+    // ]);
+    // const sortModel = [{
+    //   field: "Ngaydat",
+    //   sort: "desc"
+    // }]
   
     useEffect( () => {
       getData();
     }, []);
-  
   
     const getData = async () => {
       await axios.post("/dathang/khdat",{
@@ -82,13 +85,14 @@ export default function ListOrder({customer}) {
       </div>
       {dondat && (
        <DataGrid
+       
         rows={dondat}
         columns={columns}
         pageSize={8}
         checkboxSelection
         disableSelectionOnClick
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
+        // sortModel={sortModel}
+        // onSortModelChange={(model) => setSortModel(model)}
       />
       )
   }

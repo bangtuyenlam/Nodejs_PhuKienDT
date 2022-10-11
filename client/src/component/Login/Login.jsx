@@ -34,12 +34,12 @@ function Login() {
         console.log(res.data.user[0]["Khachhang.Maquyen"]);
         setUserSession(res.data.token, res.data.user[0]);
         if (res.data.user[0]["Khachhang.Maquyen"]) {
-          navigate("/");
+          window.location.href = "/";
         } else {
           // if(res.data.user["Nhanvien.Maquyen"] == 2)
           //     navigate('/');
           //  else
-          navigate("/admin");
+          window.location.href = "/admin"
         }
       })
       .catch((error) => {
@@ -59,7 +59,7 @@ function Login() {
   };
 
   const handleCancel = () => {
-    navigate("/");
+    window.location.href = "/";
     removeUserSession();
   };
 

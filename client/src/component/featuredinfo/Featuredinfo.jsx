@@ -8,13 +8,16 @@ import { DeleteOutline } from "@material-ui/icons";
 
 export default function Featuredinfo() {
     const [dondat, setDondat] = useState([]);
-    const [sortModel, setSortModel] = useState([
-      {
-        field: 'Ngaydat',
-        sort: 'desc',
-      },
-    ]);
-  
+    // const [sortModel, setSortModel] = useState([
+    //   {
+    //     field: 'Ngaydat',
+    //     sort: 'desc',
+    //   },
+    // ]);
+  const sortModel = [{
+    field: 'Ngaydat',
+    sort: 'desc'
+  }];
   useEffect( () => {
     getData();
     
@@ -93,7 +96,7 @@ export default function Featuredinfo() {
       checkboxSelection
       disableSelectionOnClick
       sortModel={sortModel}
-      onSortModelChange={(model) => setSortModel(model)}
+     // onSortModelChange={(model) => setSortModel(model)}
     />
     )
 }

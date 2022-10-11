@@ -5,15 +5,16 @@ function Postdetail({ post }) {
     <div>
       {post.map((p) => {
         return (
-            <div class="card mb-3">
+            <div className="card mb-3">
             <img src={`http://localhost:5000/image/${p.BD_Hinhanh}`} 
-            class="card-img-top"
+            className="card-img-top"
             style={{height: 200}}
+            key="image"
              alt="anh"/>
-            <div class="card-body">
-              <h5 class="card-title">{p.Tieude}</h5>
-              <p class="card-text">{p.Noidung.substring(0,200)}</p>
-              <Link to={`/post/${p.id}`}> Chi tiết </Link>
+            <div className="card-body">
+              <h5 className="card-title" key="Tieude">{p.Tieude}</h5>
+              <p className="card-text" key="Noidung">{p.Noidung.substring(0,200)}</p>
+              <Link to={`/post/${p.id}`} key="Chitiet"> Chi tiết </Link>
             </div>
           </div>
         );

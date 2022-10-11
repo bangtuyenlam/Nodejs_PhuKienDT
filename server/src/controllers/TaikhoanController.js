@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const axios = require("axios");
 require("dotenv").config();
+const {sendConfirmationEmail } = require("./NodeMailer");
 
 let login = async (req, res) => {
   const recaptcha_token =  req.body.recaptcha_token;
@@ -152,6 +153,7 @@ let register = async (req, res, next) => {
         Matkhau: password,
       });
       await CreateCustomer(username, email);
+      await sendConfirmationEmail(username, email);
       return res.json(newUser);
      
     }

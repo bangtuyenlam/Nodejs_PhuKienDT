@@ -33,7 +33,7 @@ export default function ListOrder({customer}) {
        .catch((err) => {
          console.log(err + " Không thể lấy được danh sách đơn đặt");
      }
-       )}
+       )};
    
    
      const columns = [

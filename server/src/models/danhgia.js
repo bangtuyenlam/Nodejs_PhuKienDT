@@ -1,25 +1,28 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Danhgia extends Model {
+  class Danhgia_SP extends Model {
     static associate(models) {
-      Danhgia.belongsTo(models.Khachhang, { foreignKey: "KH_Ma" });
-      Danhgia.belongsTo(models.Sanpham, { foreignKey: "SP_Ma" });
+      Danhgia_SP.belongsTo(models.Sanpham, { foreignKey: "SP_Ma" });
+      Danhgia_SP.belongsTo(models.Khachhang, {foreignKey: "KH_Ma"})
     }
   }
-  Danhgia.init(
+  Danhgia_SP.init(
     {
-      DG_Ma: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       KH_Ma: DataTypes.INTEGER,
       SP_Ma: DataTypes.INTEGER,
       Noidung: DataTypes.STRING,
       DG_Diem: DataTypes.INTEGER,
-      DG_Ngay: DataTypes.DATE,
+      DG_Ngay: DataTypes.DATE
     },
     {
       sequelize,
-      modelName: "Danhgia",
+      modelName: "Danhgia_SP",
     }
   );
-  return Danhgia;
+  return Danhgia_SP;
 };

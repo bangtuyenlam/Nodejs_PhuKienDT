@@ -60,7 +60,7 @@ module.exports = {
             .addConstraint("Baidangs", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_NV_BD",
+              name: "FK_BD_NV_00",
               references: {
                 table: "Nhanviens",
                 field: "id",
@@ -71,7 +71,7 @@ module.exports = {
                 await queryInterface.addConstraint("Dondats", {
                   type: "FOREIGN KEY",
                   fields: ["nv_ma"],
-                  name: "FK_NV_DD",
+                  name: "FK_DD_NV_00",
                   references: {
                     table: "Nhanviens",
                     field: "id",

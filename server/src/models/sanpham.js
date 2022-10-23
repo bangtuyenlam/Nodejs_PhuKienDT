@@ -3,9 +3,9 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Sanpham extends Model {
     static associate(models) {
-      // Sanpham.hasMany(models.Danhgia);
+      Sanpham.hasMany(models.Danhgia_SP, {foreignKey:"SP_Ma"});
       Sanpham.hasMany(models.Dondatct,{ foreignKey: "SP_Ma" });
-      // Sanpham.hasMany(models.Hinhanh);
+      Sanpham.hasMany(models.Hinhanh, {foreignKey:"SP_Ma"});
       Sanpham.belongsTo(models.Dienthoai, { foreignKey: "DT_Ma" });
       Sanpham.belongsTo(models.Loaisanpham, { foreignKey: "LSP_Ma" });
     }

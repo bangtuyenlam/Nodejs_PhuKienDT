@@ -1,7 +1,7 @@
 const db = require("../models/index");
 const path = require("path");
 const fs = require("fs");
-
+const { QueryTypes } = require('sequelize');
 let listProduct = async (req, res) => {
   try {
     const Sanpham = await db.Sanpham.findAll({
@@ -83,7 +83,7 @@ let ProductId = async (req, res) => {
   }
 };
 
-const ProductUpdate =  (req, res) => {
+let ProductUpdate =  (req, res) => {
   const id = req.body.id;
   const LSP = req.body.loaisp;
   const DT = req.body.tendt;
@@ -149,10 +149,97 @@ let deleteProduct = async (req, res) => {
   });
 };
 
+let danhsachdondat = (makh) => 
+{
+  try {
+    const dondat = db.Dondatct.findAll({
+      raw: true,  
+      attributes: ['id', 'SP_Ma'],
+      include: [
+      {
+        model: db.Dondat,
+        as: "Dondat",
+        include: [
+          {
+            model: db.Khachhang,
+            as: "Khachhang"
+          },
+          
+        ],
+        where: {
+          KH_Ma: makh
+        },
+      },
+      {
+        model: db.Sanpham,
+        as: "Sanpham"
+      }
+    ],
+    
+    });
+    return dondat;
+    
+  } 
+  catch (err) {
+    
+  }
+}
+
+
+
+let productPurchased = async (req, res) => {
+  const makh = req.body.makh;
+  const result = [];
+  try{
+  const dsdondat = await danhsachdondat(makh);
+
+
+  dsdondat.filter((item, index) => {
+    if(dsdondat.findIndex(i => i.SP_Ma === item.SP_Ma) === index)
+    result.push(item);
+  })
+  return res.json(result);
+  }
+  catch(err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+}
+
+let reviewProduct = async (req, res) => {
+  const MaKH = req.body.MaKH;
+  const MaSP = req.body.MaSP;
+  const noidung = req.body.noidung;
+  const diem = req.body.diem;
+  const ngay = req.body.ngay;
+  try{
+  if(diem === null) 
+  return res.status(402).json({
+    err: true,
+    message: "Vui lòng đánh giá sao cho sản phẩm!!!"
+  });
+  else{
+    //const users = await db.sequelize.query("SELECT * FROM `danhgias`", { type: QueryTypes.SELECT });
+    const newReview = await db.Danhgia_SP.findAll({
+      raw: true
+    });
+    console.log(newReview);
+    return res.json(newReview);
+  }
+}
+catch(error) {
+  res.status(400).send(error.message);
+}
+}
+
 module.exports = {
   listProduct: listProduct,
   createProduct: createProduct,
   ProductUpdate: ProductUpdate,
   ProductId: ProductId,
   deleteProduct: deleteProduct,
+  productPurchased: productPurchased,
+  reviewProduct: reviewProduct,
 };

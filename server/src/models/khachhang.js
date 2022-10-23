@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       Khachhang.belongsTo(models.Quyensudung, { foreignKey: "Maquyen" });
       Khachhang.belongsTo(models.Taikhoan, { foreignKey: "MaTK" });
       Khachhang.hasMany(models.Dondat, {foreignKey: "KH_Ma"});
-      // Khachhang.hasMany(models.Danhgia);
+      Khachhang.hasMany(models.Danhgia_SP, {foreignKey:"KH_Ma"});
     }
   }
   Khachhang.init(

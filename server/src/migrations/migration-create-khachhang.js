@@ -54,10 +54,10 @@ module.exports = {
       .then(
         async () =>
           await queryInterface
-            .addConstraint("Danhgias", {
+            .addConstraint("Danhgia_SPs", {
               type: "FOREIGN KEY",
               fields: ["kh_ma"],
-              name: "FK_KH_DG",
+              name: "FK_DG_KH_00",
               references: {
                 table: "Khachhangs",
                 field: "id",
@@ -68,7 +68,7 @@ module.exports = {
                 await queryInterface.addConstraint("Dondats", {
                   type: "FOREIGN KEY",
                   fields: ["kh_ma"],
-                  name: "FK_KH_DD",
+                  name: "FK_DD_KH_00",
                   references: {
                     table: "Khachhangs",
                     field: "id",

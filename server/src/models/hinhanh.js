@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Hinhanh.init(
     {
-      HA_Ma: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       SP_Ma: DataTypes.INTEGER,
       Duongdan: DataTypes.STRING,
     },

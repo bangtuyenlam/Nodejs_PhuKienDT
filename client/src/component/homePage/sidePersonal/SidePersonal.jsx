@@ -2,7 +2,7 @@ import React from 'react';
 import "./sidePersonal.css";
 import {
   StorefrontOutlined, AssignmentIndOutlined,
-
+  RateReviewOutlined
   } from '@material-ui/icons';
   import { Link } from 'react-router-dom';
   import {getUser} from "../../../Utils/Common";
@@ -25,6 +25,14 @@ export default function SidePersonal() {
             <StorefrontOutlined className='sidebarIcon'/>
               <Link className='sidebarLink' to={'/personal/listorder'}>
              Đơn hàng
+              </Link>
+            
+            </li>
+
+            <li className="sidebarListItem">
+            <RateReviewOutlined className='sidebarIcon'/>
+              <Link className='sidebarLink' to={'/personal/purchased-product'}>
+             Đánh giá sản phẩm
               </Link>
             
             </li>

@@ -57,7 +57,7 @@ module.exports = {
             .addConstraint("Dondatcts", {
               type: "FOREIGN KEY",
               fields: ["sp_ma"],
-              name: "FK_SP_DDCT",
+              name: "FK_SP_DDCT_00",
               references: {
                 table: "Sanphams",
                 field: "id",
@@ -66,10 +66,10 @@ module.exports = {
             .then(
               async () =>
                 await queryInterface
-                  .addConstraint("Danhgias", {
+                  .addConstraint("Danhgia_SPs", {
                     type: "FOREIGN KEY",
                     fields: ["sp_ma"],
-                    name: "FK_SP_DG",
+                    name: "FK_SP_DG_00",
                     references: {
                       table: "Sanphams",
                       field: "id",
@@ -81,7 +81,7 @@ module.exports = {
                         .addConstraint("Hinhanhs", {
                           type: "FOREIGN KEY",
                           fields: ["sp_ma"],
-                          name: "FK_SP_HA",
+                          name: "FK_SP_HA_00",
                           references: {
                             table: "Sanphams",
                             field: "id",
@@ -93,7 +93,7 @@ module.exports = {
                               .addConstraint("Sanphams", {
                                 type: "FOREIGN KEY",
                                 fields: ["lsp_ma"],
-                                name: "FK_LSP_SP",
+                                name: "FK_LSP_SP_00",
                                 references: {
                                   table: "Loaisanphams",
                                   field: "id",
@@ -106,7 +106,7 @@ module.exports = {
                                     {
                                       type: "FOREIGN KEY",
                                       fields: ["dt_ma"],
-                                      name: "FK_DT_SP",
+                                      name: "FK_DT_SP_00",
                                       references: {
                                         table: "Dienthoais",
                                         field: "id",

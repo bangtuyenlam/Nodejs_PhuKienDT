@@ -71,12 +71,17 @@ function Login() {
     axios
       .get("/auth/login/success")
       .then((res) => {
+        console.log(res.data.success);
+        if(res.data.success == true)
         setUserSession(res.data.user[0].token, res.data.user[0]);
+        else 
+         console.log("Email này chưa đăng ký tài khoản");
         })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
   
   return (
     <div className="login">

@@ -63,7 +63,7 @@ function ListPurchased({customer}) {
           
           return(
             <>
-            <Link to={`/personal/purchase-product/rating/${params.row.SP_Ma}`}>
+            <Link to={`/personal/review-product/rating/${params.row.SP_Ma}`}>
             <button className="productManagerEdit">Đánh giá</button>
             </Link>
             </>
@@ -74,7 +74,7 @@ function ListPurchased({customer}) {
   return (
     <div className="checkoutManager">
     <div className='checkoutManagerContainer'>
-      <h1 className="checkoutManagerTitle">Đánh giá các phẩm đã mua</h1>
+      <h1 className="checkoutManagerTitle">Sản phẩm chưa đánh giá</h1>
     </div>
     {product && (
      <DataGrid
@@ -82,7 +82,7 @@ function ListPurchased({customer}) {
       rows={product}
       columns={columns}
       pageSize={8}
-      checkboxSelection
+      // checkboxSelection
       disableSelectionOnClick
       // sortModel={sortModel}
       // onSortModelChange={(model) => setSortModel(model)}

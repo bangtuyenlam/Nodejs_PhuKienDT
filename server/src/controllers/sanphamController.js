@@ -1,7 +1,6 @@
 const db = require("../models/index");
 const path = require("path");
 const fs = require("fs");
-const { QueryTypes } = require('sequelize');
 let listProduct = async (req, res) => {
   try {
     const Sanpham = await db.Sanpham.findAll({
@@ -185,6 +184,22 @@ let danhsachdondat = (makh) =>
   }
 }
 
+let khachhangdanhgia = (makh) => {
+  try{
+    const sp = db.Danhgia_SP.findAll({
+      raw: true,
+      attributes: ["SP_Ma"],
+      where: {
+        KH_Ma: makh
+      }
+    });
+    return sp;
+
+  }catch(err) {
+
+  }
+}
+
 
 
 let productPurchased = async (req, res) => {
@@ -192,12 +207,20 @@ let productPurchased = async (req, res) => {
   const result = [];
   try{
   const dsdondat = await danhsachdondat(makh);
-
-
+  const sanpham = await khachhangdanhgia(makh);
   dsdondat.filter((item, index) => {
+    //Loại bỏ sản phẩm trùng nhau
     if(dsdondat.findIndex(i => i.SP_Ma === item.SP_Ma) === index)
     result.push(item);
+  });
+
+  result.filter((item, index) => {
+    sanpham.map((sp) => {
+       if(sp.SP_Ma === item.SP_Ma)
+        result.splice(index, 1);
+    })
   })
+  
   return res.json(result);
   }
   catch(err) {
@@ -208,25 +231,30 @@ let productPurchased = async (req, res) => {
   }
 }
 
-let reviewProduct = async (req, res) => {
+let reviewProduct = (req, res) => {
   const MaKH = req.body.MaKH;
   const MaSP = req.body.MaSP;
   const noidung = req.body.noidung;
   const diem = req.body.diem;
   const ngay = req.body.ngay;
   try{
-  if(diem === null) 
+  if(diem === null || diem === 0) 
   return res.status(402).json({
     err: true,
     message: "Vui lòng đánh giá sao cho sản phẩm!!!"
   });
   else{
-    //const users = await db.sequelize.query("SELECT * FROM `danhgias`", { type: QueryTypes.SELECT });
-    const newReview = await db.Danhgia_SP.findAll({
-      raw: true
+    db.Danhgia_SP.create({
+      KH_Ma: MaKH,
+      SP_Ma: MaSP,
+      Noidung: noidung,
+      DG_Diem: diem,
+      DG_Ngay: ngay
     });
-    console.log(newReview);
-    return res.json(newReview);
+    return res.json({
+      review: true,
+      message: "Thêm sản phẩm thành công",
+    });
   }
 }
 catch(error) {

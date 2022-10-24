@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Rating from "@material-ui/lab/Rating";
-import { makeStyles } from "@material-ui/core/styles";
 import "./review.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -12,14 +11,15 @@ import {
   Description,
 } from "@material-ui/icons";
 import { getUser } from "../../../Utils/Common";
-
+import { useNavigate } from 'react-router';
 export default function Review() {
   const user = getUser();
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(5);
   const [product, setProduct] = useState([]);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
   const ngaydanhgia = new Date();
+  const navigate = useNavigate();
   const productId = useParams();
   useEffect(() => {
     axios
@@ -44,12 +44,12 @@ export default function Review() {
         ngay: ngaydanhgia,
       })
       .then((res) => {
-        console.log(res.data);
+       navigate(`/personal/reviewed-product/${productId.id}`)
       })
       .catch((error) => {
         if (error.response.status === 402) {
           setError(error.response.data.message);
-          console.log("Lỗi nhập chưa nhập đủ thông tin");
+          console.log("Chưa đánh giá sao cho sản phẩm");
         } else console.log("Đặt hàng không thành công");
       });
   }
@@ -109,8 +109,9 @@ export default function Review() {
             <div className="productReview">
               <div>
                 <Rating
+                  key={value}
                   name="half-rating"
-                  defaultValue={0}
+                  value={value}
                   className="productReviewRating"
                   onChange={(event, newValue) => {
                     setValue(newValue);

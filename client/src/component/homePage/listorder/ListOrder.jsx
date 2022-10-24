@@ -70,7 +70,7 @@ export default function ListOrder({customer}) {
              <Link to={`/personal/orderdetail/${params.row.id}`}>
              <button className="employeeManagerEdit">Chi tiết</button>
              </Link>
-             <Link to={`/personal`}>
+             <Link to={`/personal/review-product`}>
              <button className="employeeManagerEdit">Đã nhận hàng</button>
              </Link>            
              </>

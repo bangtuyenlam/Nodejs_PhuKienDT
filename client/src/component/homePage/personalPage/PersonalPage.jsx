@@ -8,6 +8,7 @@ import ListOrder from '../listorder/ListOrder';
 import DonDatCT from '../dondatct/DonDatCT';
 import ListPurchased from '../listpurchased/ListPurchased';
 import Review from '../review/Review';
+import Reviewed from '../reviewed/Reviewed';
 export default function PersonalPage() {
     const user = getUser();
   return (
@@ -18,8 +19,9 @@ export default function PersonalPage() {
           <Route path="/:id" element={<Customer />} />
           <Route path='/listorder' element ={<ListOrder customer = {user}/>}/>
           <Route path='/orderdetail/:id' element={<DonDatCT/>}/>
-          <Route path='/purchased-product' element={<ListPurchased customer = {user}/>}/>
-          <Route path='/purchase-product/rating/:id' element={<Review/>}/>
+          <Route path='/review-product' element={<ListPurchased customer = {user}/>}/>
+          <Route path='/review-product/rating/:id' element={<Review/>}/>
+          <Route path='/reviewed-product/:id' element={<Reviewed/>}/>
         </Routes>
     </div>
   )

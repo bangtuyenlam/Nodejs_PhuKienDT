@@ -9,7 +9,7 @@ function Reviewed() {
   const customerId = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect( () => {
     getData();
   }, []);
 
@@ -64,32 +64,32 @@ function Reviewed() {
       headerName: 'Số sao',
       width: 150,
       renderCell: (params) => {
-        console.log(params);
         return   <div>
         <Rating
           key={params.DG_Diem}
           name="rating"
           defaultValue={params.row.DG_Diem}
           className="productReviewRating"
+          readOnly
         />
     
       </div>
       }
     },
-    {
-      field: "action",
-      headerName: "Điều khiển",
-      width: 151,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/personal/review-product/rating/${params.row.SP_Ma}`}>
-              <button className="productManagerEdit">Đánh giá</button>
-            </Link>
-          </>
-        );
-      },
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Điều khiển",
+    //   width: 151,
+    //   renderCell: (params) => {
+    //     return (
+    //       <>
+    //         <Link to={`/personal/review-product/rating/${params.row.SP_Ma}`}>
+    //           <button className="productManagerEdit">Đánh giá</button>
+    //         </Link>
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   return (

@@ -61,6 +61,7 @@ export default function Featuredinfo() {
         renderCell: (params) => {
             if (params.row.Trangthai === 0) return <div>Chưa duyệt</div>;
             else if (params.row.Trangthai === 1) return <div>Đã duyệt</div>;
+            else return <div>Đã nhận hàng</div>;
         }
     },
      {

@@ -15,6 +15,43 @@ let listProduct = async (req, res) => {
   }
 };
 
+let productVsRating = async (req, res) => {
+  try {
+    const Sanpham = await db.Sanpham.findAll({
+      raw: true,
+      attributes: [
+        "id",
+        "LSP_Ma",
+        "DT_Ma",
+        "SP_Ten",
+        "SP_Gia",
+        "SP_Mota",
+        "Anhdaidien",
+        "Soluong",
+        "Mausac",
+        [
+          db.sequelize.fn("AVG", db.sequelize.col("Danhgia_SPs.DG_Diem")),
+          "DiemTB",
+        ],
+      ],
+      include: [
+        {
+          model: db.Danhgia_SP,
+          as: "Danhgia_SPs",
+          attributes: [],
+        },
+      ],
+      group: ["id"],
+    });
+    return res.json(Sanpham);
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+};
+
 let createProduct = (req, res) => {
   const LSP = req.body.loaisp;
   const DT = req.body.tendt;
@@ -24,7 +61,7 @@ let createProduct = (req, res) => {
   const Anh = req.file.filename;
   const Soluong = req.body.soluong;
   const Mausac = req.body.mausac;
-  
+
   try {
     if (!LSP || !DT || !TenSP || !Gia || !Mota || !Anh || !Soluong || !Mausac) {
       return res.status(402).json({
@@ -57,7 +94,6 @@ let createProduct = (req, res) => {
 let ProductId = async (req, res) => {
   const Id = req.params.id;
   try {
- 
     const product = await db.Sanpham.findAll({
       raw: true,
       where: {
@@ -70,9 +106,24 @@ let ProductId = async (req, res) => {
         {
           model: db.Dienthoai,
         },
+        {
+          model: db.Danhgia_SP,
+          include: [
+            {
+              model: db.Khachhang,
+              attributes: [],
+              include: [
+                {
+                  model: db.Taikhoan,
+                  attributes: ["TenTK"],
+                },
+              ],
+            },
+          ],
+        },
       ],
     });
-    if (product[0]) return res.json(product[0]);
+    if (product) return res.json(product);
     else return res.status(404).json("Không tồn tại sản phẩm!");
   } catch (err) {
     return res.status(500).json({
@@ -82,7 +133,7 @@ let ProductId = async (req, res) => {
   }
 };
 
-let ProductUpdate =  (req, res) => {
+let ProductUpdate = (req, res) => {
   const id = req.body.id;
   const LSP = req.body.loaisp;
   const DT = req.body.tendt;
@@ -138,8 +189,8 @@ let deleteProduct = async (req, res) => {
       message: "Lỗi server",
     });
   }
-  const url = path.join(__dirname, '../', `image/${avatar}`);
-  
+  const url = path.join(__dirname, "../", `image/${avatar}`);
+
   fs.unlink(url, (err) => {
     if (err) {
       console.error(err);
@@ -148,88 +199,74 @@ let deleteProduct = async (req, res) => {
   });
 };
 
-let danhsachdondat = (makh) => 
-{
+let danhsachdondat = (makh) => {
   try {
     const dondat = db.Dondatct.findAll({
-      raw: true,  
-      attributes: ['id', 'SP_Ma'],
+      raw: true,
+      attributes: ["id", "SP_Ma"],
       include: [
-      {
-        model: db.Dondat,
-        as: "Dondat",
-        include: [
-          {
-            model: db.Khachhang,
-            as: "Khachhang"
+        {
+          model: db.Dondat,
+          as: "Dondat",
+          include: [
+            {
+              model: db.Khachhang,
+              as: "Khachhang",
+            },
+          ],
+          where: {
+            KH_Ma: makh,
           },
-          
-        ],
-        where: {
-          KH_Ma: makh
         },
-      },
-      {
-        model: db.Sanpham,
-        as: "Sanpham"
-      }
-    ],
-    
+        {
+          model: db.Sanpham,
+          as: "Sanpham",
+        },
+      ],
     });
     return dondat;
-    
-  } 
-  catch (err) {
-    
-  }
-}
+  } catch (err) {}
+};
 
 let khachhangdanhgia = (makh) => {
-  try{
+  try {
     const sp = db.Danhgia_SP.findAll({
       raw: true,
       attributes: ["SP_Ma"],
       where: {
-        KH_Ma: makh
-      }
+        KH_Ma: makh,
+      },
     });
     return sp;
-
-  }catch(err) {
-
-  }
-}
-
-
+  } catch (err) {}
+};
 
 let productPurchased = async (req, res) => {
   const makh = req.body.makh;
   const result = [];
-  try{
-  const dsdondat = await danhsachdondat(makh);
-  const sanpham = await khachhangdanhgia(makh);
-  dsdondat.filter((item, index) => {
-    //Loại bỏ sản phẩm trùng nhau
-    if(dsdondat.findIndex(i => i.SP_Ma === item.SP_Ma) === index)
-    result.push(item);
-  });
+  try {
+    const dsdondat = await danhsachdondat(makh);
+    const sanpham = await khachhangdanhgia(makh);
+    dsdondat.filter((item, index) => {
+      //Loại bỏ sản phẩm trùng nhau
+      if (dsdondat.findIndex((i) => i.SP_Ma === item.SP_Ma) === index)
+        result.push(item);
+    });
 
-  result.filter((item, index) => {
-    sanpham.map((sp) => {
-       if(sp.SP_Ma === item.SP_Ma)
-        result.splice(index, 1);
-    })
-  })
-  
-  return res.json(result);
-  }
-  catch(err) {
+    //Loại bỏ sản phẩm đã đánh giá
+    sanpham.filter((item) => {
+      result.map((sp, index) => {
+        if (sp.SP_Ma === item.SP_Ma) result.splice(index, 1);
+      });
+    });
+    return res.json(result);
+  } catch (err) {
     return res.status(500).json({
       error: true,
       message: "Lỗi server",
     });
   }
-}
+};
 
 let reviewProduct = (req, res) => {
   const MaKH = req.body.MaKH;
@@ -237,30 +274,29 @@ let reviewProduct = (req, res) => {
   const noidung = req.body.noidung;
   const diem = req.body.diem;
   const ngay = req.body.ngay;
-  try{
-  if(diem === null || diem === 0) 
-  return res.status(402).json({
-    err: true,
-    message: "Vui lòng đánh giá sao cho sản phẩm!!!"
-  });
-  else{
-    db.Danhgia_SP.create({
-      KH_Ma: MaKH,
-      SP_Ma: MaSP,
-      Noidung: noidung,
-      DG_Diem: diem,
-      DG_Ngay: ngay
-    });
-    return res.json({
-      review: true,
-      message: "Thêm sản phẩm thành công",
-    });
+  try {
+    if (diem === null || diem === 0)
+      return res.status(402).json({
+        err: true,
+        message: "Vui lòng đánh giá sao cho sản phẩm!!!",
+      });
+    else {
+      db.Danhgia_SP.create({
+        KH_Ma: MaKH,
+        SP_Ma: MaSP,
+        Noidung: noidung,
+        DG_Diem: diem,
+        DG_Ngay: ngay,
+      });
+      return res.json({
+        review: true,
+        message: "Thêm sản phẩm thành công",
+      });
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
   }
-}
-catch(error) {
-  res.status(400).send(error.message);
-}
-}
+};
 
 module.exports = {
   listProduct: listProduct,
@@ -270,4 +306,5 @@ module.exports = {
   deleteProduct: deleteProduct,
   productPurchased: productPurchased,
   reviewProduct: reviewProduct,
+  productVsRating: productVsRating,
 };

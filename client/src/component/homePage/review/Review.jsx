@@ -34,8 +34,8 @@ export default function Review() {
       });
   }, []);
 
-  const handleReview = () => {
-    axios
+  const handleReview = async () => {
+   await axios
       .post("/sanpham/danhgia", {
         MaKH: user["Khachhang.id"],
         MaSP: productId.id,
@@ -44,7 +44,7 @@ export default function Review() {
         ngay: ngaydanhgia,
       })
       .then((res) => {
-       navigate(`/personal/reviewed-product/${productId.id}`)
+       navigate(`/personal/reviewed-product/${user["Khachhang.id"]}`)
       })
       .catch((error) => {
         if (error.response.status === 402) {
@@ -119,6 +119,7 @@ export default function Review() {
                 />
             
               </div>
+              {error && <div className="error">{error}</div>}
               <div>
                 <textarea
                   rows={8}

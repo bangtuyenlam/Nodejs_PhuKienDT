@@ -23,6 +23,7 @@ router.post("/dadat", sanphamController.productPurchased);
 router.post("/danhgia", sanphamController.reviewProduct);
 router.post("/:id", sanphamController.ProductId);
 router.delete("/xoa/:id", sanphamController.deleteProduct);
+router.get("/sp", sanphamController.productVsRating);
 router.get("/", sanphamController.listProduct);
 
 module.exports = router;

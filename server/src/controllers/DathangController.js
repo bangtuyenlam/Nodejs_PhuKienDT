@@ -93,6 +93,10 @@ const DanhSachDonDatTheoKhachHang = async (req, res) => {
       where: {
         KH_Ma: makh
       },
+      order: [
+        ['Ngaydat', 'DESC'],
+        ['Trangthai', 'ASC'],
+    ],
     });
     return res.json(dondat);
   } 
@@ -169,6 +173,28 @@ const DuyetDonHang = (req, res) => {
   }
 }
 
+const NhanHang = (req, res) => {
+  const MaDD = req.params.id;
+  const trangthai = req.body.trangthai;
+  try{
+    db.Dondat.update({
+      Trangthai: trangthai
+    },
+    {where: {
+      id: MaDD
+    }}
+    )
+    return res.json({
+      status: true
+    })
+  }catch(err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server"
+    });
+  }
+}
+
 const XoaDonDat = async (req, res) => {
   const id = req.params.id;
   const ddct = req.body.ddct;
@@ -207,4 +233,5 @@ module.exports = {
     DuyetDonHang: DuyetDonHang,
     DanhSachDonDatTheoKhachHang: DanhSachDonDatTheoKhachHang,
     XoaDonDat: XoaDonDat,
+    NhanHang: NhanHang
 }

@@ -11,7 +11,8 @@ function Navbar({size}) {
    const handleLogout = () => {
     removeUserSession();
   // window.open("http://localhost:5000/auth/logout", "_self");
-    navigate("/");
+    // navigate("/");
+    window.location.href = "/"
   };
 
   return (

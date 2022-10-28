@@ -7,6 +7,7 @@ import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
 import axios from "axios";
 import { getUser } from "../../../Utils/Common";
 import { useNavigate } from "react-router";
+
 export default function DonDatCT() {
   const navigate = useNavigate();
   const user = getUser();
@@ -16,6 +17,7 @@ export default function DonDatCT() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [slKho, setSlKho] = useState([]);
   const [isReceive, setIsReceive] = useState();
+  const [stateString, setStateString] = useState("");
   var totalPrice = 0;
 
   useEffect(() => {
@@ -24,6 +26,11 @@ export default function DonDatCT() {
       .then((res) => {
         setDondatct(res.data.dondatct);
         setDondat(res.data.dondat[0]);
+        if(res.data.dondat[0].Trangthai === 0)
+          setStateString("Đang chuẩn bị hàng");
+         else if(res.data.dondat[0].Trangthai === 1)
+          setStateString("Đang giao hàng");
+          else setStateString("Đã nhận được hàng")
       })
       .catch((err) => {
         if (err.response.status === 404)
@@ -37,8 +44,16 @@ export default function DonDatCT() {
   };
 
   const handleFinish = () => {
-    setIsReceive(true);
-    navigate("/personal/review-product");
+    axios
+      .post(`/dathang/nhanhang/${dondatId.id}`, {
+        trangthai: 2,
+      })
+      .then(() => {
+        navigate("/personal/review-product");
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+      });
   };
 
   const handleDelete = (id) => {
@@ -70,6 +85,7 @@ export default function DonDatCT() {
                         <div className="form-group mb-3">
                           <label>Họ tên khách hàng</label>
                           <input
+                            key={dondat["Khachhang.KH_Hoten"]}
                             readOnly={true}
                             type="text"
                             name="name"
@@ -82,6 +98,7 @@ export default function DonDatCT() {
                         <div className="form-group mb-3">
                           <label>Số điện thoại</label>
                           <input
+                            key={dondat["Khachhang_KH_SDT"]}
                             readOnly={true}
                             type="text"
                             name="phone"
@@ -94,6 +111,7 @@ export default function DonDatCT() {
                         <div className="form-group mb-3">
                           <label>Email</label>
                           <input
+                            key={dondat["Khachhang.KH_Email"]}
                             readOnly={true}
                             type="email"
                             name="email"
@@ -108,6 +126,7 @@ export default function DonDatCT() {
                             <label>Ngày giao</label>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <DateTimePicker
+                                key={selectedDate}
                                 id="date-picker-dialog"
                                 format="dd/MM/yyyy hh:mm a"
                                 value={selectedDate}
@@ -123,6 +142,7 @@ export default function DonDatCT() {
                             <label>Ngày giao</label>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <DateTimePicker
+                                key={dondat.Ngaygiao}
                                 id="date-picker-dialog"
                                 format="dd/MM/yyyy hh:mm a"
                                 value={dondat.Ngaygiao}
@@ -133,37 +153,25 @@ export default function DonDatCT() {
                           </div>
                         </div>
                       )}
-                      {dondat.Trangthai === 0 ? (
-                        <div className="col-md-12">
-                          <div className="form-group mb-3">
-                            <label>Trạng thái đơn hàng</label>
-                            <input
+                      <div className="col-md-12">
+                        <div className="form-group mb-3">
+                          <label>Trạng thái đơn hàng</label>
+                          
+                           <input
+                            key={"trangthai"}
                               readOnly={true}
                               type="email"
                               name="email"
                               className="form-control"
-                              value={"Đang chuẩn bị hàng"}
-                            ></input>
-                          </div>
+                              value={stateString}
+                            ></input> 
                         </div>
-                      ) : (
-                        <div className="col-md-12">
-                          <div className="form-group mb-3">
-                            <label>Trạng thái đơn hàng</label>
-                            <input
-                              readOnly={true}
-                              type="email"
-                              name="email"
-                              className="form-control"
-                              value={"Đang giao hàng"}
-                            ></input>
-                          </div>
-                        </div>
-                      )}
+                      </div>
                       <div className="col-md-12">
                         <div className="form-group mb-3">
                           <label>Địa chỉ nhận hàng</label>
                           <textarea
+                            key={dondat["Khachhang.KH_Diachi"]}
                             readOnly={true}
                             rows={2}
                             type="text"
@@ -179,6 +187,7 @@ export default function DonDatCT() {
                           <div className="form-group mb-3">
                             <label>Ghi chú</label>
                             <textarea
+                              key={dondat.Ghichu}
                               readOnly={true}
                               rows={3}
                               type="text"
@@ -197,6 +206,7 @@ export default function DonDatCT() {
                         <div className="form-group mb-3">
                           {dondat.Trangthai === 0 ? (
                             <button
+                              key={dondat.id}
                               type="button"
                               name="email"
                               className="btn btn-danger"
@@ -209,7 +219,7 @@ export default function DonDatCT() {
                           )}
                         </div>
                       </div>
-                      {isReceive === false ? (
+                      {dondat.Trangthai !== 2 ? (
                         <div className="col-md-6">
                           <div className="form-group mb-3">
                             <button
@@ -225,7 +235,7 @@ export default function DonDatCT() {
                         </div>
                       ) : (
                         <div className="col-md-6">
-                          <div className="form-group mb-3">
+                          {/* <div className="form-group mb-3">
                             <button
                               key={"nhanhang"}
                               type="button"
@@ -235,7 +245,7 @@ export default function DonDatCT() {
                             >
                               Đã nhận được hàng
                             </button>
-                          </div>
+                          </div> */}
                         </div>
                       )}
                     </div>

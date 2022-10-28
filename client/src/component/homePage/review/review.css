@@ -111,6 +111,12 @@
     align-items: center;
 }
 
+.error {
+    color: rgb(196, 19, 19);
+    margin-bottom:10px ;
+  }
+
+
 /* .productReview {
     display: flex;
     flex-direction: column;

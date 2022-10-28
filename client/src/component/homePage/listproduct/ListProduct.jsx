@@ -5,13 +5,14 @@ import { getUser } from "../../../Utils/Common";
 import { Pagination } from "@material-ui/lab";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import CategoryList from "../categorylist/CategoryList";
 function ListProduct({ handleClick }) {
   const user = getUser();
   const [products, setProducts] = useState();
   const [categoryList, setCategoryList] = useState([]);
   const [filter, setFilter] = useState(products);
   const [amount, setAmount] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading,setLoading] = useState(true);
   useEffect(() => {
     getData();
     getCategory();
@@ -29,9 +30,11 @@ function ListProduct({ handleClick }) {
       });
   };
 
+
+
   const getData = () => {
      axios
-      .get("/sanpham")
+      .get("/sanpham/sp")
       .then((res) => {
         setProducts(res.data);
         setFilter(res.data);
@@ -62,11 +65,97 @@ function ListProduct({ handleClick }) {
     );
   };
 
-  const CategoryList = () => {
-    return (
-      <>
+  // const CategoryList = () => {
+  //   return (
+  //     <>
+  //       <div className="buttons d-flex justify-content-center mb-5 pb-5">
+  //         <button
+  //           key={0}
+  //           className="btn btn-outline-dark me-2"
+  //           onClick={() => setFilter(products)}
+  //         >
+  //           Tất cả sản phẩm
+  //         </button>
+  //         {categoryList &&
+  //           categoryList.map((value) => {
+  //             return (
+  //               <button
+  //                 key={value.id}
+  //                 className="btn btn-outline-dark me-2"
+  //                 onClick={() => getid(value.id)}
+  //               >
+  //                 {value.LSP_Ten}
+  //               </button>
+  //             );
+  //           })}
+  //       </div>
+  //       {loading ? (
+  //         <Loading />
+  //       ) : (
+  //         filter &&
+  //         filter.map((product) => {
+  //           return (
+  //             <>
+  //               {setAmount((product.amount = 1))}
+  //               <div className="col-md-3 mb-4">
+  //                 <div className="card h-100 text-center p-4" key={product.id}>
+  //                   <Link to={`/product/${product.id}`}>
+  //                     <img
+  //                       key={product.id}
+  //                       src={`http://localhost:5000/image/${product.Anhdaidien}`}
+  //                       alt="Anh dai dien"
+  //                       className="card-img-top"
+  //                       height="180px"
+  //                     />
+  //                   </Link>
+  //                   <div className="card-body">
+  //                     <p className="card-title">
+  //                       <b key={product.SP_Ten}>{product.SP_Ten.substring(0, 50)}</b>
+  //                     </p>
+  //                     <p className="card-text lead fw-bold" key={product.SP_Gia}>
+  //                       {product.SP_Gia} VNĐ
+  //                     </p>
+
+  //                     {user !== null ? (
+  //                       <button
+  //                         className="btn btn-outline-dark"
+  //                         onClick={() => handleClick(product)}
+  //                       >
+  //                         Thêm vào giỏ hàng
+  //                       </button>
+  //                     ) : (
+  //                       <Link className="btn btn-outline-dark" to={"/login"}>
+  //                         Đăng nhập/Đăng ký để mua hàng
+  //                       </Link>
+  //                     )}
+  //                   </div>
+  //                 </div>
+  //               </div>
+  //             </>
+  //           );
+  //         })
+  //       )}
+  //     </>
+  //   );
+  // };
+
+
+  // <section style={{display: "flex"}}>
+  // <div class="container py-5">
+  //   <div class="row">
+  //     <div class="col-md-12 col-lg-4 mb-4 mb-lg-0"> 
+  return (
+    <div>
+      <div className="container my-5 py-5">
+        <div className="row">
+          <div className="col-12 mb-5">
+            <h1 className="display-6 fw-bolder text-center">Tất cả sản phẩm</h1>
+            <hr />
+          </div>
+        </div>
+
         <div className="buttons d-flex justify-content-center mb-5 pb-5">
-          <button
+           <button
             key={0}
             className="btn btn-outline-dark me-2"
             onClick={() => setFilter(products)}
@@ -86,69 +175,22 @@ function ListProduct({ handleClick }) {
               );
             })}
         </div>
-        {loading ? (
-          <Loading />
+        <div>
+      
+        <div className="row" >
+             {loading ? (
+          <Loading/>
         ) : (
           filter &&
-          filter.map((product) => {
-            return (
-              <>
-                {setAmount((product.amount = 1))}
-                <div className="col-md-3 mb-4">
-                  <div className="card h-100 text-center p-4" key={product.id}>
-                    <Link to={`/product/${product.id}`}>
-                      <img
-                        key={product.id}
-                        src={`http://localhost:5000/image/${product.Anhdaidien}`}
-                        alt="Anh dai dien"
-                        className="card-img-top"
-                        height="180px"
-                      />
-                    </Link>
-                    <div className="card-body">
-                      <p className="card-title">
-                        <b key={product.SP_Ten}>{product.SP_Ten.substring(0, 50)}</b>
-                      </p>
-                      <p className="card-text lead fw-bold" key={product.SP_Gia}>
-                        {product.SP_Gia} VNĐ
-                      </p>
-
-                      {user !== null ? (
-                        <button
-                          className="btn btn-outline-dark"
-                          onClick={() => handleClick(product)}
-                        >
-                          Thêm vào giỏ hàng
-                        </button>
-                      ) : (
-                        <Link className="btn btn-outline-dark" to={"/login"}>
-                          Đăng nhập/Đăng ký để mua hàng
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </>
-            );
-          })
-        )}
-      </>
-    );
-  };
-  return (
-    <div>
-      <div className="container my-5 py-5">
-        <div className="row">
-          <div className="col-12 mb-5">
-            <h1 className="display-6 fw-bolder text-center">Tất cả sản phẩm</h1>
-            <hr />
-          </div>
-        </div>
-
-        <div className="row justify-content-center">
-          <CategoryList />
-        </div>
+        
+         
+            <CategoryList products={filter} handleClick = {handleClick}/>
+          
+           )}
+           </div>
+     </div>
       </div>
+     
     </div>
   );
 }

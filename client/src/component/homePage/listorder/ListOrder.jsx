@@ -4,8 +4,9 @@ import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
 import { Link} from 'react-router-dom';
 import dateFormat from 'dateformat';
-
+import { useNavigate } from "react-router";
 export default function ListOrder({customer}) {
+  const navigate = useNavigate();
     const [dondat, setDondat] = useState([]);
     // const [sortModel, setSortModel] = useState([
     //   {
@@ -17,6 +18,11 @@ export default function ListOrder({customer}) {
     //   field: "Ngaydat",
     //   sort: "desc"
     // }]
+
+    
+  // const handleSortModelChange = (newModel) => {
+  //   setSortModel(newModel);
+  // };
   
     useEffect( () => {
       getData();
@@ -34,6 +40,19 @@ export default function ListOrder({customer}) {
          console.log(err + " Không thể lấy được danh sách đơn đặt");
      }
        )};
+
+       const handleFinish = (id) => {
+        axios
+          .post(`/dathang/nhanhang/${id}`, {
+            trangthai: 2,
+          })
+          .then(() => {
+            navigate("/personal/review-product");
+          })
+          .catch((err) => {
+            console.log(err.response.data.message);
+          });
+      };
    
    
      const columns = [
@@ -57,6 +76,7 @@ export default function ListOrder({customer}) {
           renderCell: (params) => {
               if (params.row.Trangthai === 0) return <div>Chuẩn bị hàng</div>;
               else if (params.row.Trangthai === 1) return <div>Đang giao</div>;
+              else if (params.row.Trangthai === 2) return <div>Đã nhận hàng</div>
           }
       },
        {
@@ -70,9 +90,12 @@ export default function ListOrder({customer}) {
              <Link to={`/personal/orderdetail/${params.row.id}`}>
              <button className="employeeManagerEdit">Chi tiết</button>
              </Link>
-             <Link to={`/personal/review-product`}>
-             <button className="employeeManagerEdit">Đã nhận hàng</button>
-             </Link>            
+             {params.row.Trangthai !== 2 ? (
+ <Link to={`/personal/review-product`} onClick = {() => handleFinish(params.row.id)}>
+             <button className="employeeManagerEdit" >Đã nhận hàng</button>
+             
+             </Link>
+             ) : (<></>)}          
              </>
            )
          }
@@ -85,14 +108,14 @@ export default function ListOrder({customer}) {
       </div>
       {dondat && (
        <DataGrid
-       
+       key={"dondat"}
         rows={dondat}
         columns={columns}
-        pageSize={8}
+        pageSize={7}
         checkboxSelection
         disableSelectionOnClick
-        // sortModel={sortModel}
-        // onSortModelChange={(model) => setSortModel(model)}
+        //sortModel={sortModel}
+        // onSortModelChange={handleSortModelChange}
       />
       )
   }

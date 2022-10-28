@@ -15,7 +15,7 @@ function Footer() {
     <div>
       <footer
         className="text-center text-lg-start bg-light text-muted"
-        style={{ marginTop: "20px" }}
+        style={{ marginTop: "20px"}}
       >
         <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
           <div className="me-5 d-none d-lg-block">

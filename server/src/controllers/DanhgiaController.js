@@ -21,6 +21,7 @@ let listReview = async(req, res) => {
     }
 };
 
+
 module.exports = {
-    listReview: listReview
+    listReview: listReview,
 };

@@ -57,7 +57,19 @@ module.exports = {
             .addConstraint("Dondatcts", {
               type: "FOREIGN KEY",
               fields: ["sp_ma"],
-              name: "FK_SP_DDCT_00",
+              name: "FK_SP_DDCT_04",
+              references: {
+                table: "Sanphams",
+                field: "id",
+              },
+      })
+      .then(
+        async () =>
+          await queryInterface
+            .addConstraint("Binhluans", {
+              type: "FOREIGN KEY",
+              fields: ["sp_ma"],
+              name: "FK_SP_BL_04",
               references: {
                 table: "Sanphams",
                 field: "id",
@@ -69,7 +81,7 @@ module.exports = {
                   .addConstraint("Danhgia_SPs", {
                     type: "FOREIGN KEY",
                     fields: ["sp_ma"],
-                    name: "FK_SP_DG_00",
+                    name: "FK_SP_DG_04",
                     references: {
                       table: "Sanphams",
                       field: "id",
@@ -81,7 +93,7 @@ module.exports = {
                         .addConstraint("Hinhanhs", {
                           type: "FOREIGN KEY",
                           fields: ["sp_ma"],
-                          name: "FK_SP_HA_00",
+                          name: "FK_SP_HA_04",
                           references: {
                             table: "Sanphams",
                             field: "id",
@@ -90,10 +102,22 @@ module.exports = {
                         .then(
                           async () =>
                             await queryInterface
+                              .addConstraint("Phieunhapcts", {
+                                type: "FOREIGN KEY",
+                                fields: ["sp_ma"],
+                                name: "FK_PNCT_SP_04",
+                                references: {
+                                  table: "Sanphams",
+                                  field: "id",
+                                },
+                        })
+                        .then(
+                          async () =>
+                            await queryInterface
                               .addConstraint("Sanphams", {
                                 type: "FOREIGN KEY",
                                 fields: ["lsp_ma"],
-                                name: "FK_LSP_SP_00",
+                                name: "FK_LSP_SP_04",
                                 references: {
                                   table: "Loaisanphams",
                                   field: "id",
@@ -106,7 +130,7 @@ module.exports = {
                                     {
                                       type: "FOREIGN KEY",
                                       fields: ["dt_ma"],
-                                      name: "FK_DT_SP_00",
+                                      name: "FK_DT_SP_04",
                                       references: {
                                         table: "Dienthoais",
                                         field: "id",
@@ -117,6 +141,8 @@ module.exports = {
                         )
                   )
             )
+      )
+    )
       );
   },
   down: async (queryInterface, Sequelize) => {

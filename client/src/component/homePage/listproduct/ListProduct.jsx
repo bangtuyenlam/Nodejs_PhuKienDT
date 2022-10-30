@@ -12,11 +12,13 @@ function ListProduct({ handleClick }) {
   const [categoryList, setCategoryList] = useState([]);
   const [filter, setFilter] = useState(products);
   const [amount, setAmount] = useState();
-  const [loading,setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [limit, setLimit] = useState(12);
+  const [countProducts, setCountProducts] = useState();
   useEffect(() => {
     getData();
     getCategory();
-  }, []);
+  }, [limit]);
 
   const getCategory = () => {
     axios
@@ -30,15 +32,15 @@ function ListProduct({ handleClick }) {
       });
   };
 
-
-
-  const getData = () => {
-     axios
-      .get("/sanpham/sp")
+  const getData = async () => {
+    await axios
+      .post("/sanpham/sp", {
+        limit: limit,
+      })
       .then((res) => {
-        setProducts(res.data);
-        setFilter(res.data);
-        // console.log(res.data);
+        setProducts(res.data.rows);
+        setFilter(res.data.rows);
+        setCountProducts(res.data.count.length);
       })
       .catch((err) => {
         console.log(err + " Không thể lấy được sản phẩm");
@@ -64,6 +66,14 @@ function ListProduct({ handleClick }) {
       </>
     );
   };
+
+  const loadMore = () => {
+    setLimit(limit+4);
+  }
+
+  const shortCut = () => {
+    setLimit(12);
+  }
 
   // const CategoryList = () => {
   //   return (
@@ -139,23 +149,22 @@ function ListProduct({ handleClick }) {
   //   );
   // };
 
-
   // <section style={{display: "flex"}}>
   // <div class="container py-5">
   //   <div class="row">
-  //     <div class="col-md-12 col-lg-4 mb-4 mb-lg-0"> 
+  //     <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
   return (
     <div>
       <div className="container my-5 py-5">
         <div className="row">
-          <div className="col-12 mb-5">
+          <div className="col-12 mb-1">
             <h1 className="display-6 fw-bolder text-center">Tất cả sản phẩm</h1>
             <hr />
           </div>
         </div>
 
-        <div className="buttons d-flex justify-content-center mb-5 pb-5">
-           <button
+        <div className="buttons d-flex justify-content-center mb-1 pb-5">
+          <button
             key={0}
             className="btn btn-outline-dark me-2"
             onClick={() => setFilter(products)}
@@ -176,21 +185,28 @@ function ListProduct({ handleClick }) {
             })}
         </div>
         <div>
-      
-        <div className="row" >
-             {loading ? (
-          <Loading/>
-        ) : (
-          filter &&
-        
-         
-            <CategoryList products={filter} handleClick = {handleClick}/>
+          <div className="row">
+            {loading ? (
+              <Loading />
+            ) : (
+              filter && (
+                <CategoryList products={filter} handleClick={handleClick} />
+              )
+            )}
+          </div>
+        </div>
+        {  limit < countProducts ? (
+        <div className="d-grid gap-2 col-3 mx-auto">
+            <div className="btn btn-outline-secondary w-100" onClick={loadMore}>Xem thêm sản phẩm</div>
+            
+          </div>)
+          : ( <div className="d-grid gap-2 col-3 mx-auto">
+          <div className="btn btn-outline-secondary w-100" onClick={shortCut}>Rút gọn</div>
           
-           )}
-           </div>
-     </div>
+        </div>)
+}
       </div>
-     
+        
     </div>
   );
 }

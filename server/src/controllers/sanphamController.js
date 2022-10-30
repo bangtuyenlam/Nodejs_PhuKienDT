@@ -1,6 +1,7 @@
 const db = require("../models/index");
 const path = require("path");
 const fs = require("fs");
+
 let listProduct = async (req, res) => {
   try {
     const Sanpham = await db.Sanpham.findAll({
@@ -16,8 +17,10 @@ let listProduct = async (req, res) => {
 };
 
 let productVsRating = async (req, res) => {
+  const limit = req.body.limit;
+  console.log(limit);
   try {
-    const Sanpham = await db.Sanpham.findAll({
+    const Sanpham = await db.Sanpham.findAndCountAll({
       raw: true,
       attributes: [
         "id",
@@ -41,16 +44,21 @@ let productVsRating = async (req, res) => {
           attributes: [],
         },
       ],
+limit : limit,
+subQuery:false,
       group: ["id"],
     });
+  
     return res.json(Sanpham);
   } catch (err) {
+    console.log("Lỗi");
     return res.status(500).json({
       error: true,
       message: "Lỗi server",
     });
   }
 };
+
 
 let createProduct = (req, res) => {
   const LSP = req.body.loaisp;

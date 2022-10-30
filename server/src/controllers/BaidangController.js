@@ -23,6 +23,7 @@ let createPost = (req, res) => {
   const Noidung = req.body.noidung;
   const BD_Hinhanh = req.file.filename;
   const Ngaydang = req.body.ngaydang;
+  const TL_Ma = req.body.theloai;
   try {
     if (!NV_Ma || !Tieude || !Noidung || !BD_Hinhanh || !Ngaydang) {
       return res.status(402).json({
@@ -32,6 +33,7 @@ let createPost = (req, res) => {
     } else {
       db.Baidang.create({
         NV_Ma: NV_Ma,
+        TL_Ma: TL_Ma,
         Tieude: Tieude,
         Noidung: Noidung,
         BD_Hinhanh: BD_Hinhanh,

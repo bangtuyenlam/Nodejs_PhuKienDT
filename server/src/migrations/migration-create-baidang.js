@@ -15,6 +15,10 @@ module.exports = {
         // },
         allowNull: false,
       },
+      tl_ma: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
       tieude: {
         type: Sequelize.DataTypes.STRING,
       },

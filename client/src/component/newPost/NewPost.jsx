@@ -4,19 +4,24 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import dateFormat from 'dateformat';
 import { getUser} from "../../Utils/Common";
-
+import anh from "../image/martin-engel-44zXCbDd2WQ-unsplash.jpg";
 export default function NewPost() {
   const manv = getUser();
   const [tieude, setTieude] = useState("");
-  const [hinhanh, setHinhanh] = useState({ file: [] });
+  const [hinhanh, setHinhanh] = useState();
+  const [dstheloai, setDsTheloai] = useState([]);
+  const [theloai, setTheloai] = useState(1);
   const [noidung, setNoidung] = useState("");
+  const [url, setUrl] = useState();
   const ngaydang = new Date();
+  const [previewImg, setPreviewImg] = useState();
   const [error, setError] = useState();
   const navigate = useNavigate();
 
   const handleCreate = () => {
     const formdata = new FormData();
-    formdata.append("hinhanh", hinhanh.file);
+    formdata.append("hinhanh", hinhanh);
+    formdata.append("theloai", theloai);
     formdata.append("manv", manv["Nhanvien.id"]);
     formdata.append("tieude", tieude);
     formdata.append("noidung", noidung);
@@ -37,14 +42,39 @@ export default function NewPost() {
       });
   }; 
 
- 
+  useEffect(() => {
+    getCategory();
+    if (!hinhanh) {
+      setPreviewImg(undefined)
+      return
+  }
+
+  const objectUrl = window.URL.createObjectURL(hinhanh)
+  setPreviewImg(objectUrl)
+
+  return () => window.URL.revokeObjectURL(objectUrl)
+  }, [hinhanh])
+
+  const getCategory = () => {
+    axios.get("/theloai")
+    .then((res) => {
+      setDsTheloai(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  const selectChange = (value) => {
+    setTheloai(value.target.value);
+  }
  
   const uploadImage = (e) => {
-
-    setHinhanh({
-      ...hinhanh,
-      file: e.target.files[0],
-    });
+    if (!e.target.files || e.target.files.length === 0) {
+            setHinhanh(undefined)
+            return
+        }
+    setHinhanh(e.target.files[0]);
   };
 
   return (
@@ -60,10 +90,31 @@ export default function NewPost() {
             onChange={(value) => setTieude(value.target.value)}
           ></input>
         </div>
-
+        <div className="newPostItem">
+          <label>Thể loại</label>
+          <select
+            className="form-control"
+            id='theloai'
+            onChange={selectChange}
+          >
+              <option disabled default>
+                    Chọn thể loại
+                  </option>
+                
+            {dstheloai &&
+              dstheloai.map((val) => {
+                return (
+                  <option value={val.id} key={val.id}>
+                    {val.TL_Ten}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
         <div className="newPostItem">
           <label>Ảnh đại diện</label>
           <input type="file" id="file" onChange={uploadImage}></input>
+          <img src={previewImg} alt="" id="img" className='img-thumbnail mt-2'/>
         </div>
 
         <div className="newPostItem">
@@ -77,7 +128,7 @@ export default function NewPost() {
         </div>
         
         <div className="newPostItem">
-          <label> Người viết: {manv.TenTK}</label>
+          <label> Người đăng: {manv.TenTK}</label>
         </div>
         <button
           className="newPostButton"

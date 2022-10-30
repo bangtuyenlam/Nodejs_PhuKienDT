@@ -9,6 +9,7 @@ const dienthoaiRouter = require("./dienthoaiRouter");
 const dathangRouter = require("./dathangRouter");
 const authenticationRouter = require("./authenticationRouter");
 const danhgiaRouter = require("./danhgiaRouter");
+const theloaiRouter = require("./theloaiRouter");
 const googleLoginRouter = require("./googleLoginRouter");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
@@ -21,6 +22,7 @@ function route(app) {
   app.use("/baidang", baidangRouter, urlencodedParser, jsonParser);
   app.use("/dienthoai", dienthoaiRouter);
   app.use("/loaisp", loaispRouter);
+  app.use("/theloai", theloaiRouter);
   app.use("/dathang", dathangRouter, urlencodedParser, jsonParser);
   app.use("/sanpham", sanphamRouter,urlencodedParser, jsonParser);
   app.use("/danhgia", danhgiaRouter, urlencodedParser, jsonParser);

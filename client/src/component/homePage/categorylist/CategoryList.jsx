@@ -19,7 +19,6 @@ function CategoryList({ products, handleClick }) {
   //     });
   // };
 
-  console.log(products);
   const addcart = (product) => {
     if (user !== null) handleClick(product);
     else window.location.href = "/login";

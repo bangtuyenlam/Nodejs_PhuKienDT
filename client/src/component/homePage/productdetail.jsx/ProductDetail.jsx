@@ -7,6 +7,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Rating from "@material-ui/lab/Rating";
 import dateFormat from "dateformat";
+import { StarRate} from'@material-ui/icons';
 export default function ProductDetail({ handleClick }) {
   const productId = useParams();
   const [product, setProduct] = useState({});
@@ -155,7 +156,7 @@ export default function ProductDetail({ handleClick }) {
   <h4>Tỷ lệ sao</h4>
   <div className="pull-left">
     <div className="pull-left" style={{width:"35px", lineHeight:1}}>
-      <div style={{height:"9px", margin:"5px 0"}}>5 <span className="ms-auto text-warning"> </span></div>
+      <div style={{height:"9px", margin:"5px 0"}}>5<StarRate/></div>
     </div>
     <div className="pull-left" style={{width:"180px"}}>
       <div className="progress" style={{height:"9px", margin:"8px 0"}}>
@@ -168,7 +169,7 @@ export default function ProductDetail({ handleClick }) {
   </div>
   <div className="pull-left">
     <div className="pull-left" style={{width:"35px", lineHeight:1}}>
-      <div style={{height:"9px", margin:"5px 0"}}>4 <span className="glyphicon glyphicon-star"></span></div>
+      <div style={{height:"9px", margin:"5px 0"}}>4<StarRate/></div>
     </div>
     <div className="pull-left" style={{width:"180px"}}>
       <div className="progress" style={{height:"9px", margin:"8px 0"}}>
@@ -181,7 +182,7 @@ export default function ProductDetail({ handleClick }) {
   </div>
   <div className="pull-left">
     <div className="pull-left" style={{width:"35px", lineHeight:1}}>
-      <div style={{height:"9px", margin:"5px 0"}}>3 <span className="glyphicon glyphicon-star"></span></div>
+      <div style={{height:"9px", margin:"5px 0"}}>3<StarRate/></div>
     </div>
     <div className="pull-left" style={{width:"180px"}}>
       <div className="progress" style={{height:"9px", margin:"8px 0"}}>
@@ -194,7 +195,7 @@ export default function ProductDetail({ handleClick }) {
   </div>
   <div className="pull-left">
     <div className="pull-left" style={{width:"35px", lineHeight:1}}>
-      <div style={{height:"9px", margin:"5px 0"}}>2 <span className="glyphicon glyphicon-star"></span></div>
+      <div style={{height:"9px", margin:"5px 0"}}>2<StarRate/></div>
     </div>
     <div className="pull-left" style={{width:"180px"}}>
       <div className="progress" style={{height:"9px", margin:"8px 0"}}>
@@ -207,7 +208,7 @@ export default function ProductDetail({ handleClick }) {
   </div>
   <div className="pull-left">
     <div className="pull-left" style={{width:"35px", lineHeight:1}}>
-      <div style={{height:"9px", margin:"5px 0"}}>1 <span className="glyphicon glyphicon-star"></span></div>
+      <div style={{height:"9px", margin:"5px 0"}}>1<StarRate/></div>
     </div>
     <div className="pull-left" style={{width:"180px"}}>
       <div className="progress" style={{height:"9px", margin:"8px 0"}}>

@@ -57,10 +57,22 @@ module.exports = {
       .then(
         async () =>
           await queryInterface
+            .addConstraint("Binhluans", {
+              type: "FOREIGN KEY",
+              fields: ["nv_ma"],
+              name: "FK_NV_BL_04",
+              references: {
+                table: "Nhanviens",
+                field: "id",
+              },
+            })
+      .then(
+        async () =>
+          await queryInterface
             .addConstraint("Baidangs", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_BD_NV_00",
+              name: "FK_BD_NV_04",
               references: {
                 table: "Nhanviens",
                 field: "id",
@@ -71,13 +83,14 @@ module.exports = {
                 await queryInterface.addConstraint("Dondats", {
                   type: "FOREIGN KEY",
                   fields: ["nv_ma"],
-                  name: "FK_DD_NV_00",
+                  name: "FK_DD_NV_04",
                   references: {
                     table: "Nhanviens",
                     field: "id",
                   },
                 })
             )
+      )
       );
   },
   down: async (queryInterface, Sequelize) => {

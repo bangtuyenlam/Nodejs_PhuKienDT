@@ -1,9 +1,5 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /** SP_Ma: DataTypes.INTEGER,
-      DD_Ma: DataTypes.INTEGER,
-      Soluongdat: DataTypes.INTEGER,
-      Gia: DataTypes.FLOAT, */
     await queryInterface
       .createTable("Dondatcts", {
         id: {
@@ -42,7 +38,7 @@ module.exports = {
           await queryInterface.addConstraint("Dondatcts", {
             type: "FOREIGN KEY",
             fields: ["dd_ma"],
-            name: "FK_DDCT_DD_00",
+            name: "FK_DDCT_DD_04",
             references: {
               table: "Dondats",
               field: "id",

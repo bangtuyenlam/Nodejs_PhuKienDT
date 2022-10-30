@@ -26,7 +26,7 @@ module.exports = {
             .addConstraint("Nhanviens", {
               type: "FOREIGN KEY",
               fields: ["maquyen"],
-              name: "FK_NV_QSD_00",
+              name: "FK_NV_QSD_04",
               references: {
                 table: "Quyensudungs",
                 field: "id",
@@ -37,7 +37,7 @@ module.exports = {
                 await queryInterface.addConstraint("Khachhangs", {
                   type: "FOREIGN KEY",
                   fields: ["maquyen"],
-                  name: "FK_KH_QSD_00",
+                  name: "FK_KH_QSD_04",
                   references: {
                     table: "Quyensudungs",
                     field: "id",

@@ -1,0 +1,129 @@
+.employee{
+    flex: 4;
+    padding: 20px;
+}
+
+.employeeTitleContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.employeeContainer {
+    display: flex;
+    margin-top: 20px;
+}
+
+.employeeShow {
+    flex: 1;
+    padding: 2px;
+   
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow:  0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.employeeShowTop {
+    display: flex;
+    align-items: center;
+}
+.employeeShowImg {
+    width: 40px;
+    height: 40px;
+    background-repeat: 50%;
+    object-fit: cover;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.employeeEdit {
+    flex: 1.5;
+    padding: 2px;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow:  0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    margin-left: 20px;
+}
+
+.employeeShowTopTitle {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+}
+
+.employeeShowName{
+    font-weight: 600;
+}
+
+.employeeShowBottom {
+    margin-top: 20px;
+}
+
+.employeeShowTitle {
+    font-style: 14px;
+    font-weight: 600;
+    color: rgb(175, 170, 170);
+}
+
+.employeeShowInfo {
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+    color: #444;
+}
+
+.employeeShowIcon {
+    font-style: 16px, !important;
+    margin-left: 20px;
+}
+
+.employeeInfoTitle {
+    margin-left: 10px;
+    
+}
+
+.employeeUpdateTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.employeeUpdateForms {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+    margin-left: 20px;
+}
+
+.employeeUpdateItem {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.employeeUpdateItem>label{
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.employeeUpdateInput {
+    border: none;
+    width: 300px;
+    height: 30px;
+    border-bottom: 1px solid gray;
+}
+
+.employeeUpdateRight{
+    display: flex;
+    flex-direction: column;
+    justify-content:end;
+}
+
+.employeeUpdateButton{
+    cursor: pointer;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: cornflowerblue;
+    font-weight: 500;
+    width: 150px;
+}

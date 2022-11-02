@@ -1,0 +1,56 @@
+.productManager{
+    flex: 4;
+    padding-left: 20px;
+    padding-top: 5px;
+    height: 500px;
+}
+
+.productName{
+    display: flex;
+    align-items: center;
+}
+.productImg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.productManagerContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.productAddButton{
+    width: 80px;
+    border: none;
+    padding: 5px;
+    background-color: teal;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+}
+
+.productManagerEdit{
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #3bb077;
+    color: white;
+    cursor: pointer;
+    margin-right: 20px;  
+
+}
+
+.productManagerDelete{
+    color: red;
+    cursor: pointer;
+}
+
+.productManagerTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 20px;
+}

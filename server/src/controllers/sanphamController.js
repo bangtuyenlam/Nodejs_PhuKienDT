@@ -18,7 +18,6 @@ let listProduct = async (req, res) => {
 
 let productVsRating = async (req, res) => {
   const limit = req.body.limit;
-  console.log(limit);
   try {
     const Sanpham = await db.Sanpham.findAndCountAll({
       raw: true,
@@ -66,7 +65,7 @@ let createProduct = (req, res) => {
   const TenSP = req.body.tensp;
   const Gia = req.body.gia;
   const Mota = req.body.mota;
-  const Anh = req.file.filename;
+  const Anh = req.file === undefined ? null: req.file.filename;
   const Soluong = req.body.soluong;
   const Mausac = req.body.mausac;
 
@@ -99,7 +98,7 @@ let createProduct = (req, res) => {
   }
 };
 
-let ProductId = async (req, res) => {
+let ProductIdfromHome = async (req, res) => {
   const Id = req.params.id;
   try {
     const product = await db.Sanpham.findAll({
@@ -132,6 +131,33 @@ let ProductId = async (req, res) => {
       ],
     });
     if (product) return res.json(product);
+    else return res.status(404).json("Không tồn tại sản phẩm!");
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+};
+
+let ProductId = async (req, res) => {
+  const Id = req.params.id;
+  try {
+    const product = await db.Sanpham.findAll({
+      raw: true,
+      where: {
+        id: Id,
+      },
+      include: [
+        {
+          model: db.Loaisanpham,
+        },
+        {
+          model: db.Dienthoai,
+        },
+      ],
+    });
+    if (product) return res.json(product[0]);
     else return res.status(404).json("Không tồn tại sản phẩm!");
   } catch (err) {
     return res.status(500).json({
@@ -260,7 +286,6 @@ let productPurchased = async (req, res) => {
       if (dsdondat.findIndex((i) => i.SP_Ma === item.SP_Ma) === index)
         result.push(item);
     });
-
     //Loại bỏ sản phẩm đã đánh giá
     sanpham.filter((item) => {
       result.map((sp, index) => {
@@ -315,4 +340,5 @@ module.exports = {
   productPurchased: productPurchased,
   reviewProduct: reviewProduct,
   productVsRating: productVsRating,
+  ProductIdfromHome: ProductIdfromHome,
 };

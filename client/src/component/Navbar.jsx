@@ -2,12 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AddShoppingCart, ExitToApp, PersonAdd, Person, CancelPresentation } from "@material-ui/icons";
 import { getUser, removeUserSession, getToken } from "../Utils/Common";
-import { useNavigate } from "react-router";
 import SearchProduct from "./homePage/searchproduct/SearchProduct";
 function Navbar({size}) {
    const user = getUser();
    const token = getToken();
-   const navigate = useNavigate();
    const handleLogout = () => {
     removeUserSession();
   // window.open("http://localhost:5000/auth/logout", "_self");

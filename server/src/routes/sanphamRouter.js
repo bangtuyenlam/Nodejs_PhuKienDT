@@ -22,6 +22,7 @@ router.post("/them",upload.single('avatar'),sanphamController.createProduct);
 router.post("/dadat", sanphamController.productPurchased);
 router.post("/danhgia", sanphamController.reviewProduct);
 router.post("/sp", sanphamController.productVsRating);
+router.post("/home/:id", sanphamController.ProductIdfromHome);
 router.post("/:id", sanphamController.ProductId);
 router.delete("/xoa/:id", sanphamController.deleteProduct);
 router.get("/", sanphamController.listProduct);

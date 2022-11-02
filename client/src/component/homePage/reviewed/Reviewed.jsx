@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./review.css";
 import { DataGrid } from "@material-ui/data-grid";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Rating from "@material-ui/lab/Rating";
 function Reviewed() {
   const [reviews, setReviews] = useState([]);
   const customerId = useParams();
-  const navigate = useNavigate();
+
 
   useEffect( () => {
     getData();

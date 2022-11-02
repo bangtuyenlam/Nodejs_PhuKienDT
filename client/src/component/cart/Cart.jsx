@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react';
 import './cart.css';
 import {Link} from 'react-router-dom';
 
-function Cart({ cart, setCart, handleChange }) {
+function Cart({ cart, setCart, handleChange, xoa }) {
   const [price, setPrice] = useState(0);
-
   const handleRemove = (id) => {
     const arr = cart.filter((item) => item.id !== id);
     setCart(arr);
     handlePrice();
+    xoa(id);
   };
 
   const handlePrice = () => {
@@ -18,7 +18,7 @@ function Cart({ cart, setCart, handleChange }) {
   };
 
   useEffect(() => {
-    handlePrice();
+     handlePrice();
   });
   return (
     <article>

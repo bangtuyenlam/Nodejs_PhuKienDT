@@ -1,22 +1,22 @@
 import React from "react";
-import Topbar from "./topbar/Topbar";
-import Sidebar from "./sidebar/Sidebar";
-import HomeAdmin from "./adminpage/home/HomeAdmin";
+import Topbar from "./adminpage/topbar/Topbar";
+import Sidebar from "./adminpage/sidebar/Sidebar";
+import HomeAdmin from "./adminpage/homeadmin/HomeAdmin";
 import { Route, Routes } from "react-router-dom";
 import Customer from "./customer/Customer";
-import EmployeeManager from "./employeeManager/EmployeeManager";
-import Employee from "./employee/Employee";
-import CustomerManager from "./customerManager/CustomerManager";
+import EmployeeManager from "./adminpage/employeeManager/EmployeeManager";
+import Employee from "./adminpage/employee/Employee";
+import CustomerManager from "./adminpage/customerManager/CustomerManager";
 import "./admin.css";
-import NewCustomer from "./newCustomer/NewCustomer";
-import NewEmployee from "./newEmployee/NewEmployee";
-import ProductManager from "./productManager/ProductManager";
-import NewProduct from "./newProduct/NewProduct";
-import Product from "./product/Product";
-import PostManager from "./postManager/PostManager";
-import NewPost from "./newPost/NewPost";
-import Post from "./post/Post";
-import OrderDetail from "./orderDetail/OrderDetail";
+import NewCustomer from "./adminpage/newCustomer/NewCustomer";
+import NewEmployee from "./adminpage/newEmployee/NewEmployee";
+import ProductManager from "./adminpage/productManager/ProductManager";
+import NewProduct from "./adminpage/newProduct/NewProduct";
+import Product from "./adminpage/product/Product";
+import PostManager from "./adminpage/postManager/PostManager";
+import NewPost from "./adminpage/newPost/NewPost";
+import Post from "./adminpage/post/Post";
+import OrderDetail from "./adminpage/orderDetail/OrderDetail";
 function Admin() {
   return (
     <div>

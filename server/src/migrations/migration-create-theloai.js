@@ -24,7 +24,7 @@ module.exports = {
         .addConstraint("Baidangs", {
           type: "FOREIGN KEY",
           fields: ["tl_ma"],
-          name: "FK_TL_BD",
+          name: "FK_TL_BD_FK0",
           references: {
             table: "Theloai_BDs",
             field: "id",

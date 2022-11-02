@@ -56,9 +56,9 @@ function ListProduct({ handleClick }) {
     return (
       <>
         {filter &&
-          filter.map(() => {
+          filter.map((sp, i) => {
             return (
-              <div className="col-md-3 mb-4">
+              <div className="col-md-3 mb-4" key={i}>
                 <Skeleton height={300} />
               </div>
             );

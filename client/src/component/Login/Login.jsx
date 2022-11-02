@@ -72,7 +72,7 @@ function Login() {
       .get("/auth/login/success")
       .then((res) => {
         console.log(res.data.success);
-        if(res.data.success == true)
+        if(res.data.success === true)
         setUserSession(res.data.user[0].token, res.data.user[0]);
         else 
          console.log("Email này chưa đăng ký tài khoản");

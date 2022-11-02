@@ -8,17 +8,43 @@ import Cart from "./cart/Cart";
 import Checkout from "./homePage/checkout/Checkout";
 import Listpost from "./homePage/listpost/Listpost";
 import PostId from "./homePage/postid/PostId";
-import Post from "./post/Post";
 import PersonalPage from "./homePage/personalPage/PersonalPage";
 import { PrivateRoute } from "../Utils/PrivateRoute";
 
 export default function HomeRouter() {
   const [cart, setCart] = useState([]);
-
+  const [product, setProduct] = useState([]);
   const handleClick = (item) => {
     if (cart.indexOf(item) !== -1) return;
     setCart([...cart, item]);
   };
+
+  useEffect(() => {
+    let result = [];
+    cart !== []  && cart.filter((item, index) => {
+      //Loại bỏ sản phẩm trùng nhau
+      if (cart.findIndex((i) => i.id === item.id) === index)
+      {
+        result.push(item);
+      }
+      else{
+        console.log(item.id, item.amount);
+        result.map((product) => {
+          if(product.id === item.id && product.Soluong > product.amount)
+              product.amount = product.amount + item.amount;
+        })
+        cart.splice(index, 1);
+      }
+    });
+  console.log(cart);
+    setProduct(result);
+  }, [cart])
+
+  const xoa = (id) => {
+    const arr = cart.filter((item) => item.id !== id);
+    console.log(arr);
+    setCart(arr);
+  }
 
   const handleChange = (item, d) => {
     const ind = cart.indexOf(item);
@@ -33,7 +59,7 @@ export default function HomeRouter() {
 
   return (
     <div>
-      <Navbar size={cart.length} />
+      <Navbar size={product.length} />
       <Routes>
         <Route path="/" element={<Home handleClick={handleClick} />} />
         <Route element={<PrivateRoute/>}>
@@ -46,10 +72,10 @@ export default function HomeRouter() {
         <Route
           path="/showcart"
           element={
-            <Cart cart={cart} setCart={setCart} handleChange={handleChange} />
+            <Cart cart={product} setCart={setProduct} handleChange={handleChange} xoa={xoa} />
           }
         />
-        <Route path="/checkout" element={<Checkout cart={cart} />} />
+        <Route path="/checkout" element={<Checkout cart={product} />} />
         <Route path="/post" element={<Listpost />} />
         <Route path="/post/:id" element={<PostId />} />
       </Routes>

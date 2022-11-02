@@ -4,8 +4,9 @@ import { getUser } from "../../../Utils/Common";
 import ImageHoverZoom from "../imghoverzoom/ImgHoverZoom";
 import Rating from "@material-ui/lab/Rating";
 import axios from "axios";
-function CategoryList({ products, handleClick }) {
+function CategoryList({ products, handleClick}) {
   const user = getUser();
+  const [Amount, setAmount] = useState(1);
 
   // const getData = async () => {
   //   await axios
@@ -19,18 +20,26 @@ function CategoryList({ products, handleClick }) {
   //     });
   // };
 
+ 
+
   const addcart = (product) => {
-    if (user !== null) handleClick(product);
+    if (user !== null) {
+      if(product.Soluong > product.amount)
+      {
+         product.amount++;
+      }
+      handleClick(product);
+    }
     else window.location.href = "/login";
   };
   return (
     <>
-      {products.map((product) => {
+      {products.map((product, i) => {
         product.amount = 1;
         return (
-          <div className="col-md-3 mb-4">
+          <div className="col-md-3 mb-4" key={i}>
             <div className="card">
-              <Link className="card-img-top" to={`/product/${product.id}`}>
+              <Link className="card-img-top" style={{backgroundColor: "white"}} to={`/product/${product.id}`}>
                 <ImageHoverZoom
                   imagePath={`http://localhost:5000/image/${product.Anhdaidien}`}
                 />

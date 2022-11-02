@@ -1,20 +1,20 @@
-.product{
+.review{
     flex: 4;
     padding: 20px;
 }
 
-.productTitleContainer{
+.reviewTitleContainer{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.productContainer {
+.reviewContainer {
     display: flex;
     margin-top: 20px;
 }
 
-.productShow {
+.reviewShow {
     flex: 1;
     padding: 2px;
    
@@ -22,11 +22,11 @@
     box-shadow:  0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 }
 
-.productShowTop {
+.reviewShowTop {
     display: flex;
     align-items: center;
 }
-.productShowImg {
+.reviewShowImg {
     width: 40px;
     height: 40px;
     background-repeat: 50%;
@@ -35,7 +35,7 @@
     margin-top: 5px;
 }
 
-.productReviewForm {
+.reviewReviewForm {
     flex: 1.5;
     padding: 2px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -43,44 +43,44 @@
     margin-left: 20px;
 }
 
-.productShowTopTitle {
+.reviewShowTopTitle {
     display: flex;
     flex-direction: column;
     padding-left: 20px;
 }
 
-.productShowName{
+.reviewShowName{
     font-weight: 600;
 }
 
-.productShowBottom {
+.reviewShowBottom {
     margin-top: 20px;
 }
 
-.productShowTitle {
+.reviewShowTitle {
     font-style: 14px;
     font-weight: 600;
     color: rgb(175, 170, 170);
 }
 
-.productShowInfo {
+.reviewShowInfo {
     display: flex;
     align-items: center;
     margin: 20px 0px;
     color: #444;
 }
 
-.productShowIcon {
+.reviewShowIcon {
     font-style: 16px, !important;
     margin-left: 20px;
 }
 
-.productInfoTitle {
+.reviewInfoTitle {
     margin-left: 10px;
     
 }
 
-.productUpdateImg{
+.reviewUpdateImg{
     width: 100px;
     height: 100px;
     border-radius: 10px;
@@ -89,13 +89,13 @@
 }
 
 
-.productUpdateTitle {
+.reviewUpdateTitle {
     font-size: 24px;
     font-weight: 600;
     margin-left: 20px;
 }
 
-.productUpdateForms {
+.reviewUpdateForms {
     display: flex;
     margin-top: 20px;
     justify-content: space-between;
@@ -103,7 +103,7 @@
     margin-right: 20px;
 }
 
-.productUpdateItem {
+.reviewUpdateItem {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
@@ -117,19 +117,19 @@
   }
 
 
-/* .productReview {
+/* .reviewReview {
     display: flex;
     flex-direction: column;
     align-items: center;
 } */
 
-.productReviewRating{
+.reviewReviewRating{
     display: flex;
     flex-direction: row;
     margin-top: 10px;
 }
 
-.productComment{
+.reviewComment{
     border: 1px solid #a9a9a9;
     border-radius: 5;
     padding: 10;
@@ -139,25 +139,25 @@
   
 }
 
-.productUpdateItem>label{
+.reviewUpdateItem>label{
     margin-bottom: 5px;
     font-size: 15px;
 }
 
-.productUpdateInput {
+.reviewUpdateInput {
     border: none;
     width: 300px;
     height: 30px;
     border-bottom: 1px solid gray;
 }
 
-.productUpdateRight{
+.reviewUpdateRight{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.productUpdateButton{
+.reviewUpdateButton{
     cursor: pointer;
     border: none;
     padding: 5px;
@@ -167,7 +167,7 @@
     font-weight: 500;
     width: 150px;
 }
-.productUpdateIcon{
+.reviewUpdateIcon{
     cursor: pointer;
     width: 100px;
     height: 100px;

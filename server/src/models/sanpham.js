@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       Sanpham.hasMany(models.Danhgia_SP, {foreignKey:"SP_Ma"});
       Sanpham.hasMany(models.Dondatct,{ foreignKey: "SP_Ma" });
       Sanpham.hasMany(models.Phieunhapct, {foreignKey: "SP_Ma"});
+      Sanpham.hasMany(models.Khuyenmaict, {foreignKey: "SP_Ma"});
       Sanpham.hasMany(models.Hinhanh, {foreignKey:"SP_Ma"});
       Sanpham.hasMany(models.Binhluan, {foreignKey:"SP_Ma"});
       Sanpham.belongsTo(models.Dienthoai, { foreignKey: "DT_Ma" });

@@ -55,48 +55,48 @@ export default function Review() {
   }
 
   return (
-    <div className="product">
+    <div className="review">
       {product && (
-        <div className="productContainer">
-          <div className="productShow">
-            <div className="productShowTop">
+        <div className="reviewContainer">
+          <div className="reviewShow">
+            <div className="reviewShowTop">
               <img
                 src={`http://localhost:5000/image/${product.Anhdaidien}`}
                 alt="Anh dai dien"
-                className="productShowImg"
+                className="reviewShowImg"
               />
 
-              <div className="productShowTopTitle">
-                <span className="productShowName">{product.SP_Ten}</span>
+              <div className="reviewShowTopTitle">
+                <span className="reviewShowName">{product.SP_Ten}</span>
               </div>
             </div>
-            <div className="productShowBottom">
-              <span className="productShowTitle">Thông tin chi tiết</span>
-              <div className="productShowInfo">
-                <CategoryOutlined className="productShowIcon" />
-                <span className="productInfoTitle">
+            <div className="reviewShowBottom">
+              <span className="reviewShowTitle">Thông tin chi tiết</span>
+              <div className="reviewShowInfo">
+                <CategoryOutlined className="reviewShowIcon" />
+                <span className="reviewInfoTitle">
                   {product["Loaisanpham.LSP_Ten"]}
                 </span>
               </div>
-              <div className="productShowInfo">
-                <Smartphone className="productShowIcon" />
+              <div className="reviewShowInfo">
+                <Smartphone className="reviewShowIcon" />
 
-                <span className="productInfoTitle">
+                <span className="reviewInfoTitle">
                   {product["Dienthoai.DT_Ten"]}
                 </span>
               </div>
-              <div className="productShowInfo">
-                <AttachMoney className="productShowIcon" />
-                <span className="productInfoTitle">{product.SP_Gia}</span>
+              <div className="reviewShowInfo">
+                <AttachMoney className="reviewShowIcon" />
+                <span className="reviewInfoTitle">{product.SP_Gia}</span>
               </div>
-              <div className="productShowInfo">
-                <ColorLens className="productShowIcon" />
-                <span className="productInfoTitle">{product.Mausac}</span>
+              <div className="reviewShowInfo">
+                <ColorLens className="reviewShowIcon" />
+                <span className="reviewInfoTitle">{product.Mausac}</span>
               </div>
-              <div className="productShowInfo">
-                <Description className="productShowIcon" />
+              <div className="reviewShowInfo">
+                <Description className="reviewShowIcon" />
                 <span
-                  className="productInfoTitle"
+                  className="reviewInfoTitle"
                   style={{ whiteSpace: "pre-line" }}
                 >
                   {product.SP_Mota}
@@ -104,15 +104,15 @@ export default function Review() {
               </div>
             </div>
           </div>
-          <div className="productReviewForm">
-            <span className="productUpdateTitle">Đánh giá sản phẩm</span>
-            <div className="productReview">
+          <div className="reviewReviewForm">
+            <span className="reviewUpdateTitle">Đánh giá sản phẩm</span>
+            <div className="reviewReview">
               <div>
                 <Rating
                   key={value}
                   name="half-rating"
                   value={value}
-                  className="productReviewRating"
+                  className="reviewReviewRating"
                   onChange={(event, newValue) => {
                     setValue(newValue);
                   }}
@@ -124,11 +124,11 @@ export default function Review() {
                 <textarea
                   rows={8}
                   placeholder="Nhập đánh giá của bạn..."
-                  className="productComment"
+                  className="reviewComment"
                   onChange={(value) => setComment(value.target.value)}
                 />
               </div>
-              <button className="productUpdateButton"  onClick={handleReview}>Gửi đánh giá</button>
+              <button className="reviewUpdateButton"  onClick={handleReview}>Gửi đánh giá</button>
             </div>
           </div>
         </div>

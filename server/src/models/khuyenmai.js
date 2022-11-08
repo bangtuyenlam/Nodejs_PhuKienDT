@@ -12,10 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
       },
       KM_Ten: DataTypes.STRING,
       NgayBatDau: DataTypes.DATE,
-      NgayKetThuct: DataTypes.DATE
+      NgayKetThuc: DataTypes.DATE
     },
     {
       sequelize,

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
       NV_Ma: DataTypes.INTEGER,
       PN_Tongtien: DataTypes.FLOAT,

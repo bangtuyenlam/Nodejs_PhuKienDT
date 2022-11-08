@@ -17,6 +17,9 @@ import PostManager from "./adminpage/postManager/PostManager";
 import NewPost from "./adminpage/newPost/NewPost";
 import Post from "./adminpage/post/Post";
 import OrderDetail from "./adminpage/orderDetail/OrderDetail";
+import DiscountProducts from "./adminpage/discount/DiscountProducts";
+import NewDiscount from "./adminpage/newDiscount/NewDiscount";
+import ProductImg from "./adminpage/productImg/ProductImg";
 function Admin() {
   return (
     <div>
@@ -30,6 +33,7 @@ function Admin() {
           <Route path="productManager" element= {<ProductManager/>}/>
           <Route path="newProduct" element= {<NewProduct/>}/>
           <Route path="product/:id" element= {<Product/>}/>
+          <Route path="product/addimg/:id" element={<ProductImg/>}/>
 
           <Route path="employeeManager" element={<EmployeeManager/>}/>
           <Route path="employee/:id" element={<Employee/>} />
@@ -42,6 +46,9 @@ function Admin() {
           <Route path="postManager" element={<PostManager/>}/>
           <Route path="newpost" element={<NewPost/>}/>
           <Route path="post/:id" element={<Post/>}/>
+
+          <Route path="discountProducts" element={<DiscountProducts/>}/>
+          <Route path="newdiscount" element={<NewDiscount/>}/>
         </Routes>
       </div>
     </div>

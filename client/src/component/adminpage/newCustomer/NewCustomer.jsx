@@ -8,6 +8,7 @@ import {
 } from "@material-ui/pickers";
 import axios from "axios";
 import { useNavigate } from 'react-router';
+import dateFormat from "dateformat";
 
 export default function NewCustomer() {
   const [customerName, setCustomerName] = useState("");
@@ -32,7 +33,7 @@ export default function NewCustomer() {
         pwd: pwd,
         gender: gender,
         email: email,
-        selectedDate: selectedDate,
+        selectedDate: dateFormat(selectedDate, "yyyy-mm-dd"),
         phoneNumber: phoneNumber,
         location: location,
       })

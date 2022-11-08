@@ -4,7 +4,7 @@ import { getUser } from "../../../Utils/Common";
 import ImageHoverZoom from "../imghoverzoom/ImgHoverZoom";
 import Rating from "@material-ui/lab/Rating";
 import axios from "axios";
-function CategoryList({ products, handleClick}) {
+function CategoryList({ products, handleClick }) {
   const user = getUser();
   const [Amount, setAmount] = useState(1);
 
@@ -20,18 +20,15 @@ function CategoryList({ products, handleClick}) {
   //     });
   // };
 
- 
-
   const addcart = (product) => {
     if (user !== null) {
-      if(product.Soluong > product.amount)
-      {
-         product.amount++;
+      if (product.Soluong > product.amount) {
+        product.amount++;
       }
       handleClick(product);
-    }
-    else window.location.href = "/login";
+    } else window.location.href = "/login";
   };
+ 
   return (
     <>
       {products.map((product, i) => {
@@ -39,7 +36,11 @@ function CategoryList({ products, handleClick}) {
         return (
           <div className="col-md-3 mb-4" key={i}>
             <div className="card">
-              <Link className="card-img-top" style={{backgroundColor: "white"}} to={`/product/${product.id}`}>
+              <Link
+                className="card-img-top"
+                style={{ backgroundColor: "white" }}
+                to={`/product/${product.id}`}
+              >
                 <ImageHoverZoom
                   imagePath={`http://localhost:5000/image/${product.Anhdaidien}`}
                 />
@@ -47,14 +48,28 @@ function CategoryList({ products, handleClick}) {
               <div className="card-body">
                 <div className="d-flex justify-content-between">
                   <p className="small">{product.SP_Ten}</p>
-                  {/* <p className="small text-danger"><s>$1099</s></p> */}
                 </div>
+                {product["Khuyenmaicts.PhanTramKM"] != null ? (
+                  <div className="d-flex justify-content-between mb-3">
+                    {/* <h5 className="mb-0">HP Notebook</h5> */}
 
-                <div className="d-flex justify-content-between mb-3">
-                  {/* <h5 className="mb-0">HP Notebook</h5> */}
-                  <h5 className="text-dark mb-0"> {product.SP_Gia} VNĐ</h5>
-                </div>
+                    <h5 className="text-dark mb-0">
+                      {product.SP_Gia -
+                        (product.SP_Gia * product["Khuyenmaicts.PhanTramKM"]) /
+                          100}
+                      VNĐ
+                    </h5>
+                    <p className="small text-danger">
+                      <s>{product.SP_Gia} VNĐ</s>
+                    </p>
+                  </div>
+                ) : (
+                  <div className="d-flex justify-content-between mb-3">
+                    {/* <h5 className="mb-0">HP Notebook</h5> */}
 
+                    <h5 className="text-dark mb-0">{product.SP_Gia} VNĐ</h5>
+                  </div>
+                )}
                 <div className="d-flex justify-content-between mb-2">
                   <p className="text-muted mb-0">
                     Có sẵn: <span className="fw-bold">{product.Soluong}</span>

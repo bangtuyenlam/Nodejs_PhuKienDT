@@ -42,6 +42,9 @@ let productVsRating = async (req, res) => {
           as: "Danhgia_SPs",
           attributes: [],
         },
+        {
+          model: db.Khuyenmaict,
+        }
       ],
 limit : limit,
 subQuery:false,
@@ -76,7 +79,7 @@ let createProduct = (req, res) => {
         message: "Vui lòng nhập đủ các trường",
       });
     } else {
-      db.Sanpham.create({
+     db.Sanpham.create({
         LSP_Ma: LSP,
         DT_Ma: DT,
         SP_Ten: TenSP,
@@ -86,6 +89,7 @@ let createProduct = (req, res) => {
         Mausac: Mausac,
         Soluong: Soluong,
       });
+  
       return res.json({
         message: "Thêm sản phẩm thành công",
       });
@@ -109,6 +113,9 @@ let ProductIdfromHome = async (req, res) => {
       include: [
         {
           model: db.Loaisanpham,
+        },
+        {
+          model: db.Khuyenmaict,
         },
         {
           model: db.Dienthoai,

@@ -53,6 +53,7 @@ export default function Customer() {
     setSelectedDate(date);
   };
 
+  console.log(selectedDate);
   const handleUpdate = async () => {
     await axios
       .put("/khachhang/capnhat", {

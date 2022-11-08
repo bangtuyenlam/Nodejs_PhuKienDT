@@ -45,7 +45,7 @@ export default function ProductDetail({ handleClick }) {
     });
     return a;
   };
-
+console.log(product);
   const percent = (numberstar) => {
     switch (numberstar) {
       case 5:
@@ -110,7 +110,14 @@ export default function ProductDetail({ handleClick }) {
                 <h2 className="text-uppercase text-black-50">
                   {product.SP_Ten}
                 </h2>
-                <h4 className="display-6 fw-bold my-4">{product.SP_Gia} VNĐ</h4>
+                { product["Khuyenmaicts.PhanTramKM"] !== null ? (
+                  <>
+                <h4 className="display-6 fw-bold my-4">{product.SP_Gia - product.SP_Gia * product["Khuyenmaicts.PhanTramKM"] / 100} VNĐ</h4>
+                <p className="small text-danger">
+                      <s>{product.SP_Gia} VNĐ</s>
+                    </p>
+                </>
+                ): (<h4 className="display-6 fw-bold my-4">{product.SP_Gia} VNĐ</h4>) }
                 {/* <h4 className="describe"> Mô tả</h4> */}
                 <p className="lead" style={{ whiteSpace: "pre-line" }}>
                   {product.SP_Mota}
@@ -310,10 +317,10 @@ export default function ProductDetail({ handleClick }) {
 
         {review &&
           review.map((r) => {
-            if (r["Danhgia_SPs.DG_Diem"] == null) return <div key={r.id}></div>;
+            if (r["Danhgia_SPs.DG_Diem"] == null) return <div key={r["Danhgia_SPs.id"]}></div>;
             else
               return (
-                <div className="row" key={r.id}>
+                <div className="row" key={r["Danhgia_SPs.id"]}>
                   <div className="col-sm-7">
                     <hr />
                     <div className="review-block">

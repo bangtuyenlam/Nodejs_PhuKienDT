@@ -44,6 +44,7 @@ export default function NewProduct() {
         } else console.log("Thêm sản phẩm không thành công");
       });
   };
+  console.log(avatar);
 
   useEffect(() => {
     axios

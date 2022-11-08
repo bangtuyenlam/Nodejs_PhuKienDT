@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Khuyenmaict.init(
     {
-      
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
       },
       SP_Ma: DataTypes.INTEGER,
       KM_Ma: DataTypes.INTEGER,

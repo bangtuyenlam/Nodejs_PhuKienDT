@@ -138,6 +138,7 @@ let customerCreate = async (req, res) => {
   const   KH_Email = req.body.email;
   const   KH_SDT = req.body.phoneNumber;
   const   KH_Diachi = req.body.location;
+  
   try {
     if(!KH_Hoten || !KH_Ngaysinh || !KH_Gioitinh 
       ||!KH_Email ||!KH_SDT ||!KH_Diachi ||!TenTK || !Matkhau)

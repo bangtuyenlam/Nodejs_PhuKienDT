@@ -52,7 +52,7 @@ export default function ProductManager() {
     {
       field: 'SP_Gia',
       headerName: 'Giá bán',
-      width: 190,
+      width: 135,
       renderCell: (params) => {
           return <div>{params.row.SP_Gia} VNĐ</div>
       }
@@ -60,16 +60,19 @@ export default function ProductManager() {
     {
       field: 'Soluong',
       headerName: 'Số lượng',
-      width: 140,
+      width: 137,
     },
     {
       field: 'action',
       headerName: 'Điều khiển',
-      width: 151,
+      width: 210,
       renderCell: (params) => {
         
         return(
           <>
+           <Link to={`/admin/product/addimg/${params.row.id}`}>
+          <button className="productManagerEdit">Thêm ảnh</button>
+          </Link>
           <Link to={`/admin/product/${params.row.id}`}>
           <button className="productManagerEdit">Sửa</button>
           </Link>

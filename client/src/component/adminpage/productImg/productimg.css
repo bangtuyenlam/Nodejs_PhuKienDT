@@ -1,0 +1,65 @@
+.result {
+    min-height: 85%;
+    max-height: auto;
+    width: 100%;
+    background-color: #272c34;
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: left;
+
+}
+
+.img {
+    width: 250px;
+    height: 140px;
+    object-fit: cover;
+    padding: 0.75rem;
+}
+
+.newProduct {
+    flex: 4;
+    padding: 20px;
+    padding-top: 5px;
+    height: 500px;
+}
+
+.image {
+ margin-top: 0;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+}
+
+.image button {
+  cursor: pointer;
+  border: none;
+  color: white;
+  margin-left: 10px;
+  margin-top: 5px;
+  background-color: lightcoral;
+}
+
+.newProductButton {
+    width: 220px;
+    border: none;
+    background-color: darkblue;
+    color: white;
+    padding: 7px 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.Button {
+    width: 220px;
+    border: none;
+    background-color: grey;
+    color: white;
+    padding: 7px 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 30px;
+    
+}

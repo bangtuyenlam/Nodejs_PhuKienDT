@@ -12,6 +12,7 @@ export default function ProductDetail({ handleClick }) {
   const productId = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
+  const [images, setImages] = useState([]);
   const [review, setReview] = useState([]);
   const user = getUser();
   useEffect(() => {
@@ -27,7 +28,22 @@ export default function ProductDetail({ handleClick }) {
           console.log("Sản phẩm này không tồn tại");
         else console.log(err + " Lỗi không lấy được thông tin sản phẩm");
       });
+
+    getImgByProductId();
   }, []);
+
+  const getImgByProductId = () => {
+    axios
+    .post(`/hinhanh/${productId.id}`)
+    .then((res) => {
+      setImages(res.data);
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err + " Lỗi không lấy được thông tin sản phẩm");
+    });
+  }
+
   product.amount = 1;
 
   const avg = () => {
@@ -98,13 +114,62 @@ console.log(product);
           product && (
             <div className="row py-4">
               <div className="col-md-6">
-                <img
+
+              <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
+  <div className="carousel-inner">
+    <div className="carousel-item active">
+    <img
                   src={`http://localhost:5000/image/${product.Anhdaidien}`}
                   alt="Anh dai dien"
                   className="card-img-top"
-                  height="400px"
+                  height="450px"
                   width="400px"
                 />
+    </div>
+   
+    {images && images.map((item, i) => {
+                  if(i < 10) {
+                    return (
+                    <div className="carousel-item">
+                         <img
+                  src={`http://localhost:5000/image/${item.Duongdan}`}
+                  alt="Anh dai dien"
+                  className="card-img-top"
+                  height="450px"
+                  width="400px"
+                />
+                    </div>)
+                  }
+                })}
+  </div>
+  <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span className="carousel-control-prev-icon btn btn-dark" aria-hidden="true"></span>
+    <span className="visually-hidden">Previous</span>
+  </button>
+  <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span className="carousel-control-next-icon btn-dark" aria-hidden="true"></span>
+    <span className="visually-hidden">Next</span>
+  </button>
+</div>
+              
+
+
+                {images && images.map((item, i) => {
+                  if(i < 10) {
+                    return (
+                    <div className="col-md-6 col-lg-2 pe-1" style={{display: "inline"}}>
+                         <img
+                  src={`http://localhost:5000/image/${item.Duongdan}`}
+                  alt="Anh dai dien"
+                  className="img-thumbnail"
+                  height="50px"
+                  width="50px"
+                />
+                    </div>)
+                  }
+                })}
+                    
+
               </div>
               <div className="col-md-5">
                 <h2 className="text-uppercase text-black-50">

@@ -15,13 +15,13 @@ function Navbar({size}) {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm"
+      <nav className="navbar navbar-expand-lg navbar-light bg-info shadow-sm"
       style={{
         width: "100%",
-     height: "50px",
+   
     backgroundColor: "white",
     position: "fixed",
-    top: 0,
+ 
     zIndex: 999,
     display: "flex",
   

@@ -2,10 +2,11 @@
 .searchInputs {
     
     display: flex;
+    
   }
   
   .search input {
-    background-color: white;
+    background-color: rgb(191, 213, 221);
     border: 0;
     border-radius: 2px;
     border-top-right-radius: 0px;
@@ -17,8 +18,7 @@
   }
   
   .searchIcon {
-    
-    background-color: white;
+    background-color: rgb(123, 189, 206);
     display: grid;
     place-items: center;
   }

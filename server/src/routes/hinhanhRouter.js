@@ -17,5 +17,6 @@ const upload = multer({
 
 router.post("/them", upload.array("imgList"), hinhanhController.addImage);
 router.post("/:masp", hinhanhController.listImagebyProduct);
+router.delete("/xoa/:id", hinhanhController.deleteImage);
 
 module.exports = router;

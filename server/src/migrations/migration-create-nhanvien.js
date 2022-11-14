@@ -14,7 +14,6 @@ module.exports = {
           //   model: "quyensudungs",
           //   key: "Maquyen",
           // },
-          allowNull: false,
         },
         matk: {
           type: Sequelize.DataTypes.INTEGER,
@@ -22,7 +21,6 @@ module.exports = {
           //   model: "Taikhoans",
           //   key: "MaTK",
           // },
-          allowNull: false,
         },
         nv_hoten: {
           type: Sequelize.DataTypes.STRING(50),
@@ -60,7 +58,7 @@ module.exports = {
             .addConstraint("Binhluans", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_NV_BL_FK0",
+              name: "FK_NV_BL_k",
               references: {
                 table: "Nhanviens",
                 field: "id",
@@ -72,7 +70,7 @@ module.exports = {
             .addConstraint("Baidangs", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_BD_NV_FK0",
+              name: "FK_BD_NV_k",
               references: {
                 table: "Nhanviens",
                 field: "id",
@@ -83,7 +81,7 @@ module.exports = {
                 await queryInterface.addConstraint("Dondats", {
                   type: "FOREIGN KEY",
                   fields: ["nv_ma"],
-                  name: "FK_DD_NV_FK0",
+                  name: "FK_DD_NV_k",
                   references: {
                     table: "Nhanviens",
                     field: "id",

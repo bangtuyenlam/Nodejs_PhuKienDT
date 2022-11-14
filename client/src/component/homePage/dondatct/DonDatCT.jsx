@@ -57,7 +57,7 @@ export default function DonDatCT() {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`/dathang/xoa/${id}`, {
+    axios.delete(`/dathang/huy/${id}`, {
       data: {
         ddct: dondatct,
       },
@@ -219,7 +219,7 @@ export default function DonDatCT() {
                           )}
                         </div>
                       </div>
-                      {dondat.Trangthai !== 2 ? (
+                      {dondat.Trangthai === 1 ? (
                         <div className="col-md-6">
                           <div className="form-group mb-3">
                             <button

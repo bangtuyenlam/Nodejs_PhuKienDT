@@ -12,18 +12,21 @@ export default function ProductImg() {
   const [error, setError] = useState();
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
-console.log(productId.id);
+  console.log(productId.id);
   useEffect(() => {
-    axios
-    .post(`/hinhanh/${productId.id}`)
-    .then((res) => {
-      setImages(res.data);
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err + " Lỗi không lấy được thông tin sản phẩm");
-    });
-  }, []);
+    getData();
+  }, [imgList]);
+
+  const getData =  async () => {
+   await axios
+      .post(`/hinhanh/${productId.id}`)
+      .then((res) => {
+        setImages(res.data);
+      })
+      .catch((err) => {
+        console.log(err + " Lỗi không lấy được thông tin sản phẩm");
+      });
+  }
 
   const handleAdd = () => {
     const formdata = new FormData();
@@ -43,6 +46,11 @@ console.log(productId.id);
         } else console.log("Thêm sản phẩm không thành công");
       });
   };
+
+  const handleRemove = () => {
+    navigate("/admin/productManager");
+  };
+
   const handleImageChange = (e) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files).map((file) =>
@@ -54,44 +62,66 @@ console.log(productId.id);
     }
   };
 
-  const handleDeleteImg = (index) => {
+  const handleDeleteImages =(id) => {
+    axios.delete(`/hinhanh/xoa/${id}`, {
+    })
+    console.log("xóa thành công");
+    getData();
+  }
+
+  const handleRemoveImg = (index) => {
+  
     setSelectedImg(selectedImg.filter((ig, i) => i !== index));
     setImgList(imgList.filter((img, i) => i !== index));
+    
   };
 
   const renderPhotos = (selectedImg) => {
     return selectedImg.map((img, index) => {
       return (
         <div className="image">
-          <button onClick={() => handleDeleteImg(index)}>Xóa</button>
+          <button onClick={() => handleRemoveImg(index)}>Xóa</button>
           <br />
           <img className="img" key={img} alt="anh" src={img} />
         </div>
       );
     });
   };
-  const arlet = (length) => {
+  const alert = () => {
+  
+      
+      {
     Swal.fire({
       title: "Cảnh báo",
       text: "Số lượng ảnh lưu không vượt quá 8 bạn nên xóa bớt ảnh!",
       icon: "warning",
       confirmButtonText: "OK",
-    });
+    })}
   };
   return (
- 
     <div className="newProduct">
       <h4 className="newProductTitle">Thêm ảnh cho sản phẩm</h4>
       <div>
-        {selectedImg && selectedImg.length > 8 ? (
-          <>{arlet(selectedImg.length)}</>
+        {selectedImg && images && (selectedImg.length + images.length > 8 ) ? (
+          <>{alert()}</>
         ) : (
           <input type="file" multiple onChange={handleImageChange} />
         )}
       </div>
-      <div className="result">{renderPhotos(selectedImg)}</div>
+      <div className="result">
+        {images && (images.map((item, index) => {
+          return (
+            <div className="image">
+            <button onClick={() => handleDeleteImages(item.id)}>Xóa</button>
+            <br />
+            <img className="img" key={index} alt="anh" src={`http://localhost:5000/image/${item.Duongdan}`} />
+          </div>
+          )
+        }))}
+        {renderPhotos(selectedImg)}
+        </div>
 
-      {selectedImg && selectedImg.length > 8 ? (
+      {selectedImg && images && (selectedImg.length + images.length > 8) ? (
         <button
           className="Button"
           type="button"
@@ -105,7 +135,14 @@ console.log(productId.id);
           Lưu
         </button>
       )}
+
+      <button
+        className="btn btn-danger ms-2"
+        type="button"
+        onClick={handleRemove}
+      >
+        Hủy bỏ
+      </button>
     </div>
-    
   );
 }

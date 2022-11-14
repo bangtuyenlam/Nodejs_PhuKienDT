@@ -10,6 +10,7 @@ import {
   StorefrontOutlined,
   AssignmentIndOutlined,
   LocalOfferOutlined,
+  InputOutlined
 } from "@material-ui/icons";
 import "./sidebar.css";
 import { Link } from "react-router-dom";
@@ -39,6 +40,12 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quản lý</h3>
           <ul className="sidebarList">
+          <li className="sidebarListItem">
+              <InputOutlined className="sidebarIcon" />
+              <Link className="sidebarLink" to={"/admin/importProduct"}>
+                Nhập hàng
+              </Link>
+            </li>
             <li className="sidebarListItem">
               <StorefrontOutlined className="sidebarIcon" />
               <Link className="sidebarLink" to={"/admin/productManager"}>

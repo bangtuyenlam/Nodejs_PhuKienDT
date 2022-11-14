@@ -34,18 +34,25 @@ export default function ProductDetail({ handleClick }) {
 
   const getImgByProductId = () => {
     axios
-    .post(`/hinhanh/${productId.id}`)
-    .then((res) => {
-      setImages(res.data);
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err + " Lỗi không lấy được thông tin sản phẩm");
-    });
-  }
+      .post(`/hinhanh/${productId.id}`)
+      .then((res) => {
+        setImages(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err + " Lỗi không lấy được thông tin sản phẩm");
+      });
+  };
 
   product.amount = 1;
-
+  const addCart = (product) => {
+    if (user !== null) {
+      if (product.Soluong > product.amount) {
+        product.amount++;
+      }
+      handleClick(product);
+    } else window.location.href = "/login";
+  };
   const avg = () => {
     const sum = review.reduce((a, b) => a + b["Danhgia_SPs.DG_Diem"], 0);
     const avg = sum / review.length || 0;
@@ -61,7 +68,7 @@ export default function ProductDetail({ handleClick }) {
     });
     return a;
   };
-console.log(product);
+  console.log(product);
   const percent = (numberstar) => {
     switch (numberstar) {
       case 5:
@@ -106,7 +113,7 @@ console.log(product);
   };
 
   return (
-    <div>
+    <>
       <div className="container py-5">
         {loading ? (
           <Loading />
@@ -114,314 +121,409 @@ console.log(product);
           product && (
             <div className="row py-4">
               <div className="col-md-6">
+                <div
+                  id="carouselExampleControls"
+                  className="carousel slide"
+                  data-bs-ride="carousel"
+                >
+                  <div className="carousel-inner">
+                    <div className="carousel-item active">
+                      <img
+                        src={`http://localhost:5000/image/${product.Anhdaidien}`}
+                        alt="Anh dai dien"
+                        className="card-img-top"
+                        height="450px"
+                        width="400px"
+                      />
+                    </div>
 
-              <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
-  <div className="carousel-inner">
-    <div className="carousel-item active">
-    <img
-                  src={`http://localhost:5000/image/${product.Anhdaidien}`}
-                  alt="Anh dai dien"
-                  className="card-img-top"
-                  height="450px"
-                  width="400px"
-                />
-    </div>
-   
-    {images && images.map((item, i) => {
-                  if(i < 10) {
-                    return (
-                    <div className="carousel-item">
-                         <img
-                  src={`http://localhost:5000/image/${item.Duongdan}`}
-                  alt="Anh dai dien"
-                  className="card-img-top"
-                  height="450px"
-                  width="400px"
-                />
-                    </div>)
-                  }
-                })}
-  </div>
-  <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span className="carousel-control-prev-icon btn btn-dark" aria-hidden="true"></span>
-    <span className="visually-hidden">Previous</span>
-  </button>
-  <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span className="carousel-control-next-icon btn-dark" aria-hidden="true"></span>
-    <span className="visually-hidden">Next</span>
-  </button>
-</div>
-              
+                    {images &&
+                      images.map((item, i) => {
+                        if (i < 10) {
+                          return (
+                            <div className="carousel-item">
+                              <img
+                                src={`http://localhost:5000/image/${item.Duongdan}`}
+                                alt="Anh dai dien"
+                                className="card-img-top"
+                                height="450px"
+                                width="400px"
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                  </div>
+                  <button
+                    className="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      className="carousel-control-prev-icon btn btn-dark"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    className="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      className="carousel-control-next-icon btn-dark"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Next</span>
+                  </button>
+                </div>
 
-
-                {images && images.map((item, i) => {
-                  if(i < 10) {
-                    return (
-                    <div className="col-md-6 col-lg-2 pe-1" style={{display: "inline"}}>
-                         <img
-                  src={`http://localhost:5000/image/${item.Duongdan}`}
-                  alt="Anh dai dien"
-                  className="img-thumbnail"
-                  height="50px"
-                  width="50px"
-                />
-                    </div>)
-                  }
-                })}
-                    
-
+                {images &&
+                  images.map((item, i) => {
+                    if (i < 10) {
+                      return (
+                        <div
+                          className="col-md-6 col-lg-2 pe-1"
+                          style={{ display: "inline" }}
+                        >
+                          <img
+                            src={`http://localhost:5000/image/${item.Duongdan}`}
+                            alt="Anh dai dien"
+                            className="img-thumbnail"
+                            height="50px"
+                            width="50px"
+                          />
+                        </div>
+                      );
+                    }
+                  })}
               </div>
               <div className="col-md-5">
                 <h2 className="text-uppercase text-black-50">
                   {product.SP_Ten}
                 </h2>
-                { product["Khuyenmaicts.PhanTramKM"] !== null ? (
+                {product["Khuyenmaicts.PhanTramKM"] !== null ? (
                   <>
-                <h4 className="display-6 fw-bold my-4">{product.SP_Gia - product.SP_Gia * product["Khuyenmaicts.PhanTramKM"] / 100} VNĐ</h4>
-                <p className="small text-danger">
+                    <h4 className="display-6 fw-bold my-4">
+                      {product.SP_Gia -
+                        (product.SP_Gia * product["Khuyenmaicts.PhanTramKM"]) /
+                          100}{" "}
+                      VNĐ
+                    </h4>
+                    <p className="small text-danger">
                       <s>{product.SP_Gia} VNĐ</s>
                     </p>
-                </>
-                ): (<h4 className="display-6 fw-bold my-4">{product.SP_Gia} VNĐ</h4>) }
+                  </>
+                ) : (
+                  <h4 className="display-6 fw-bold my-4">
+                    {product.SP_Gia} VNĐ
+                  </h4>
+                )}
                 {/* <h4 className="describe"> Mô tả</h4> */}
                 <p className="lead" style={{ whiteSpace: "pre-line" }}>
                   {product.SP_Mota}
                 </p>
 
-                {user !== null ? (
-                  <button
-                    className="btn btn-dark px-4 py-2"
-                    onClick={() => handleClick(product)}
-                  >
-                    Thêm vào giỏ hàng
-                  </button>
-                ) : (
-                  <Link className="btn btn-dark px-4 py-2" to={"/login"}>
-                    Đăng nhập/Đăng ký để mua hàng
-                  </Link>
-                )}
+                <button
+                  className="btn btn-dark px-4 py-2"
+                  onClick={() => addCart(product)}
+                >
+                  Thêm vào giỏ hàng
+                </button>
               </div>
             </div>
           )
         )}
 
-        {review && (
-          <div className="row">
-            <div className="col-sm-3">
-              <div className="rating-block">
-                <h4>Điểm đánh giá</h4>
-                <h2 className="bold padding-bottom-7">
-                  {avg()} <small>/5</small>
-                </h2>
-                <Rating
-                  key={"Diemtb"}
-                  name="half-rating"
-                  value={avg()}
-                  precision={0.5}
-                  readOnly
-                />
-                <div className="fst-italic">{countReview()} lượt đánh giá</div>
-              </div>
-            </div>
+        <ul className="nav nav-tabs" id="myTab" role="tablist">
+          <li className="nav-item" role="presentation">
+            <a
+              className="nav-link active"
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#home"
+              role="tab"
+              aria-controls="home"
+              aria-selected="true"
+            >
+              Đánh giá
+            </a>
+          </li>
+          <li className="nav-item" role="presentation">
+            <a
+              className="nav-link"
+              id="profile-tab"
+              data-bs-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+            >
+              Bình luận
+            </a>
+          </li>
+        </ul>
+        <div className="tab-content" id="myTabContent">
+          <div
+            className="tab-pane fade show active"
+            id="home"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+          >
+            {review && (
+              <div className="row mt-3">
+                <div className="col-sm-3">
+                  <div className="rating-block">
+                    <h4>Điểm đánh giá</h4>
+                    <h2 className="bold padding-bottom-7">
+                      {avg()} <small>/5</small>
+                    </h2>
+                    <Rating
+                      key={"Diemtb"}
+                      name="half-rating"
+                      value={avg()}
+                      precision={0.5}
+                      readOnly
+                    />
+                    <div className="fst-italic">
+                      {countReview()} lượt đánh giá
+                    </div>
+                  </div>
+                </div>
 
-            <div className="col-sm-3">
-              <h4>Tỷ lệ sao</h4>
-              <div className="pull-left">
-                <div
-                  className="pull-left"
-                  style={{ width: "35px", lineHeight: 1 }}
-                >
-                  <div style={{ height: "9px", margin: "5px 0" }}>
-                    5<StarRate />
-                  </div>
-                </div>
-                <div className="pull-left" style={{ width: "180px" }}>
-                  <div
-                    className="progress"
-                    style={{ height: "9px", margin: "8px 0" }}
-                  >
+                <div className="col-sm-3">
+                  <h4>Tỷ lệ sao</h4>
+                  <div className="pull-left">
                     <div
-                      className="progress-bar bg-warning"
-                      role="progressbar"
-                      aria-valuenow="5"
-                      aria-valuemin="0"
-                      aria-valuemax="5"
-                      style={{ width: "1000%" }}
+                      className="pull-left"
+                      style={{ width: "35px", lineHeight: 1 }}
                     >
-                      <span className="sr-only">80% Complete (danger)</span>
+                      <div style={{ height: "9px", margin: "5px 0" }}>
+                        5<StarRate />
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="pull-right" style={{ marginLeft: "10px" }}>
-                  {percent(5)}
-                </div>
-              </div>
-              <div className="pull-left">
-                <div
-                  className="pull-left"
-                  style={{ width: "35px", lineHeight: 1 }}
-                >
-                  <div style={{ height: "9px", margin: "5px 0" }}>
-                    4<StarRate />
-                  </div>
-                </div>
-                <div className="pull-left" style={{ width: "180px" }}>
-                  <div
-                    className="progress"
-                    style={{ height: "9px", margin: "8px 0" }}
-                  >
-                    <div
-                      className="progress-bar bg-warning"
-                      role="progressbar"
-                      aria-valuenow="4"
-                      aria-valuemin="0"
-                      aria-valuemax="5"
-                      style={{ width: "80%" }}
-                    >
-                      <span className="sr-only">80% Complete (danger)</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="pull-right" style={{ marginLeft: "10px" }}>
-                  {percent(4)}
-                </div>
-              </div>
-              <div className="pull-left">
-                <div
-                  className="pull-left"
-                  style={{ width: "35px", lineHeight: 1 }}
-                >
-                  <div style={{ height: "9px", margin: "5px 0" }}>
-                    3<StarRate />
-                  </div>
-                </div>
-                <div className="pull-left" style={{ width: "180px" }}>
-                  <div
-                    className="progress"
-                    style={{ height: "9px", margin: "8px 0" }}
-                  >
-                    <div
-                      className="progress-bar bg-warning"
-                      role="progressbar"
-                      aria-valuenow="3"
-                      aria-valuemin="0"
-                      aria-valuemax="5"
-                      style={{ width: "60%" }}
-                    >
-                      <span className="sr-only">80% Complete (danger)</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="pull-right" style={{ marginLeft: "10px" }}>
-                  {percent(3)}
-                </div>
-              </div>
-              <div className="pull-left">
-                <div
-                  className="pull-left"
-                  style={{ width: "35px", lineHeight: 1 }}
-                >
-                  <div style={{ height: "9px", margin: "5px 0" }}>
-                    2<StarRate />
-                  </div>
-                </div>
-                <div className="pull-left" style={{ width: "180px" }}>
-                  <div
-                    className="progress"
-                    style={{ height: "9px", margin: "8px 0" }}
-                  >
-                    <div
-                      className="progress-bar bg-warning"
-                      role="progressbar"
-                      aria-valuenow="2"
-                      aria-valuemin="0"
-                      aria-valuemax="5"
-                      style={{ width: "40%" }}
-                    >
-                      <span className="sr-only">80% Complete (danger)</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="pull-right" style={{ marginLeft: "10px" }}>
-                  {percent(2)}
-                </div>
-              </div>
-              <div className="pull-left">
-                <div
-                  className="pull-left"
-                  style={{ width: "35px", lineHeight: 1 }}
-                >
-                  <div style={{ height: "9px", margin: "5px 0" }}>
-                    1<StarRate />
-                  </div>
-                </div>
-                <div className="pull-left" style={{ width: "180px" }}>
-                  <div
-                    className="progress"
-                    style={{ height: "9px", margin: "8px 0" }}
-                  >
-                    <div
-                      className="progress-bar bg-warning"
-                      role="progressbar"
-                      aria-valuenow="1"
-                      aria-valuemin="0"
-                      aria-valuemax="5"
-                      style={{ width: "20%" }}
-                    >
-                      <span className="sr-only">80% Complete (danger)</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="pull-right" style={{ marginLeft: "10px" }}>
-                  {percent(1)}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {review &&
-          review.map((r) => {
-            if (r["Danhgia_SPs.DG_Diem"] == null) return <div key={r["Danhgia_SPs.id"]}></div>;
-            else
-              return (
-                <div className="row" key={r["Danhgia_SPs.id"]}>
-                  <div className="col-sm-7">
-                    <hr />
-                    <div className="review-block">
-                      <div className="row">
-                        <div className="col-sm-3">
-                          <div className="fw-bold">
-                            {r["Danhgia_SPs.Khachhang.Taikhoan.TenTK"]}
-                          </div>
-                          <div className="review-block-date">
-                            {dateFormat(r["Danhgia_SPs.DG_Ngay"], "dd/mm/yyyy")}
-                            <br />1 day ago
-                          </div>
-                        </div>
-                        <div className="col-sm-9">
-                          <div className="review-block-rate">
-                            <Rating
-                              key={product.DiemTB}
-                              name="half-rating"
-                              value={r["Danhgia_SPs.DG_Diem"]}
-                              precision={0.5}
-                              readOnly
-                            />
-                          </div>
-
-                          <div className="review-block-description">
-                            {r["Danhgia_SPs.Noidung"]}
-                          </div>
+                    <div className="pull-left" style={{ width: "180px" }}>
+                      <div
+                        className="progress"
+                        style={{ height: "9px", margin: "8px 0" }}
+                      >
+                        <div
+                          className="progress-bar bg-warning"
+                          role="progressbar"
+                          aria-valuenow="5"
+                          aria-valuemin="0"
+                          aria-valuemax="5"
+                          style={{ width: "1000%" }}
+                        >
+                          <span className="sr-only">80% Complete (danger)</span>
                         </div>
                       </div>
-                      <hr />
+                    </div>
+                    <div className="pull-right" style={{ marginLeft: "10px" }}>
+                      {percent(5)}
+                    </div>
+                  </div>
+                  <div className="pull-left">
+                    <div
+                      className="pull-left"
+                      style={{ width: "35px", lineHeight: 1 }}
+                    >
+                      <div style={{ height: "9px", margin: "5px 0" }}>
+                        4<StarRate />
+                      </div>
+                    </div>
+                    <div className="pull-left" style={{ width: "180px" }}>
+                      <div
+                        className="progress"
+                        style={{ height: "9px", margin: "8px 0" }}
+                      >
+                        <div
+                          className="progress-bar bg-warning"
+                          role="progressbar"
+                          aria-valuenow="4"
+                          aria-valuemin="0"
+                          aria-valuemax="5"
+                          style={{ width: "80%" }}
+                        >
+                          <span className="sr-only">80% Complete (danger)</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pull-right" style={{ marginLeft: "10px" }}>
+                      {percent(4)}
+                    </div>
+                  </div>
+                  <div className="pull-left">
+                    <div
+                      className="pull-left"
+                      style={{ width: "35px", lineHeight: 1 }}
+                    >
+                      <div style={{ height: "9px", margin: "5px 0" }}>
+                        3<StarRate />
+                      </div>
+                    </div>
+                    <div className="pull-left" style={{ width: "180px" }}>
+                      <div
+                        className="progress"
+                        style={{ height: "9px", margin: "8px 0" }}
+                      >
+                        <div
+                          className="progress-bar bg-warning"
+                          role="progressbar"
+                          aria-valuenow="3"
+                          aria-valuemin="0"
+                          aria-valuemax="5"
+                          style={{ width: "60%" }}
+                        >
+                          <span className="sr-only">80% Complete (danger)</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pull-right" style={{ marginLeft: "10px" }}>
+                      {percent(3)}
+                    </div>
+                  </div>
+                  <div className="pull-left">
+                    <div
+                      className="pull-left"
+                      style={{ width: "35px", lineHeight: 1 }}
+                    >
+                      <div style={{ height: "9px", margin: "5px 0" }}>
+                        2<StarRate />
+                      </div>
+                    </div>
+                    <div className="pull-left" style={{ width: "180px" }}>
+                      <div
+                        className="progress"
+                        style={{ height: "9px", margin: "8px 0" }}
+                      >
+                        <div
+                          className="progress-bar bg-warning"
+                          role="progressbar"
+                          aria-valuenow="2"
+                          aria-valuemin="0"
+                          aria-valuemax="5"
+                          style={{ width: "40%" }}
+                        >
+                          <span className="sr-only">80% Complete (danger)</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pull-right" style={{ marginLeft: "10px" }}>
+                      {percent(2)}
+                    </div>
+                  </div>
+                  <div className="pull-left">
+                    <div
+                      className="pull-left"
+                      style={{ width: "35px", lineHeight: 1 }}
+                    >
+                      <div style={{ height: "9px", margin: "5px 0" }}>
+                        1<StarRate />
+                      </div>
+                    </div>
+                    <div className="pull-left" style={{ width: "180px" }}>
+                      <div
+                        className="progress"
+                        style={{ height: "9px", margin: "8px 0" }}
+                      >
+                        <div
+                          className="progress-bar bg-warning"
+                          role="progressbar"
+                          aria-valuenow="1"
+                          aria-valuemin="0"
+                          aria-valuemax="5"
+                          style={{ width: "20%" }}
+                        >
+                          <span className="sr-only">80% Complete (danger)</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pull-right" style={{ marginLeft: "10px" }}>
+                      {percent(1)}
                     </div>
                   </div>
                 </div>
-              );
-          })}
+              </div>
+            )}
+
+            {review &&
+              review.map((r) => {
+                if (r["Danhgia_SPs.DG_Diem"] == null)
+                  return <div key={r["Danhgia_SPs.id"]}></div>;
+                else
+                  return (
+                    <div className="row" key={r["Danhgia_SPs.id"]}>
+                      <div className="col-sm-7">
+                        <hr />
+                        <div className="review-block">
+                          <div className="row">
+                            <div className="col-sm-3">
+                              <div className="fw-bold">
+                                {r["Danhgia_SPs.Khachhang.Taikhoan.TenTK"]}
+                              </div>
+                              <div className="review-block-date">
+                                {dateFormat(
+                                  r["Danhgia_SPs.DG_Ngay"],
+                                  "dd/mm/yyyy"
+                                )}
+                                <br />1 day ago
+                              </div>
+                            </div>
+                            <div className="col-sm-9">
+                              <div className="review-block-rate">
+                                <Rating
+                                  key={product.DiemTB}
+                                  name="half-rating"
+                                  value={r["Danhgia_SPs.DG_Diem"]}
+                                  precision={0.5}
+                                  readOnly
+                                />
+                              </div>
+
+                              <div className="review-block-description">
+                                {r["Danhgia_SPs.Noidung"]}
+                              </div>
+                            </div>
+                          </div>
+                          <hr />
+                        </div>
+                      </div>
+                    </div>
+                  );
+              })}
+          </div>
+          <div
+            className="tab-pane fade"
+            id="profile"
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+          >
+            <div className="container">
+              <div className="row mt-4">
+                <textarea
+                  style={{
+                    border: "none",
+                    backgroundColor: "transparent",
+                    outline: "none",
+                    resize: "none",
+                
+                  }}
+                  rows={3}
+                  
+                  className="col-8 me-3 rounded-2 border border-secondary py-2"
+                  placeholder="Nhập bình luận của bạn..."
+                ></textarea>
+            <button className="col-1 h-50 mt-5 btn btn-primary justify-content-center">Gửi</button>
+               
+              </div>
+            
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

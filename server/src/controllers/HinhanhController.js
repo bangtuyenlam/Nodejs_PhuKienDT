@@ -48,8 +48,24 @@ let listImagebyProduct = async (req, res) => {
     }
 }
 
+let deleteImage = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await db.Hinhanh.destroy({
+            where: {
+                id: id
+            }
+        });
+    }catch (err) {
+        return res.status(500).json({
+            error: true, 
+            message: "Lỗi server"
+        })
+    }
+}
 
 module.exports = {
     addImage: addImage,
     listImagebyProduct: listImagebyProduct,
+    deleteImage: deleteImage
 }

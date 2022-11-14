@@ -23,7 +23,7 @@ let createDiscount = async (req, res) => {
     const DsSanpham = req.body.DsSP;
     try{
         if (!KM_Ten || !Ngaybd || !Ngaykt || !PhanTram || DsSanpham == []) {
-            console.log(KM_Ten, Ngaybd, Ngaykt, PhanTram, DsSanpham);
+          //  console.log(KM_Ten, Ngaybd, Ngaykt, PhanTram, DsSanpham);
             return res.status(402).json({
               err: true,
               message: "Vui lòng nhập đủ các trường",

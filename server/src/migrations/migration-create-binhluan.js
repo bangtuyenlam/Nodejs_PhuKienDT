@@ -10,15 +10,12 @@ module.exports = {
           },
           sp_ma: {
             type: Sequelize.DataTypes.INTEGER,
-            allowNull: false,
           },
           nv_ma: {
             type: Sequelize.DataTypes.INTEGER,
-            allowNull: false,
           },
           kh_ma: {
             type: Sequelize.DataTypes.INTEGER,
-            allowNull: false,
           },
           bl_noidung: {
             type: Sequelize.DataTypes.STRING,

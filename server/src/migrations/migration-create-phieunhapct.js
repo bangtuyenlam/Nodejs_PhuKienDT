@@ -38,7 +38,7 @@ module.exports = {
             await queryInterface.addConstraint("Phieunhapcts", {
               type: "FOREIGN KEY",
               fields: ["pn_ma"],
-              name: "FK_PN_PNCT_FK0",
+              name: "FK_PN_PNCT_k",
               references: {
                 table: "Phieunhaps",
                 field: "id",

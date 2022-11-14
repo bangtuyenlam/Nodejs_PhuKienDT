@@ -177,6 +177,7 @@ const NhanHang = (req, res) => {
   const MaDD = req.params.id;
   const trangthai = req.body.trangthai;
   try{
+    //Trạng thái = 2 đã nhận hàng
     db.Dondat.update({
       Trangthai: trangthai
     },
@@ -195,7 +196,7 @@ const NhanHang = (req, res) => {
   }
 }
 
-const XoaDonDat = async (req, res) => {
+const HuyDonDat = async (req, res) => {
   const id = req.params.id;
   const ddct = req.body.ddct;
   try {
@@ -208,16 +209,14 @@ const XoaDonDat = async (req, res) => {
           }
         });
     })
-    await db.Dondatct.destroy({
-      where: {
-        DD_Ma: id,
-      },
-    });
-    await db.Dondat.destroy({
-      where: {
-        id: id,
-      },
-    });
+    //Trạng thái = 3 đã hủy đơn
+    await db.Dondat.update({
+      Trangthai: 3
+    },
+    {where: {
+      id: id
+    }}
+    )
   } catch (err) {
     return res.status(500).json({
       error: true,
@@ -232,6 +231,6 @@ module.exports = {
     DanhSachDatCT: DanhSachDatCT,
     DuyetDonHang: DuyetDonHang,
     DanhSachDonDatTheoKhachHang: DanhSachDonDatTheoKhachHang,
-    XoaDonDat: XoaDonDat,
+    HuyDonDat: HuyDonDat,
     NhanHang: NhanHang
 }

@@ -9,11 +9,9 @@ module.exports = {
       },
       nv_ma: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
       },
       kh_ma: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
       },
       ngaydat: {
         type: Sequelize.DataTypes.DATE,

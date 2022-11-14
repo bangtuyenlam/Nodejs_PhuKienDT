@@ -77,6 +77,7 @@ export default function ListOrder({customer}) {
               if (params.row.Trangthai === 0) return <div>Chuẩn bị hàng</div>;
               else if (params.row.Trangthai === 1) return <div>Đang giao</div>;
               else if (params.row.Trangthai === 2) return <div>Đã nhận hàng</div>
+              else return <div>Đã hủy đơn hàng</div>
           }
       },
        {
@@ -90,7 +91,7 @@ export default function ListOrder({customer}) {
              <Link to={`/personal/orderdetail/${params.row.id}`}>
              <button className="employeeManagerEdit">Chi tiết</button>
              </Link>
-             {params.row.Trangthai !== 2 ? (
+             {params.row.Trangthai === 0 || params.row.Trangthai === 1 ? (
  <Link to={`/personal/review-product`} onClick = {() => handleFinish(params.row.id)}>
              <button className="employeeManagerEdit" >Đã nhận hàng</button>
              

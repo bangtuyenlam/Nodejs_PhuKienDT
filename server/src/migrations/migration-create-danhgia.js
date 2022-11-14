@@ -12,12 +12,10 @@ module.exports = {
           // references: {
           //   model: "nhanviens",
           //   key: "NV_Ma",
-          // },
-          allowNull: false,
+          // }
         },
         sp_ma: {
             type: Sequelize.DataTypes.INTEGER,
-            allowNull: false,
           },
         noidung: {
           type: Sequelize.DataTypes.STRING(500),

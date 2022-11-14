@@ -14,10 +14,12 @@ function Footer() {
   return (
     <div>
       <footer
-        className="text-center text-lg-start bg-light text-muted"
+        className="text-center text-lg-start bg-warning text-muted"
         style={{ marginTop: "20px"}}
       >
-        <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+        <section
+        style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
+         className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
           <div className="me-5 d-none d-lg-block">
             <span>Liên lạc với chúng tôi thông qua:</span>
           </div>
@@ -42,7 +44,7 @@ function Footer() {
           </div>
         </section>
 
-        <section className="">
+        <section className="" >
           <div className="container text-center text-md-start mt-5">
             <div className="row mt-3">
               <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
@@ -98,8 +100,8 @@ function Footer() {
         </section>
 
         <div
-          className="text-center p-4"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
+          className="text-center p-4 fw-bold"
+          style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
         >
           © 2022 Copyright:
           <Link to={'/'} className="text-reset fw-bold" reloadDocument={true}>

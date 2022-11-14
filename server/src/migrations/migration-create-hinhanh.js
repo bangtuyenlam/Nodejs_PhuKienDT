@@ -9,7 +9,6 @@ module.exports = {
       },
       sp_ma: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
       },
       duongdan: {
         type: Sequelize.DataTypes.STRING(500),

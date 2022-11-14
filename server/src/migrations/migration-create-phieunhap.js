@@ -9,7 +9,6 @@ module.exports = {
         },
         nv_ma: {
           type: Sequelize.DataTypes.INTEGER,
-          allowNull: false,
         },
         pn_tongtien: {
           type: Sequelize.DataTypes.FLOAT,
@@ -35,7 +34,7 @@ module.exports = {
             .addConstraint("Phieunhaps", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_NV_PN_FK0",
+              name: "FK_NV_PN_k",
               references: {
                 table: "Nhanviens",
                 field: "id",

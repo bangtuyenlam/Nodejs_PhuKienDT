@@ -35,7 +35,7 @@ module.exports = {
             await queryInterface.addConstraint("Khuyenmaicts", {
               type: "FOREIGN KEY",
               fields: ["km_ma"],
-              name: "FK_KMCT_KM_FK0",
+              name: "FK_KMCT_KM_k",
               references: {
                 table: "Khuyenmai_sps",
                 field: "id",

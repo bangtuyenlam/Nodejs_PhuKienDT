@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       NV_Ma: DataTypes.INTEGER,
       PN_Tongtien: DataTypes.FLOAT,
       PN_Dathanhtoan: DataTypes.BOOLEAN,
-      PN_Ngaynhap: DataTypes.DATE,
+      Ngaynhap: DataTypes.DATE,
     },
     {
       sequelize,

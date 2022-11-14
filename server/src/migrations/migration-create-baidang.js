@@ -13,11 +13,10 @@ module.exports = {
         //   model: "nhanviens",
         //   key: "NV_Ma",
         // },
-        allowNull: false,
+
       },
       tl_ma: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
       },
       tieude: {
         type: Sequelize.DataTypes.STRING,

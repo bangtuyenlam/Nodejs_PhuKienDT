@@ -14,7 +14,6 @@ module.exports = {
           //   model: "quyensudungs",
           //   key: "Maquyen",
           // },
-          allowNull: false,
         },
         dt_ma: {
           type: Sequelize.DataTypes.INTEGER,
@@ -22,7 +21,6 @@ module.exports = {
           //   model: "Taikhoans",
           //   key: "MaTK",
           // },
-          allowNull: false,
         },
         sp_ten: {
           type: Sequelize.DataTypes.STRING,
@@ -57,7 +55,7 @@ module.exports = {
             .addConstraint("Dondatcts", {
               type: "FOREIGN KEY",
               fields: ["sp_ma"],
-              name: "FK_SP_DDCT_FK0",
+              name: "FK_SP_DDCT_k",
               references: {
                 table: "Sanphams",
                 field: "id",
@@ -69,7 +67,7 @@ module.exports = {
             .addConstraint("Binhluans", {
               type: "FOREIGN KEY",
               fields: ["sp_ma"],
-              name: "FK_SP_BL_FK0",
+              name: "FK_SP_BL_k",
               references: {
                 table: "Sanphams",
                 field: "id",
@@ -81,7 +79,7 @@ module.exports = {
                   .addConstraint("Danhgia_SPs", {
                     type: "FOREIGN KEY",
                     fields: ["sp_ma"],
-                    name: "FK_SP_DG_FK0",
+                    name: "FK_SP_DG_k",
                     references: {
                       table: "Sanphams",
                       field: "id",
@@ -93,7 +91,7 @@ module.exports = {
                         .addConstraint("Hinhanhs", {
                           type: "FOREIGN KEY",
                           fields: ["sp_ma"],
-                          name: "FK_SP_HA_FK0",
+                          name: "FK_SP_HA_k",
                           references: {
                             table: "Sanphams",
                             field: "id",
@@ -105,7 +103,7 @@ module.exports = {
                               .addConstraint("Phieunhapcts", {
                                 type: "FOREIGN KEY",
                                 fields: ["sp_ma"],
-                                name: "FK_PNCT_SP_FK0",
+                                name: "FK_PNCT_SP_k",
                                 references: {
                                   table: "Sanphams",
                                   field: "id",
@@ -117,7 +115,7 @@ module.exports = {
                               .addConstraint("Khuyenmaicts", {
                                 type: "FOREIGN KEY",
                                 fields: ["sp_ma"],
-                                name: "FK_KMCT_SP_FK0",
+                                name: "FK_KMCT_SP_k",
                                 references: {
                                   table: "Sanphams",
                                   field: "id",
@@ -129,7 +127,7 @@ module.exports = {
                               .addConstraint("Sanphams", {
                                 type: "FOREIGN KEY",
                                 fields: ["lsp_ma"],
-                                name: "FK_LSP_SP_FK0",
+                                name: "FK_LSP_SP_k",
                                 references: {
                                   table: "Loaisanphams",
                                   field: "id",
@@ -142,7 +140,7 @@ module.exports = {
                                     {
                                       type: "FOREIGN KEY",
                                       fields: ["dt_ma"],
-                                      name: "FK_DT_SP_FK0",
+                                      name: "FK_DT_SP_k",
                                       references: {
                                         table: "Dienthoais",
                                         field: "id",

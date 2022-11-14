@@ -20,6 +20,8 @@ import OrderDetail from "./adminpage/orderDetail/OrderDetail";
 import DiscountProducts from "./adminpage/discount/DiscountProducts";
 import NewDiscount from "./adminpage/newDiscount/NewDiscount";
 import ProductImg from "./adminpage/productImg/ProductImg";
+import ImportProduct from "./adminpage/importProduct/ImportProduct";
+import NewImport from "./adminpage/newImport/NewImport";
 function Admin() {
   return (
     <div>
@@ -34,6 +36,9 @@ function Admin() {
           <Route path="newProduct" element= {<NewProduct/>}/>
           <Route path="product/:id" element= {<Product/>}/>
           <Route path="product/addimg/:id" element={<ProductImg/>}/>
+
+          <Route path="importProduct" element={<ImportProduct/>}/>
+          <Route path="newImport" element={<NewImport/>}/>
 
           <Route path="employeeManager" element={<EmployeeManager/>}/>
           <Route path="employee/:id" element={<Employee/>} />

@@ -14,6 +14,7 @@ const googleLoginRouter = require("./googleLoginRouter");
 const khuyenmaiRouter = require("./khuyenmaiRouter");
 const nhaphangRouter = require("./nhaphangRouter");
 const hinhanhRouter = require("./hinhanhRouter");
+const thongkeRouter = require("./thongkeRouter");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
@@ -29,6 +30,7 @@ function route(app) {
   app.use("/dathang", dathangRouter, urlencodedParser, jsonParser);
   app.use("/sanpham", sanphamRouter,urlencodedParser, jsonParser);
   app.use("/nhaphang", nhaphangRouter, urlencodedParser, jsonParser);
+  app.use("/thongke", thongkeRouter, urlencodedParser, jsonParser);
   app.use("/hinhanh", hinhanhRouter, urlencodedParser, jsonParser);
   app.use("/khuyenmai", khuyenmaiRouter, urlencodedParser, jsonParser);
   app.use("/danhgia", danhgiaRouter, urlencodedParser, jsonParser);

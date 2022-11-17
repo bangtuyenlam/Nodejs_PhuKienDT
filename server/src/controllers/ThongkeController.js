@@ -1,6 +1,7 @@
 const db = require("../models/index");
 
 let DoanhThuTheoThang = async (req, res) => {
+  const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const year = req.body.year;
   try {
     const result = await db.Dondatct.findAll({
@@ -30,7 +31,10 @@ let DoanhThuTheoThang = async (req, res) => {
       ],
       group: ["month"],
     });
-    return res.json(result);
+    result.map((item) => {
+      thang[item.month - 1] = item.tongtien;
+    })
+    return res.json(thang);
   } catch (err) {
     return res.status(500).json({
       error: true,
@@ -41,8 +45,10 @@ let DoanhThuTheoThang = async (req, res) => {
 
 let TongDonHangTheoThang = async (req, res) => {
   const year = req.body.year;
+  const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   try {
     const result = await db.Dondat.findAll({
+      raw: true,
       attributes: [
         [db.sequelize.fn("COUNT", db.sequelize.col("id")), "sodon"],
         [
@@ -53,13 +59,16 @@ let TongDonHangTheoThang = async (req, res) => {
       where: {
         Ngaygiao: db.sequelize.where(
           db.sequelize.fn("YEAR", db.sequelize.col("Ngaygiao")),
-          "2022"
+          year
         ),
       },
 
       group: ["month"],
     });
-    return res.json(result);
+    result.map((item) => {
+      thang[item.month - 1] = item.sodon;
+    })
+    return res.json(thang);
   } catch (err) {
     return res.status(500).json({
       error: true,
@@ -70,10 +79,12 @@ let TongDonHangTheoThang = async (req, res) => {
 
 let DonHangHoanThanhTheoThang = async (req, res) => {
     const year = req.body.year;
+    const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     try {
       const result = await db.Dondat.findAll({
+        raw: true,
         attributes: [
-          [db.sequelize.fn("COUNT", db.sequelize.col("id")), "sodon"],
+          [db.sequelize.fn("COUNT", db.sequelize.col("id")), "hoanthanh"],
           [
             db.sequelize.fn("MONTH", db.sequelize.col("Dondat.Ngaygiao")),
             "month",
@@ -82,14 +93,17 @@ let DonHangHoanThanhTheoThang = async (req, res) => {
         where: {
           Ngaygiao: db.sequelize.where(
             db.sequelize.fn("YEAR", db.sequelize.col("Ngaygiao")),
-            "2022"
+            year
           ),
           Trangthai: 2
         },
   
         group: ["month"],
       });
-      return res.json(result);
+      result.map((item) => {
+        thang[item.month - 1] = item.hoanthanh;
+      })
+      return res.json(thang);
     } catch (err) {
       return res.status(500).json({
         error: true,
@@ -100,10 +114,12 @@ let DonHangHoanThanhTheoThang = async (req, res) => {
 
   let DonHangDaHuyTheoThang = async (req, res) => {
     const year = req.body.year;
+    const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     try {
       const result = await db.Dondat.findAll({
+        raw: true,
         attributes: [
-          [db.sequelize.fn("COUNT", db.sequelize.col("id")), "sodon"],
+          [db.sequelize.fn("COUNT", db.sequelize.col("id")), "donhuy"],
           [
             db.sequelize.fn("MONTH", db.sequelize.col("Dondat.Ngaydat")),
             "month",
@@ -112,14 +128,17 @@ let DonHangHoanThanhTheoThang = async (req, res) => {
         where: {
           Ngaydat: db.sequelize.where(
             db.sequelize.fn("YEAR", db.sequelize.col("Ngaydat")),
-            "2022"
+            year
           ),
           Trangthai: 3
         },
   
         group: ["month"],
       });
-      return res.json(result);
+      result.map((item) => {
+        thang[item.month - 1] = item.donhuy;
+      })
+      return res.json(thang);
     } catch (err) {
       return res.status(500).json({
         error: true,

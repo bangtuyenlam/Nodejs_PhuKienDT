@@ -29,7 +29,9 @@ export default function Sidebar() {
             </li>
             <li className="sidebarListItem">
               <Timeline className="sidebarIcon" />
-              Phân tích
+              <Link className="sidebarLink" to={"/admin/statistics"}>
+              Thống kê
+              </Link>
             </li>
             <li className="sidebarListItem">
               <TrendingUp className="sidebarIcon" />

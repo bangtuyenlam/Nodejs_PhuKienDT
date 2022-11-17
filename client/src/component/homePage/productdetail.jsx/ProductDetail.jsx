@@ -14,6 +14,7 @@ export default function ProductDetail({ handleClick }) {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const [review, setReview] = useState([]);
+  const [comment, setComment] = useState();
   const user = getUser();
   useEffect(() => {
     axios
@@ -111,6 +112,10 @@ export default function ProductDetail({ handleClick }) {
       </>
     );
   };
+
+  const handleSubmit = (comment) => {
+    console.log(comment);
+  }
 
   return (
     <>
@@ -512,11 +517,11 @@ export default function ProductDetail({ handleClick }) {
                 
                   }}
                   rows={3}
-                  
+                  onChange={value => setComment(value.target.value)}
                   className="col-8 me-3 rounded-2 border border-secondary py-2"
                   placeholder="Nhập bình luận của bạn..."
                 ></textarea>
-            <button className="col-1 h-50 mt-5 btn btn-primary justify-content-center">Gửi</button>
+            <button className="col-1 h-50 mt-5 btn btn-primary justify-content-center" onClick={() => handleSubmit(comment)}>Gửi</button>
                
               </div>
             

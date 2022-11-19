@@ -44,13 +44,13 @@ let productVsRating = async (req, res) => {
         },
         {
           model: db.Khuyenmaict,
-        }
+        },
       ],
-limit : limit,
-subQuery:false,
+      limit: limit,
+      subQuery: false,
       group: ["id"],
     });
-  
+
     return res.json(Sanpham);
   } catch (err) {
     console.log("Lỗi");
@@ -61,14 +61,13 @@ subQuery:false,
   }
 };
 
-
 let createProduct = (req, res) => {
   const LSP = req.body.loaisp;
   const DT = req.body.tendt;
   const TenSP = req.body.tensp;
   const Gia = req.body.gia;
   const Mota = req.body.mota;
-  const Anh = req.file === undefined ? null: req.file.filename;
+  const Anh = req.file === undefined ? null : req.file.filename;
   const Soluong = req.body.soluong;
   const Mausac = req.body.mausac;
 
@@ -79,7 +78,7 @@ let createProduct = (req, res) => {
         message: "Vui lòng nhập đủ các trường",
       });
     } else {
-     db.Sanpham.create({
+      db.Sanpham.create({
         LSP_Ma: LSP,
         DT_Ma: DT,
         SP_Ten: TenSP,
@@ -89,7 +88,7 @@ let createProduct = (req, res) => {
         Mausac: Mausac,
         Soluong: Soluong,
       });
-  
+
       return res.json({
         message: "Thêm sản phẩm thành công",
       });

@@ -69,7 +69,7 @@ export default function ProductDetail({ handleClick }) {
     });
     return a;
   };
-  console.log(product);
+ 
   const percent = (numberstar) => {
     switch (numberstar) {
       case 5:

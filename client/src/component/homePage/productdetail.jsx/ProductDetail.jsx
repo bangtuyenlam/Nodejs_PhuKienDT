@@ -8,6 +8,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Rating from "@material-ui/lab/Rating";
 import dateFormat from "dateformat";
 import { StarRate } from "@material-ui/icons";
+import ListComment from "../listcomment/ListComment";
 export default function ProductDetail({ handleClick }) {
   const productId = useParams();
   const [product, setProduct] = useState({});
@@ -15,6 +16,7 @@ export default function ProductDetail({ handleClick }) {
   const [images, setImages] = useState([]);
   const [review, setReview] = useState([]);
   const [comment, setComment] = useState();
+  const dateComment = new Date();
   const user = getUser();
   useEffect(() => {
     axios
@@ -35,7 +37,7 @@ export default function ProductDetail({ handleClick }) {
 
   const getImgByProductId = () => {
     axios
-      .post(`/hinhanh/${productId.id}`)
+      .post(`/hinhanh/${productId.id}`, {})
       .then((res) => {
         setImages(res.data);
         console.log(res.data);
@@ -69,7 +71,7 @@ export default function ProductDetail({ handleClick }) {
     });
     return a;
   };
- 
+
   const percent = (numberstar) => {
     switch (numberstar) {
       case 5:
@@ -113,9 +115,22 @@ export default function ProductDetail({ handleClick }) {
     );
   };
 
-  const handleSubmit = (comment) => {
-    console.log(comment);
-  }
+  const handleComment = () => {
+    axios
+      .post(`/binhluan/them/${productId.id}`, {
+        MaKH: user["Khachhang.id"],
+        Noidung: comment,
+        Ngay: dateComment,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        if (error.response.status === 402) {
+          console.log("Chưa nhập nội dung bình luận");
+        } else console.log(error + "Bình luận không thành công");
+      });
+  };
 
   return (
     <>
@@ -514,17 +529,21 @@ export default function ProductDetail({ handleClick }) {
                     backgroundColor: "transparent",
                     outline: "none",
                     resize: "none",
-                
                   }}
                   rows={3}
-                  onChange={value => setComment(value.target.value)}
+                  onChange={(value) => setComment(value.target.value)}
                   className="col-8 me-3 rounded-2 border border-secondary py-2"
                   placeholder="Nhập bình luận của bạn..."
                 ></textarea>
-            <button className="col-1 h-50 mt-5 btn btn-primary justify-content-center" onClick={() => handleSubmit(comment)}>Gửi</button>
-               
+                <button
+                  className="col-1 h-50 mt-5 btn btn-primary justify-content-center"
+                  onClick={handleComment}
+                >
+                  Gửi
+                </button>
               </div>
-            
+              <hr className="row mt-4"/>
+              <ListComment className= "row mt-4" MaSP = {productId.id}/>
             </div>
           </div>
         </div>

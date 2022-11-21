@@ -1,7 +1,7 @@
 const db = require("../models/index");
 
 let listComment = async (req, res) => {
-    const MaSP = req.params.SP_Ma;
+    const MaSP = req.params.masp;
     try{
         const lstComment = await db.Binhluan.findAll({
             raw: true,
@@ -30,11 +30,11 @@ let listComment = async (req, res) => {
 };
 
 let comment = (req, res) => {
-    const SP_Ma = req.body.SP_Ma;
-    const NV_Ma = req.body.NV_Ma;
-    const KH_Ma = req.body.KH_Ma;
+    const SP_Ma = req.params.masp;
+    const KH_Ma = req.body.MaKH;
     const Noidung = req.body.Noidung;
     const Ngay = req.body.Ngay;
+    console.log(SP_Ma, KH_Ma, Noidung, Ngay);
     try{
         if(Noidung === null) 
         return res.status(402).json({
@@ -44,7 +44,6 @@ let comment = (req, res) => {
         else {
             db.Binhluan.create({
                 SP_Ma: SP_Ma,
-                NV_Ma: NV_Ma,
                 KH_Ma: KH_Ma,
                 BL_Noidung: Noidung,
                 BL_Ngaybinhluan: Ngay

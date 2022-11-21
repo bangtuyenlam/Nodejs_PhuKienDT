@@ -1,4 +1,5 @@
 const baidangRouter = require("./baidangRouter");
+const binhluanRouter = require("./binhluanRouter");
 const homeRouter = require("./HomeRouter");
 const taikhoanRouter = require("./taikhoanRouter");
 const khachhangRouter = require("./khachhangRouter");
@@ -29,6 +30,7 @@ function route(app) {
   app.use("/theloai", theloaiRouter);
   app.use("/dathang", dathangRouter, urlencodedParser, jsonParser);
   app.use("/sanpham", sanphamRouter,urlencodedParser, jsonParser);
+  app.use("/binhluan", binhluanRouter, urlencodedParser, jsonParser);
   app.use("/nhaphang", nhaphangRouter, urlencodedParser, jsonParser);
   app.use("/thongke", thongkeRouter, urlencodedParser, jsonParser);
   app.use("/hinhanh", hinhanhRouter, urlencodedParser, jsonParser);

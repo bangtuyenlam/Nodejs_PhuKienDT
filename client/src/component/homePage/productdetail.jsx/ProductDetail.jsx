@@ -15,9 +15,15 @@ export default function ProductDetail({ handleClick }) {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const [review, setReview] = useState([]);
-  const [comment, setComment] = useState();
+  const [comment, setComment] = useState("");
   const dateComment = new Date();
   const user = getUser();
+  const makh = user && user["Khachhang.id"] !== null ? user["Khachhang.id"] : null;
+  const manv = user && user["Nhanvien.id"] !== null ? user["Nhanvien.id"] : null;
+  const [lstComment, setLstComment] = useState([]); 
+  const FirstComments = lstComment.filter(
+    (comment) => comment.Binhluantruoc === null
+  );
   useEffect(() => {
     axios
       .post(`/sanpham/home/${productId.id}`)
@@ -33,8 +39,20 @@ export default function ProductDetail({ handleClick }) {
       });
 
     getImgByProductId();
+    getListComment();
   }, []);
 
+  const getListComment = () => {
+    axios
+    .post(`/binhluan/${productId.id}`)
+    .then((res) => {
+        setLstComment(res.data);
+    })
+    .catch((err)=> {
+        console.log(err + " Lỗi không lấy được danh sách bình luận");
+    });
+  }
+console.log(lstComment);
   const getImgByProductId = () => {
     axios
       .post(`/hinhanh/${productId.id}`, {})
@@ -115,21 +133,47 @@ export default function ProductDetail({ handleClick }) {
     );
   };
 
-  const handleComment = () => {
+  const handleComment = (reply, setReply,id, setOnClick, isReply) => {
+    if(isReply === false) 
     axios
       .post(`/binhluan/them/${productId.id}`, {
-        MaKH: user["Khachhang.id"],
+        MaKH: makh,
+        MaNV: manv,
         Noidung: comment,
+        Binhluantruoc: null,
         Ngay: dateComment,
       })
       .then((res) => {
         console.log(res.data);
+        getListComment();
       })
       .catch((error) => {
         if (error.response.status === 402) {
           console.log("Chưa nhập nội dung bình luận");
         } else console.log(error + "Bình luận không thành công");
       });
+      else 
+      axios
+      .post(`/binhluan/them/${productId.id}`, {
+        MaKH: makh,
+        MaNV: manv,
+        Noidung: reply,
+        Binhluantruoc: id,
+        Ngay: dateComment,
+      })
+      .then((res) => {
+        console.log(res.data);
+        getListComment();
+      })
+      .catch((error) => {
+        if (error.response.status === 402) {
+          console.log("Chưa nhập nội dung bình luận");
+        } else
+         console.log(error.response.status + "Bình luận không thành công");
+      });
+      setComment("");
+      setOnClick(false);
+      setReply("");
   };
 
   return (
@@ -531,19 +575,27 @@ export default function ProductDetail({ handleClick }) {
                     resize: "none",
                   }}
                   rows={3}
+                  value={comment}
                   onChange={(value) => setComment(value.target.value)}
                   className="col-8 me-3 rounded-2 border border-secondary py-2"
                   placeholder="Nhập bình luận của bạn..."
                 ></textarea>
                 <button
                   className="col-1 h-50 mt-5 btn btn-primary justify-content-center"
-                  onClick={handleComment}
+                  onClick={() => handleComment("", "",  "", "", false)}
                 >
                   Gửi
                 </button>
               </div>
-              <hr className="row mt-4"/>
-              <ListComment className= "row mt-4" MaSP = {productId.id}/>
+              <div className="row mt-4">
+              <hr className="col-9"/>
+              </div>
+              { FirstComments && FirstComments.map((comment) => (
+               
+              <ListComment className= "row mt-4" lstComment = {lstComment} comment = {comment} handleComment = {handleComment}/>
+                
+              ))}
+              
             </div>
           </div>
         </div>

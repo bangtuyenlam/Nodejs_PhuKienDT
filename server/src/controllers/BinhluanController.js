@@ -17,6 +17,15 @@ let listComment = async (req, res) => {
                         attributes: ["TenTK"]
                     }
                     ]
+                },
+                {
+                    model: db.Nhanvien,
+                    attributes: [],
+                    include: [{
+                        model: db.Taikhoan,
+                        attributes: ["TenTK"]
+                    }
+                    ]
                 }
             ]
         });
@@ -32,20 +41,24 @@ let listComment = async (req, res) => {
 let comment = (req, res) => {
     const SP_Ma = req.params.masp;
     const KH_Ma = req.body.MaKH;
+    const NV_Ma = req.body.MaNV;
     const Noidung = req.body.Noidung;
     const Ngay = req.body.Ngay;
-    console.log(SP_Ma, KH_Ma, Noidung, Ngay);
+    const Binhluantruoc = req.body.Binhluantruoc;
+    console.log(SP_Ma, KH_Ma, Noidung, Ngay, Binhluantruoc);
     try{
-        if(Noidung === null) 
+        if(!Noidung) 
         return res.status(402).json({
-            err: true,
+            error: true,
             message: "Vui lòng nhập nội dung"
         });
         else {
             db.Binhluan.create({
                 SP_Ma: SP_Ma,
                 KH_Ma: KH_Ma,
+                NV_Ma: NV_Ma,
                 BL_Noidung: Noidung,
+                Binhluantruoc: Binhluantruoc,
                 BL_Ngaybinhluan: Ngay
             });
             return res.json({

@@ -15,6 +15,41 @@ let listDiscount = async(req,res) => {
     }
 }
 
+const listDiscountDetail = async(req, res) => {
+  try{
+    const Khuyenmaict = await db.Khuyenmaict.findAll({
+        raw: true,
+        attributes: [
+          "*",
+          [
+            db.sequelize.fn("AVG", db.sequelize.col("Sanpham.Danhgia_SPs.DG_Diem")),
+            "DiemTB",
+          ]
+        ],
+        include: [
+          {
+            model: db.Sanpham,
+            as: "Sanpham",
+            include: [
+              {
+                model: db.Danhgia_SP,
+                as: "Danhgia_SPs",
+                 attributes: [],
+              },
+            ],
+          }
+        ],
+       group: ["Sanpham.id"]
+    });
+    return res.json(Khuyenmaict);
+}catch(err) {
+    return res.status(500).json({
+        error: true,
+        message: "Lỗi server",
+    })
+}
+}
+
 let createDiscount = async (req, res) => {
     const KM_Ten = req.body.KM_Ten;
     const Ngaybd = req.body.Ngaybatdau;
@@ -80,5 +115,6 @@ const deleteDiscount = async (req, res) => {
 module.exports = {
     listDiscount: listDiscount,
     createDiscount: createDiscount,
-    deleteDiscount: deleteDiscount
+    deleteDiscount: deleteDiscount,
+    listDiscountDetail: listDiscountDetail,
 }

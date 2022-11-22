@@ -23,6 +23,11 @@ module.exports = {
           bl_ngaybinhluan: {
             type: Sequelize.DataTypes.DATE,
           },
+          
+            binhluantruoc: {
+              type: Sequelize.DataTypes.INTEGER, 
+            }
+          ,
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,

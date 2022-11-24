@@ -13,15 +13,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ListComment({ comment, handleComment, lstComment }) {
+function ListComment({ comment, handleComment, lstComment, setActiveComment,
+  activeComment }) {
   const classes = useStyles();
 
   // const [lstComment, setLstComment] = useState([]);
   const [reply, setReply] = useState();
   const [onclick, setOnClick] = useState();
-  const [id, setId] = useState();
-  const [toUser, setToUser] = useState();
-  const [check, setCheck] = useState(true);
   const kh =
     comment["Khachhang.Taikhoan.TenTK"] !== null
       ? comment["Khachhang.Taikhoan.TenTK"]
@@ -42,23 +40,19 @@ function ListComment({ comment, handleComment, lstComment }) {
   // }, []);
 
   const handleResponse = (id, user) => {
-    setOnClick(true);
-    setId(id);
+    setActiveComment({id: id, type: "replying"})
     setReply("@" + user + ": ");
-    setCheck(false);
+    
   };
 
-  const handleClose = () => {
-    setOnClick(false);
-    setCheck(true)
-  }
-console.log(id);
+
   const handleSubmit = (e) => {
     console.log(comment);
   };
 
   const DisplayReply = () => (
     <div className="row mt-4">
+      {console.log(activeComment.id)}
           <textarea
             style={{
               border: "none",
@@ -74,7 +68,7 @@ console.log(id);
           ></textarea>
           <button
             className="col-1 h-50 mt-5 btn btn-primary justify-content-center"
-            onClick={() => handleComment(reply, setReply, id, setOnClick, onclick)}
+            onClick={() => handleComment(reply, setReply, activeComment.id, setOnClick, onclick)}
           >
             Gửi
           </button>
@@ -95,22 +89,14 @@ console.log(id);
         {comment.BL_Noidung}
       </div>
       <div className="row mt-2">
-        {check &&check === true ? (
+       
            <button
            className="text-primary border-0 col-1"
            onClick={() => handleResponse(comment.id, kh !== null ? kh : nv)}
-           disabled={!check}
          >
            Trả lời
         </button>
-        ) : (
-          <button
-          className="text-primary border-0 col-1"
-          onClick={() => handleClose()}
-        >
-           Đóng
-        </button>
-        )}
+       
        
         <div className="col-sm-2 fst-italic">
           {" "}
@@ -161,7 +147,7 @@ console.log(id);
           );
       })}
 
-      {onclick && onclick === true ? (
+      {activeComment && activeComment.id === comment.id && activeComment.type === "replying" ? (
         <DisplayReply />
       ) : (
         <></>

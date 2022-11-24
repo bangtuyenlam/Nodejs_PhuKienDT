@@ -12,26 +12,14 @@ function Home({handleClick}) {
   return (
     <div>
     
-      <div className="hero">
-        {/* <div className="card bg-dark text-white border-0">
-          <img src={cover} className="card-img" alt="Cover" height="620px" />
-          <div className="card-img-overlay d-flex flex-column justify-content-between">
-            <div className="container">
-              <h5 className="card-title display-3 fw-bolder mb-2 mt-5">
-                Cập nhật sản phẩm mới
-              </h5>
-              <p className="card-text lead fs-2">
-                Tìm kiếm sản phẩm phù hợp xu hướng
-              </p>
-            </div>
-          </div>
-        </div> */}
+      <div className="carousel">
         <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
   <div className="carousel-indicators" >
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
+ 
   <div className="carousel-inner"  style={{ width: "100%"}}>
     <div className="carousel-item active">
     <img src={cover} className="card-img" alt="Cover" height="630px" />
@@ -65,9 +53,10 @@ function Home({handleClick}) {
     <span className="visually-hidden">Next</span>
   </button>
 </div>
-        <ListProduct handleClick={handleClick}/>
-
+        
       </div>
+      <ListProduct handleClick={handleClick}/>
+
     </div>
   );
 }

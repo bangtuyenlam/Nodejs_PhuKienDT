@@ -48,12 +48,20 @@ const ChiTietDonDat = async (ngaydat, dsdondat) => {
           });
           
           dsdondat.map(dondat => {
+            if(dondat["Khuyenmaicts.id"] === null)
                db.Dondatct.create({
                 SP_Ma: dondat.id,
                 DD_Ma: MaDD[0].id,
                 Soluongdat: dondat.amount,
                 Gia: dondat.SP_Gia
               });
+            else 
+            db.Dondatct.create({
+              SP_Ma: dondat.id,
+              DD_Ma: MaDD[0].id,
+              Soluongdat: dondat.amount,
+              Gia: dondat.SP_Gia - (dondat.SP_Gia * dondat["Khuyenmaicts.PhanTramKM"])/100
+            });
              db.Sanpham.update({
               Soluong: dondat.Soluong - dondat.amount
              },

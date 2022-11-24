@@ -1,6 +1,6 @@
 const db = require("../models/index");
 const path = require("path");
-
+const { Op } = require("sequelize");
 let listDiscount = async(req,res) => {
     try{
         const Khuyenmai = await db.Khuyenmai_SP.findAll({
@@ -17,30 +17,66 @@ let listDiscount = async(req,res) => {
 
 const listDiscountDetail = async(req, res) => {
   try{
-    const Khuyenmaict = await db.Khuyenmaict.findAll({
-        raw: true,
-        attributes: [
-          "*",
-          [
-            db.sequelize.fn("AVG", db.sequelize.col("Sanpham.Danhgia_SPs.DG_Diem")),
-            "DiemTB",
-          ]
+    // const Khuyenmaict = await db.Khuyenmaict.findAll({
+    //     raw: true,
+    //     attributes: [
+    //       "*",
+    //       [
+    //         db.sequelize.fn("AVG", db.sequelize.col("Sanpham.Danhgia_SPs.DG_Diem")),
+    //         "DiemTB",
+    //       ]
+    //     ],
+    //     include: [
+    //       {
+    //         model: db.Sanpham,
+    //         as: "Sanpham",
+    //         include: [
+    //           {
+    //             model: db.Danhgia_SP,
+    //             as: "Danhgia_SPs",
+    //              attributes: [],
+    //           },
+    //         ],
+    //       }
+    //     ],
+    //    group: ["Sanpham.id"]
+    // });
+    const Khuyenmaict = await db.Sanpham.findAndCountAll({
+      raw: true,
+      attributes: [
+        "id",
+        "LSP_Ma",
+        "DT_Ma",
+        "SP_Ten",
+        "SP_Gia",
+        "SP_Mota",
+        "Anhdaidien",
+        "Soluong",
+        "Mausac",
+        [
+          db.sequelize.fn("AVG", db.sequelize.col("Danhgia_SPs.DG_Diem")),
+          "DiemTB",
         ],
-        include: [
-          {
-            model: db.Sanpham,
-            as: "Sanpham",
-            include: [
-              {
-                model: db.Danhgia_SP,
-                as: "Danhgia_SPs",
-                 attributes: [],
-              },
-            ],
-          }
-        ],
-       group: ["Sanpham.id"]
+      ],
+      include: [
+        {
+          model: db.Danhgia_SP,
+          as: "Danhgia_SPs",
+          attributes: [],
+        },
+        {
+          model: db.Khuyenmaict,
+          as: "Khuyenmaicts"
+        },
+      ],
+      group: ["id"],
+      where: {
+        '$Khuyenmaicts.id$': {
+          [Op.not] : null
+        }
+      }
     });
+    
     return res.json(Khuyenmaict);
 }catch(err) {
     return res.status(500).json({

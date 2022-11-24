@@ -21,9 +21,11 @@ export default function ProductDetail({ handleClick }) {
   const makh = user && user["Khachhang.id"] !== null ? user["Khachhang.id"] : null;
   const manv = user && user["Nhanvien.id"] !== null ? user["Nhanvien.id"] : null;
   const [lstComment, setLstComment] = useState([]); 
+  const [activeComment, setActiveComment] = useState(null);
   const FirstComments = lstComment.filter(
     (comment) => comment.Binhluantruoc === null
   );
+  
   useEffect(() => {
     axios
       .post(`/sanpham/home/${productId.id}`)
@@ -592,7 +594,10 @@ console.log(lstComment);
               </div>
               { FirstComments && FirstComments.map((comment) => (
                
-              <ListComment className= "row mt-4" lstComment = {lstComment} comment = {comment} handleComment = {handleComment}/>
+              <ListComment className= "row mt-4" lstComment = {lstComment} comment = {comment} handleComment = {handleComment}
+              activeComment={activeComment}
+              setActiveComment={setActiveComment}
+              />
                 
               ))}
               

@@ -10,8 +10,12 @@ function Checkout({ cart }) {
   const [note, setNote] = useState("");
   const ngaydat = new Date();
   const [error, setError] = useState("");
-  const check = customer.KH_Hoten !== null && customer.KH_SDT!== null
-  && customer.KH_Diachi !== null ? false : true;
+  const check =
+    customer.KH_Hoten !== null &&
+    customer.KH_SDT !== null &&
+    customer.KH_Diachi !== null
+      ? false
+      : true;
 
   useEffect(() => {
     axios
@@ -153,13 +157,38 @@ function Checkout({ cart }) {
               <tbody>
                 {cart &&
                   cart.map((val) => {
-                    totalPrice += val.SP_Gia * val.amount;
+                    if (val["Khuyenmaicts.id"] === null)
+                      totalPrice += val.SP_Gia * val.amount;
+                    else
+                      totalPrice +=
+                        val.amount *
+                        (val.SP_Gia -
+                          (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) / 100);
                     return (
                       <tr>
                         <td>{val.SP_Ten}</td>
-                        <td>{val.SP_Gia}</td>
+                        {val["Khuyenmaicts.id"] === null ? (
+                          <td>{val.SP_Gia} </td>
+                        ) : (
+                          <td>
+                            {val.SP_Gia -
+                              (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) /
+                                100}
+                          </td>
+                        )}
+
                         <td>{val.amount}</td>
-                        <td>{val.SP_Gia * val.amount}</td>
+                        {val["Khuyenmaicts.id"] === null ? (
+                          <td>{val.SP_Gia * val.amount}</td>
+                        ) : (
+                          <span>
+                            {val.amount *
+                              (val.SP_Gia -
+                                (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) /
+                                  100)}
+                            
+                          </span>
+                        )}
                       </tr>
                     );
                   })}
@@ -168,7 +197,7 @@ function Checkout({ cart }) {
                     Tổng tiền
                   </td>
                   <td colSpan="2" className="text-end">
-                    {totalPrice}
+                    {totalPrice} VNĐ
                   </td>
                 </tr>
               </tbody>

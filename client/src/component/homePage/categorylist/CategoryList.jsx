@@ -4,110 +4,42 @@ import { getUser } from "../../../Utils/Common";
 import ImageHoverZoom from "../imghoverzoom/ImgHoverZoom";
 import Rating from "@material-ui/lab/Rating";
 import axios from "axios";
-function CategoryList({ products, handleClick }) {
-  const user = getUser();
-  const [Amount, setAmount] = useState(1);
-
-  // const getData = async () => {
-  //   await axios
-  //     .get(`/danhgia/sanpham`)
-  //     .then((res) => {
-  //       setReivew(res.data);
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err + " Không thể lấy được danh sách đơn đặt");
-  //     });
-  // };
-
-  const addcart = (product) => {
-    if (user !== null) {
-      if (product.Soluong > product.amount) {
-        product.amount++;
-      }
-      handleClick(product);
-    } else window.location.href = "/login";
+function CategoryList() {
+  const [categoryList, setCategoryList] = useState([]);
+  useEffect(() => {
+    getCategory();
+  }, []);
+  const getCategory = () => {
+    axios
+      .get("/loaisp")
+      .then((res) => {
+        setCategoryList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
- 
+
+  const getid = (id) => {
+    console.log(id);
+  }
+
   return (
-    <>
-      {products.map((product, i) => {
-        product.amount = 1;
-        return (
-          <div className="col-md-3 mb-4" key={i}>
-            <div className="card">
-              <Link
-                className="card-img-top"
-                style={{ backgroundColor: "white" }}
-                to={`/product/${product.id}`}
-              >
-                <ImageHoverZoom
-                  imagePath={`http://localhost:5000/image/${product.Anhdaidien}`}
-                />
-              </Link>
-              <div className="card-body">
-                <div className="d-flex justify-content-between">
-                  <p className="small">{product.SP_Ten}</p>
-                </div>
-                {product["Khuyenmaicts.PhanTramKM"] != null ? (
-                  <div className="d-flex justify-content-between mb-3">
-                    {/* <h5 className="mb-0">HP Notebook</h5> */}
-
-                    <h5 className="text-dark mb-0">
-                      {product.SP_Gia -
-                        (product.SP_Gia * product["Khuyenmaicts.PhanTramKM"]) /
-                          100}
-                      VNĐ
-                    </h5>
-                    <p className="small text-danger">
-                      <s>{product.SP_Gia} VNĐ</s>
-                    </p>
-                  </div>
-                ) : (
-                  <div className="d-flex justify-content-between mb-3">
-                    {/* <h5 className="mb-0">HP Notebook</h5> */}
-
-                    <h5 className="text-dark mb-0">{product.SP_Gia} VNĐ</h5>
-                  </div>
-                )}
-                <div className="d-flex justify-content-between mb-2">
-                  <p className="text-muted mb-0">
-                    Có sẵn: <span className="fw-bold">{product.Soluong}</span>
-                  </p>
-                  <div className="ms-auto text-warning">
-                    {product.DiemTB === null ? (
-                      <Rating
-                        key={product.DiemTB}
-                        name="half-rating"
-                        defaultValue={5}
-                        precision={0.5}
-                        readOnly
-                      />
-                    ) : (
-                      <Rating
-                        key={product.DiemTB}
-                        name="half-rating"
-                        defaultValue={parseFloat(product.DiemTB)}
-                        precision={0.5}
-                        readOnly
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between px-4">
-                  <button
-                    className="btn btn-outline-dark"
-                    onClick={() => addcart(product)}
-                  >
-                    Thêm vào giỏ hàng
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </>
+    <div className="buttons d-inline justify-content-center mb-1 pb-5">
+      {categoryList &&
+            categoryList.map((value) => {
+              return (
+                <button
+                  key={value.id}
+                  className="btn ms-1 mb-2"
+                  style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
+                  onClick={() => getid(value.id)}
+                >
+                  {value.LSP_Ten}
+                </button>
+              );
+            })}
+    </div>
   );
 }
 

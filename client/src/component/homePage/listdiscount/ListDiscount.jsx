@@ -36,7 +36,7 @@ function ListDiscount({handleClick}) {
     const item = promotion && promotion.map((item, i) => {
         item.amount = 1;
         return (
-        <div className="mb-4 border-3 border border-info" key={i}>
+        <div className="border-3 border border-info" key={i}>
         <div className="card">
           <Link
             className="card-img-top"
@@ -121,7 +121,9 @@ function ListDiscount({handleClick}) {
           controlsStrategy="alternate"
           infinite
           animationDuration={200}
-         
+          autoPlay
+          disableButtonsControls
+          autoPlayInterval={1000}
           />
     </div>
   )

@@ -71,7 +71,7 @@ function App() {
     return children
   } 
   return (
-    <div className="App">
+    <div className="App" style={{fontFamily: "Arial, Helvetica, sans-serif"}}>
       <Wrapper>
       <Routes>
         <Route path="/login" element={<Login />} />

@@ -4,8 +4,10 @@ import { getUser } from "../../../Utils/Common";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import CategoryList from "../categorylist/CategoryList";
+import Product from "../product/Product";
 import 'react-alice-carousel/lib/alice-carousel.css';
 import ListDiscount from "../listdiscount/ListDiscount";
+import ListHotProduct from "../listhot/ListProductHot";
 function ListProduct({ handleClick }) {
   const user = getUser();
   const [products, setProducts] = useState();
@@ -79,17 +81,27 @@ function ListProduct({ handleClick }) {
   }
 
  
-
-
-
   return (
     <div>
 
-      <div className="container my-5 py-5">
-      
+      <div className="container my-5 py-2">
+
     
+      
+      <div className="border border-info bg-info p-2 mb-5">
+      <h5 className="fw-bolder">SẢN PHẨM KHUYẾN MÃI</h5>
           <ListDiscount handleClick={handleClick}/>
-     
+          </div>
+
+          <div className="bg-warning p-2 mb-5 bg-opacity-25" >
+      <h5 className="fw-bolder">SẢN PHẨM NỔI BẬT</h5>
+          <ListHotProduct handleClick={handleClick}/>
+          </div>
+
+          <div className="bg-light p-2 mb-5 pb-4">
+      <h5 className="fw-bolder">DANH MỤC SẢN PHẨM</h5>
+          <CategoryList/>
+          </div>
         <div className="row">
           <div className="col-12 mb-1">
 
@@ -100,7 +112,7 @@ function ListProduct({ handleClick }) {
           </div>
         </div>
 
-        <div className="buttons d-flex justify-content-center mb-1 pb-5">
+        {/* <div className="buttons d-flex justify-content-center mb-1 pb-5">
           <button
             key={0}
             className="btn btn-outline-dark me-2"
@@ -120,14 +132,14 @@ function ListProduct({ handleClick }) {
                 </button>
               );
             })}
-        </div>
+        </div> */}
         <div>
           <div className="row">
             {loading ? (
               <Loading />
             ) : (
               filter && (
-                <CategoryList products={filter} handleClick={handleClick} />
+                <Product products={filter} handleClick={handleClick} />
               )
             )}
           </div>

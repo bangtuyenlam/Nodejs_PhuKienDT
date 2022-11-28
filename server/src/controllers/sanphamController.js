@@ -47,7 +47,7 @@ let productVsRating = async (req, res) => {
         },
       ],
       limit: limit,
-      subQuery: false,
+      subQuery: false, //https://selleo.com/til/posts/ddesmudzmi-offset-pagination-with-subquery-in-sequelize-
       group: ["id"],
     });
 
@@ -337,6 +337,62 @@ let reviewProduct = (req, res) => {
   }
 };
 
+//Lấy 10 sản phẩm được mua nhiều làm sản phẩm nổi bật
+let listHotProduct = async (req, res) => {
+  try {
+    const Sanpham = await db.Sanpham.findAll({
+      attributes: [
+        "id",
+        "LSP_Ma",
+        "DT_Ma",
+        "SP_Ten",
+        "SP_Gia",
+        "SP_Mota",
+        "Anhdaidien",
+        "Soluong",
+        "Mausac",
+        [
+          db.sequelize.fn("COUNT", db.sequelize.col("Dondatcts.SP_Ma")),
+          "Soluongdat",
+        ],
+        [
+          db.sequelize.fn("AVG", db.sequelize.col("Danhgia_SPs.DG_Diem")),
+          "DiemTB",
+        ],
+      ],
+      raw: true,
+      include: [
+        {
+          model: db.Dondatct,
+          as: "Dondatcts",
+          attributes: [],
+        },
+        {
+          model: db.Danhgia_SP,
+          as: "Danhgia_SPs",
+          attributes: [],
+        },
+        {
+          model: db.Khuyenmaict,
+        },
+      ],
+      limit: 10,
+      subQuery: false, 
+      group: ["id"],
+      order: [
+        ["Soluongdat", "DESC"]
+      ],
+      
+    });
+    return res.json(Sanpham);
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+}
+
 module.exports = {
   listProduct: listProduct,
   createProduct: createProduct,
@@ -347,4 +403,5 @@ module.exports = {
   reviewProduct: reviewProduct,
   productVsRating: productVsRating,
   ProductIdfromHome: ProductIdfromHome,
+  listHotProduct: listHotProduct,
 };

@@ -13,13 +13,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ListComment({ comment, handleComment, lstComment, setActiveComment,
-  activeComment }) {
+function ListComment({
+  comment,
+  handleComment,
+  lstComment,
+  setActiveComment,
+  activeComment,
+}) {
   const classes = useStyles();
-
-  // const [lstComment, setLstComment] = useState([]);
   const [reply, setReply] = useState();
-  const [onclick, setOnClick] = useState();
   const kh =
     comment["Khachhang.Taikhoan.TenTK"] !== null
       ? comment["Khachhang.Taikhoan.TenTK"]
@@ -40,42 +42,13 @@ function ListComment({ comment, handleComment, lstComment, setActiveComment,
   // }, []);
 
   const handleResponse = (id, user) => {
-    setActiveComment({id: id, type: "replying"})
+    setActiveComment({ id: id, isReply: true });
     setReply("@" + user + ": ");
-    
   };
-
-
-  const handleSubmit = (e) => {
-    console.log(comment);
-  };
-
-  const DisplayReply = () => (
-    <div className="row mt-4">
-      {console.log(activeComment.id)}
-          <textarea
-            style={{
-              border: "none",
-              backgroundColor: "transparent",
-              outline: "none",
-              resize: "none",
-            }}
-            rows={3}
-            value = {reply}
-            onChange={(value) => setReply(value.target.value)}
-            className="col-8 me-3 rounded-2 border border-secondary py-2"
-            placeholder="Nhập bình luận của bạn..."
-          ></textarea>
-          <button
-            className="col-1 h-50 mt-5 btn btn-primary justify-content-center"
-            onClick={() => handleComment(reply, setReply, activeComment.id, setOnClick, onclick)}
-          >
-            Gửi
-          </button>
-        </div>
-  )
 
   return (
+    <>
+    <hr className="row col-9"/>
     <div key={comment.id} className="mb-3">
       <div className="row">
         <Avatar className={classes.small} variant="square">
@@ -89,15 +62,13 @@ function ListComment({ comment, handleComment, lstComment, setActiveComment,
         {comment.BL_Noidung}
       </div>
       <div className="row mt-2">
-       
-           <button
-           className="text-primary border-0 col-1"
-           onClick={() => handleResponse(comment.id, kh !== null ? kh : nv)}
-         >
-           Trả lời
+        <button
+          className="text-primary border-0 col-1"
+          onClick={() => handleResponse(comment.id, kh !== null ? kh : nv)}
+        >
+          Trả lời
         </button>
-       
-       
+
         <div className="col-sm-2 fst-italic">
           {" "}
           - {dateFormat(comment.BL_Ngaybinhluan, "hh:mm:ss dd-mm-yyyy")}
@@ -107,52 +78,86 @@ function ListComment({ comment, handleComment, lstComment, setActiveComment,
       {lstComment.map((item, i) => {
         if (item.Binhluantruoc === comment.id)
           return (
-            
-              <div className="col-9 mt-3 mb-3 border border-success bg-light" key={i}>
-                <div className="row row-cols-auto pt-1 ms-2">
-                  <Avatar className={classes.small} variant="square">
-                    {item["Khachhang.Taikhoan.TenTK"] !== null
-                      ? item["Khachhang.Taikhoan.TenTK"].slice(0, 1)
-                      : item["Nhanvien.Taikhoan.TenTK"].slice(0, 1)}
-                  </Avatar>
+            <div
+              className="col-9 mt-3 mb-3 border border-success bg-light"
+              key={i}
+            >
+              <div className="row row-cols-auto pt-1 ms-2">
+                <Avatar className={classes.small} variant="square">
+                  {item["Khachhang.Taikhoan.TenTK"] !== null
+                    ? item["Khachhang.Taikhoan.TenTK"].slice(0, 1)
+                    : item["Nhanvien.Taikhoan.TenTK"].slice(0, 1)}
+                </Avatar>
 
-                  <h5 className="col">
-                    {item["Khachhang.Taikhoan.TenTK"] !== null
-                      ? item["Khachhang.Taikhoan.TenTK"]
-                      : item["Nhanvien.Taikhoan.TenTK"]}
-                  </h5>
-                </div>
+                <h5 className="col">
+                  {item["Khachhang.Taikhoan.TenTK"] !== null
+                    ? item["Khachhang.Taikhoan.TenTK"]
+                    : item["Nhanvien.Taikhoan.TenTK"]}
+                </h5>
+              </div>
 
-                <div className="ms-2" style={{ whiteSpace: "pre-line" }}>
-                  {item.BL_Noidung}
-                </div>
-                <div className="row ms-2 pb-1">
-                  <button
-                    className="text-primary border-0 col-1"
-                    onClick={() => handleResponse(comment.id, 
+              <div className="ms-2" style={{ whiteSpace: "pre-line" }}>
+                {item.BL_Noidung}
+              </div>
+              <div className="row ms-2 pb-1">
+                <button
+                  className="text-primary border-0 col-2"
+                  onClick={() =>
+                    handleResponse(
+                      comment.id,
                       item["Khachhang.Taikhoan.TenTK"] !== null
-                      ? item["Khachhang.Taikhoan.TenTK"]
-                      : item["Nhanvien.Taikhoan.TenTK"]
-                      )}
-                  >
-                    Trả lời
-                  </button>
-                  <div className="col-sm-3 fst-italic">
-                    {" "}
-                    - {dateFormat(item.BL_Ngaybinhluan, "hh:mm:ss dd-mm-yyyy")}
-                  </div>
+                        ? item["Khachhang.Taikhoan.TenTK"]
+                        : item["Nhanvien.Taikhoan.TenTK"]
+                    )
+                  }
+                >
+                  Trả lời
+                </button>
+                <div className="col-sm-3 fst-italic">
+                  {" "}
+                  - {dateFormat(item.BL_Ngaybinhluan, "hh:mm:ss dd-mm-yyyy")}
                 </div>
               </div>
-       
+            </div>
           );
       })}
 
-      {activeComment && activeComment.id === comment.id && activeComment.type === "replying" ? (
-        <DisplayReply />
+      {activeComment &&
+      activeComment.id === comment.id &&
+      activeComment.isReply === true ? (
+        <div className="row mt-4">
+          <textarea
+            style={{
+              border: "none",
+              backgroundColor: "transparent",
+              outline: "none",
+              resize: "none",
+            }}
+            rows={3}
+            value={reply}
+            onChange={(value) => setReply(value.target.value)}
+            className="col-8 me-3 rounded-2 border border-secondary py-2"
+            placeholder="Nhập bình luận của bạn..."
+          ></textarea>
+          <button
+            className="col-1 h-50 mt-5 btn btn-primary justify-content-center"
+            onClick={() =>
+              handleComment(
+                reply,
+                setReply,
+                activeComment.id,
+                activeComment.isReply
+              )
+            }
+          >
+            Gửi
+          </button>
+        </div>
       ) : (
         <></>
       )}
     </div>
+    </>
   );
 }
 

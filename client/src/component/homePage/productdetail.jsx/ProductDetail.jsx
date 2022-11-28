@@ -135,8 +135,8 @@ console.log(lstComment);
     );
   };
 
-  const handleComment = (reply, setReply,id, setOnClick, isReply) => {
-    if(isReply === false) 
+  const handleComment = (reply, setReply,id, isReply) => {
+    if(isReply !== true) 
     axios
       .post(`/binhluan/them/${productId.id}`, {
         MaKH: makh,
@@ -155,6 +155,7 @@ console.log(lstComment);
         } else console.log(error + "Bình luận không thành công");
       });
       else 
+      {
       axios
       .post(`/binhluan/them/${productId.id}`, {
         MaKH: makh,
@@ -173,9 +174,10 @@ console.log(lstComment);
         } else
          console.log(error.response.status + "Bình luận không thành công");
       });
-      setComment("");
-      setOnClick(false);
       setReply("");
+    }
+      setComment("");
+      setActiveComment({isReply: false});
   };
 
   return (
@@ -584,13 +586,13 @@ console.log(lstComment);
                 ></textarea>
                 <button
                   className="col-1 h-50 mt-5 btn btn-primary justify-content-center"
-                  onClick={() => handleComment("", "",  "", "", false)}
+                  onClick={() => handleComment()}
                 >
                   Gửi
                 </button>
               </div>
               <div className="row mt-4">
-              <hr className="col-9"/>
+              
               </div>
               { FirstComments && FirstComments.map((comment) => (
                

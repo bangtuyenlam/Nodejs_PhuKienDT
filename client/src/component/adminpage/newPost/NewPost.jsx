@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { getUser} from "../../../Utils/Common";
 import anh from "../../image/default.png";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 export default function NewPost() {
   const manv = getUser();
   const [tieude, setTieude] = useState("");
@@ -74,7 +76,7 @@ export default function NewPost() {
         }
     setHinhanh(e.target.files[0]);
   };
-
+console.log(noidung);
   return (
     <div className="newPost">
       <h1 className="newPostTitle">Thêm bài đăng</h1>
@@ -109,13 +111,22 @@ export default function NewPost() {
           </select>
         </div>
         <div className="newPostItem">
-          <label> Nội dung</label>
+        <label> Nội dung</label>
+          {/* <label> Nội dung</label>
           <textarea
             type="text"
             value={noidung}
             onChange={(value) => setNoidung(value.target.value)}
             rows="12"
-          ></textarea>
+          ></textarea> */}
+          <ReactQuill value={noidung} onChange={setNoidung} style={{height: "200px", marginBottom: "17px"}}/>
+          <button
+          className="newPostButton"
+          type="button"
+          onClick={handleCreate}
+        >
+          Lưu
+        </button>
         </div>
         <div className="newPostItem">
           <label>Ảnh đại diện</label>
@@ -125,13 +136,8 @@ export default function NewPost() {
           </div>
       
         </div>
-        <button
-          className="newPostButton"
-          type="button"
-          onClick={handleCreate}
-        >
-          Lưu
-        </button>
+        
+      
       </form>
     </div>
   );

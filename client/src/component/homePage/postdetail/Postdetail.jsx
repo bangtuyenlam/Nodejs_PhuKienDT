@@ -13,7 +13,7 @@ function Postdetail({ post }) {
              alt="anh"/>
             <div className="card-body">
               <h5 className="card-title" key="Tieude">{p.Tieude}</h5>
-              <p className="card-text" key="Noidung">{p.Noidung.substring(0,200)}</p>
+              <p className="card-text" key="Noidung" dangerouslySetInnerHTML={{__html: p.Noidung.substring(0,200)}}></p>
               <Link to={`/post/${p.id}`} key="Chitiet"> Chi tiết </Link>
             </div>
           </div>

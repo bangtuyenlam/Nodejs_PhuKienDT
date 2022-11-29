@@ -23,10 +23,10 @@ function PostId() {
   return (
     <div className="container">
       {post && (
-        <div classname="card mb-5">
+        <div className="card mb-5">
           <img
             src={`http://localhost:5000/image/${post.BD_Hinhanh}`}
-            classname="card-img-top"
+            className="card-img-top"
             style={{
               width: "100%",
               marginTop: 20,
@@ -35,16 +35,16 @@ function PostId() {
             }}
             alt="anh"
           />
-          <div classname="card-body">
-            <h2 classname="card-title" style={{ alignItems: "center" }}>
+          <div className="card-body">
+            <h2 className="card-title" style={{ alignItems: "center" }}>
               {post.Tieude}
             </h2>
             <br />
-            <p classname="card-text" style={{ whiteSpace: "pre-line" }}>
-              {post.Noidung}
+            <p className="card-text" style={{ whiteSpace: "pre-line" }} dangerouslySetInnerHTML={{__html: post.Noidung}}>
+            
             </p>
 
-            <i classname="card-title">
+            <i className="card-title">
               Ngày đăng: {dateFormat(post.Ngaydang, "h:MM:ss TT dd-mm-yyyy")}
             </i>
           </div>

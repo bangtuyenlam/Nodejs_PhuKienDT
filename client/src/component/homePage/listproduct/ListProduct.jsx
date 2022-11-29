@@ -102,14 +102,32 @@ function ListProduct({ handleClick }) {
       <h5 className="fw-bolder">DANH MỤC SẢN PHẨM</h5>
           <CategoryList/>
           </div>
-        <div className="row">
-          <div className="col-12 mb-1">
-
-            
-
-            <h1 className="display-6 fw-bolder text-center">Tất cả sản phẩm</h1>
+        <div className="p-2 mb-5 bg-danger bg-opacity-50">
+        
+            <h2 className="fw-bolder text-center">Tất cả sản phẩm</h2>
             <hr />
+       
+          <div>
+          <div className="row">
+            {loading ? (
+              <Loading />
+            ) : (
+              filter && (
+                <Product products={filter} handleClick={handleClick} />
+              )
+            )}
           </div>
+        </div>
+        {  limit < countProducts ? (
+        <div className="d-grid gap-2 col-3 mx-auto">
+            <div className="btn btn-outline-secondary w-100" onClick={loadMore}>Xem thêm sản phẩm</div>
+            
+          </div>)
+          : ( <div className="d-grid gap-2 col-3 mx-auto">
+          <div className="btn btn-outline-secondary w-100" onClick={shortCut}>Rút gọn</div>
+          
+        </div>)
+}
         </div>
 
         {/* <div className="buttons d-flex justify-content-center mb-1 pb-5">
@@ -133,27 +151,7 @@ function ListProduct({ handleClick }) {
               );
             })}
         </div> */}
-        <div>
-          <div className="row">
-            {loading ? (
-              <Loading />
-            ) : (
-              filter && (
-                <Product products={filter} handleClick={handleClick} />
-              )
-            )}
-          </div>
-        </div>
-        {  limit < countProducts ? (
-        <div className="d-grid gap-2 col-3 mx-auto">
-            <div className="btn btn-outline-secondary w-100" onClick={loadMore}>Xem thêm sản phẩm</div>
-            
-          </div>)
-          : ( <div className="d-grid gap-2 col-3 mx-auto">
-          <div className="btn btn-outline-secondary w-100" onClick={shortCut}>Rút gọn</div>
-          
-        </div>)
-}
+        
       </div>
         
     </div>

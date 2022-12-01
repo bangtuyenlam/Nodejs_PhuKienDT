@@ -10,32 +10,31 @@ import ListDiscount from "../listdiscount/ListDiscount";
 import ListHotProduct from "../listhot/ListProductHot";
 function ListProduct({ handleClick }) {
   const user = getUser();
-  const [products, setProducts] = useState();
-  const [categoryList, setCategoryList] = useState([]);
-  const [filter, setFilter] = useState(products);
-  const [amount, setAmount] = useState();
+ 
+  const [filter, setFilter] = useState([]);
+ 
   const [loading, setLoading] = useState(true);
-  const [limit, setLimit] = useState(12);
+  const [limit, setLimit] = useState(0);
   const [countProducts, setCountProducts] = useState();
 
   
   useEffect(() => {
     getData();
-    getCategory();
+    
   }, [limit]);
 
   
-  const getCategory = () => {
-    axios
-      .get("/loaisp")
-      .then((res) => {
-        setCategoryList(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const getCategory = () => {
+  //   axios
+  //     .get("/loaisp")
+  //     .then((res) => {
+  //       setCategoryList(res.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const getData = async () => {
     await axios
@@ -43,18 +42,17 @@ function ListProduct({ handleClick }) {
         limit: limit,
       })
       .then((res) => {
-        setProducts(res.data.rows);
-        setFilter(res.data.rows);
+      
+        if(limit === 0) {
+        setFilter(res.data.rows)
+        }
+        else setFilter(data => [...data, ...res.data.rows])
         setCountProducts(res.data.count.length);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err + " Không thể lấy được sản phẩm");
       });
-  };
-
-  const getid = (id) => {
-    const filterProduct = products.filter((value) => value.LSP_Ma === id);
-    setFilter(filterProduct);
   };
 
   const Loading = () => {
@@ -73,11 +71,12 @@ function ListProduct({ handleClick }) {
   };
 
   const loadMore = () => {
-    setLimit(limit+4);
+   
+    setLimit(limit+1);
   }
 
   const shortCut = () => {
-    setLimit(12);
+    setLimit(0);
   }
 
  
@@ -85,9 +84,7 @@ function ListProduct({ handleClick }) {
     <div>
 
       <div className="container my-5 py-2">
-
-    
-      
+  
       <div className="border border-info bg-info p-2 mb-5">
       <h5 className="fw-bolder">SẢN PHẨM KHUYẾN MÃI</h5>
           <ListDiscount handleClick={handleClick}/>
@@ -102,7 +99,7 @@ function ListProduct({ handleClick }) {
       <h5 className="fw-bolder">DANH MỤC SẢN PHẨM</h5>
           <CategoryList/>
           </div>
-        <div className="p-2 mb-5 bg-danger bg-opacity-50">
+        <div className="p-2 mb-5 bg-danger bg-opacity-100">
         
             <h2 className="fw-bolder text-center">Tất cả sản phẩm</h2>
             <hr />
@@ -118,13 +115,13 @@ function ListProduct({ handleClick }) {
             )}
           </div>
         </div>
-        {  limit < countProducts ? (
+        { filter && filter.length < countProducts ? (
         <div className="d-grid gap-2 col-3 mx-auto">
-            <div className="btn btn-outline-secondary w-100" onClick={loadMore}>Xem thêm sản phẩm</div>
+            <div className="btn btn-outline-dark w-100" onClick={loadMore}>Xem thêm sản phẩm</div>
             
           </div>)
           : ( <div className="d-grid gap-2 col-3 mx-auto">
-          <div className="btn btn-outline-secondary w-100" onClick={shortCut}>Rút gọn</div>
+          <div className="btn btn-secondary w-100" onClick={shortCut}>Rút gọn</div>
           
         </div>)
 }

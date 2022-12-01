@@ -17,7 +17,8 @@ let listProduct = async (req, res) => {
 };
 
 let productVsRating = async (req, res) => {
-  const limit = req.body.limit;
+  const limit = 12;
+  const offset = limit * req.body.limit;
   try {
     const Sanpham = await db.Sanpham.findAndCountAll({
       raw: true,
@@ -47,6 +48,7 @@ let productVsRating = async (req, res) => {
         },
       ],
       limit: limit,
+      offset: offset,
       subQuery: false, //https://selleo.com/til/posts/ddesmudzmi-offset-pagination-with-subquery-in-sequelize-
       group: ["id"],
     });

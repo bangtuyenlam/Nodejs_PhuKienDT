@@ -16,6 +16,7 @@ const khuyenmaiRouter = require("./khuyenmaiRouter");
 const nhaphangRouter = require("./nhaphangRouter");
 const hinhanhRouter = require("./hinhanhRouter");
 const thongkeRouter = require("./thongkeRouter");
+const locspRouter = require("./locSPRouter");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
@@ -30,6 +31,7 @@ function route(app) {
   app.use("/theloai", theloaiRouter);
   app.use("/dathang", dathangRouter, urlencodedParser, jsonParser);
   app.use("/sanpham", sanphamRouter,urlencodedParser, jsonParser);
+  app.use("/locsp", locspRouter, urlencodedParser, jsonParser);
   app.use("/binhluan", binhluanRouter, urlencodedParser, jsonParser);
   app.use("/nhaphang", nhaphangRouter, urlencodedParser, jsonParser);
   app.use("/thongke", thongkeRouter, urlencodedParser, jsonParser);

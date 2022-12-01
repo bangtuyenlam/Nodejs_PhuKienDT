@@ -36,7 +36,7 @@ function ListDiscount({handleClick}) {
     const item = promotion && promotion.map((item, i) => {
         item.amount = 1;
         return (
-        <div className="border-3 border border-info" key={i}>
+        <div className="me-2 ms-2" key={i}>
         <div className="card">
           <Link
             className="card-img-top"
@@ -49,7 +49,7 @@ function ListDiscount({handleClick}) {
           </Link>
           <div className="card-body">
             <div className="d-flex justify-content-between">
-              <p className="small">{item.SP_Ten}</p>
+              <p className="small" style={{height: "40px"}}>{item.SP_Ten}</p>
             </div>
          
               <div className="d-flex justify-content-between mb-3">

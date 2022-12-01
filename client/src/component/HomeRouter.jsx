@@ -10,6 +10,7 @@ import Listpost from "./homePage/listpost/Listpost";
 import PostId from "./homePage/postid/PostId";
 import PersonalPage from "./homePage/personalPage/PersonalPage";
 import { PrivateRoute } from "../Utils/PrivateRoute";
+import FilterProduct from "./homePage/filterproduct/FilterProduct";
 
 export default function HomeRouter() {
   const [cart, setCart] = useState([]);
@@ -62,6 +63,7 @@ export default function HomeRouter() {
       <Navbar size={product.length} />
       <Routes>
         <Route path="/" element={<Home handleClick={handleClick} />} />
+        <Route path="/filter-:id" element={<FilterProduct handleClick={handleClick}/>}/>
         <Route element={<PrivateRoute/>}>
           <Route path="/personal/*" element={<PersonalPage />} />
         </Route>

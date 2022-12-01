@@ -5,6 +5,7 @@ import ImageHoverZoom from "../imghoverzoom/ImgHoverZoom";
 import Rating from "@material-ui/lab/Rating";
 
 function Product({ products, handleClick }) {
+  console.log(products);
   const user = getUser();
 
 
@@ -34,8 +35,8 @@ function Product({ products, handleClick }) {
                 />
               </Link>
               <div className="card-body">
-                <div className="d-flex justify-content-between">
-                  <p className="small">{product.SP_Ten}</p>
+                <div className="d-flex justify-content-between mb-2">
+                  <p className="small" style={{height: "40px"}}>{product.SP_Ten}</p>
                 </div>
                 {product["Khuyenmaicts.PhanTramKM"] != null ? (
                   <div className="d-flex justify-content-between mb-3">
@@ -47,7 +48,7 @@ function Product({ products, handleClick }) {
                           100}
                       VNĐ
                     </h5>
-                    <p className="small text-danger">
+                    <p className="small text-danger mb-0">
                       <s>{product.SP_Gia} VNĐ</s>
                     </p>
                   </div>

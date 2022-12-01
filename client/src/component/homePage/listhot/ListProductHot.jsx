@@ -40,7 +40,7 @@ function ListHotProduct({handleClick}) {
         return (
         <div className="me-2 ms-2" key={i} >
         <div className="card">
-          <Link
+          <Link 
             className="card-img-top"
             style={{ backgroundColor: "white" }}
             to={`/product/${item.id}`}

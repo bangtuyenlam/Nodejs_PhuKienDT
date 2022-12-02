@@ -13,9 +13,36 @@ function FilterProduct({handleClick}) {
     const [loading, setLoading] = useState(true);
     const [limit, setLimit] = useState(0);
     const [countProducts, setCountProducts] = useState();
+    const [phoneList, setPhoneList] = useState([]);
+    const [phoneId, setPhoneId] = useState([]);
+    const [filter, setFilter] = useState([]);
     useEffect(() => {
       getData();
-    }, [limit])
+      getPhoneList();
+      if(phoneId.length > 0) {
+        axios
+      .post(`/locsp/dt/${categoryId.id}`, {
+       limit: limit,
+       madt: phoneId, 
+     })
+       .then((res) => {
+        console.log(res.data);
+        if(limit === 0) {
+          setFilter(res.data.rows)
+        
+          }
+          else setFilter(data => [...data, ...res.data.rows])
+          setCountProducts(res.data.count.length);
+          setLoading(false);
+       })
+       .catch((err) => {
+         console.log(err);
+       }); 
+      }
+    }, [limit, phoneId])
+    console.log(phoneId)
+    console.log(products);
+  console.log(filter);
 
     const getData = async () => {
       await axios
@@ -34,6 +61,17 @@ function FilterProduct({handleClick}) {
           console.log(err + " Không thể lấy được sản phẩm");
         });
     };
+
+    const getPhoneList = () => {
+      axios
+      .get("/dienthoai")
+      .then((res) => {
+        setPhoneList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    };
     const Loading = () => {
       return (
         <>
@@ -48,7 +86,6 @@ function FilterProduct({handleClick}) {
         </>
       );
     };
-    console.log(products);
     
   const loadMore = () => {
    
@@ -79,26 +116,91 @@ function FilterProduct({handleClick}) {
       </div>
     </div>
     )
+
+    const FilterByPhone = (value) => {
+     
+      if(phoneId.includes(value) === false) {
+        setPhoneId([...phoneId, value])
+      }else
+        setPhoneId(phoneId.filter((item) => item !== value))
+      
+      //  FilterPhone(); 
+    }
+
+    const FilterPhone = () => {
+      axios
+      .post(`/locsp/dt/${categoryId.id}`, {
+       limit: limit,
+       tendt: phoneId, 
+     })
+       .then((res) => {
+         setPhoneList(res.data);
+       })
+       .catch((err) => {
+         console.log(err);
+       }); 
+    }
+    const Phone = () => (
+      <div className="buttons d-inline justify-content-center mb-1 pb-5">
+      {phoneList &&
+            phoneList.map((value) => {
+              return (
+                <button
+                  key={value.id}
+                  className="btn ms-1 mb-2"
+                  style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
+                  onClick={() => FilterByPhone(value.id)}
+                >
+                  {value.DT_Ten}
+                </button>
+              );
+            })}
+    </div>
+    )
   return (
     <div className='container my-5 py-2'>
-      <Carousel/>
+      <Carousel className="mb-5"/>
+      <h5 className="fw-bolder mt-5">Tìm được {products.length} sản phẩm</h5>
 
-    <div className='p-2 mt-5 bg-danger bg-opacity-100'>
+      <div className="bg-light p-2 mb-5 pb-4 shadow-lg mt-3">
+      <h5 className="fw-bolder">Bộ lọc</h5>
+          <hr/>
+         
+          <div className="buttons d-inline justify-content-center mb-1 pb-5">
+      {phoneList &&
+            phoneList.map((value) => {
+              return (
+                <button
+                  key={value.id}
+                  className="btn ms-1 mb-2"
+                  style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
+                  onClick={() => FilterByPhone(value.id)}
+                >
+                  {value.DT_Ten}
+                </button>
+              );
+            })}
+    </div>
+
+      </div>
+    <div className='p-3 mb-5 mt-5 bg-danger bg-opacity-100 shadow-lg'>
       <div className="row mt-2">
             {loading ? (
               <Loading />
             ) : (
-              products && (
-                <Product products={products} handleClick={handleClick} />
+              filter && products && (
+                phoneId.length > 0  ?
+                <Product products={filter} handleClick={handleClick}/>
+                : <Product products={products} handleClick={handleClick}/>
               )
             )}
           </div>
-          {  products.length < countProducts ? (
+          {  products.length < countProducts  ? (
         <div className="d-grid gap-2 col-3 mx-auto">
             <div className="btn btn-outline-secondary w-100" onClick={loadMore}>Xem thêm sản phẩm</div>
             
           </div>)
-          : ( products.length > 12 && <div className="d-grid gap-2 col-3 mx-auto">
+          : ( products.length > 12 || filter.length > 12 && <div className="d-grid gap-2 col-3 mx-auto">
           <div className="btn btn-outline-secondary w-100" onClick={shortCut}>Rút gọn</div>
           
         </div>)

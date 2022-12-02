@@ -24,18 +24,6 @@ function ListProduct({ handleClick }) {
   }, [limit]);
 
   
-  // const getCategory = () => {
-  //   axios
-  //     .get("/loaisp")
-  //     .then((res) => {
-  //       setCategoryList(res.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const getData = async () => {
     await axios
       .post("/sanpham/sp", {

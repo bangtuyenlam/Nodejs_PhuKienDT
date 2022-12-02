@@ -9,10 +9,12 @@ import {
 } from "@material-ui/icons";
 import React from "react";
 import {Link} from "react-router-dom";
-
+import ScrollToTop from "react-scroll-to-top";
+import PetsIcon from '@material-ui/icons/Pets';
 function Footer() {
   return (
     <div>
+       <ScrollToTop smooth top={800} component={<PetsIcon color='primary'/>}/>
       <footer
         className="text-center text-lg-start bg-warning text-muted"
         style={{ marginTop: "20px"}}

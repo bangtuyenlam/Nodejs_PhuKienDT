@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getUser } from "../../../Utils/Common";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 function Checkout({ cart }) {
   var totalPrice = 0;
   const navigate = useNavigate();
@@ -14,8 +16,8 @@ function Checkout({ cart }) {
     customer.KH_Hoten !== null &&
     customer.KH_SDT !== null &&
     customer.KH_Diachi !== null
-      ? false
-      : true;
+      ? true
+      : false;
 
   useEffect(() => {
     axios
@@ -43,8 +45,21 @@ function Checkout({ cart }) {
         dondatct: cart,
       })
       .then((res) => {
-        navigate("/personal/listorder");
-        window.location.reload();
+     
+        Swal.fire({
+          icon: 'success',
+          title: 'Đặt hàng thành công!',
+          confirmButtonText: 'OK',
+         
+        }).then((result) => {
+       
+          if (result.isConfirmed) {
+            navigate("/personal/listorder")
+            window.location.reload()
+          }
+        })
+       
+         
       })
       .catch((error) => {
         if (error.response.status === 402) {
@@ -126,19 +141,33 @@ function Checkout({ cart }) {
                         ></textarea>
                       </div>
                     </div>
+                    {check ? 
+                     <div className="col-md-12">
+                     <div className="form-group text-end">
+                       <button
+                         type="button"
+                         
+                         className="btn btn-primary"
+                         onClick={handleCheckOut}
+                       >
+                         Đặt hàng
+                       </button>
+                     </div>
+                   </div> : 
                     <div className="col-md-12">
-                      <div className="form-group text-end">
-                        <button
-                          type="button"
-                          name="email"
-                          className="btn btn-primary"
-                          onClick={handleCheckOut}
-                          disabled={check}
-                        >
-                          Đặt hàng
-                        </button>
-                      </div>
+                    <div className="form-group text-end">
+                      <Link
+                       
+                        to={`/personal/${customer.id}`}
+                        className="btn btn-primary"
+                      
+                      >
+                        Cập nhật tài khoản
+                      </Link>
                     </div>
+                  </div>
+                    }
+                   
                   </div>
                 </div>
               </div>

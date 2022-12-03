@@ -22,7 +22,7 @@ import NewDiscount from "./adminpage/newDiscount/NewDiscount";
 import ProductImg from "./adminpage/productImg/ProductImg";
 import ImportProduct from "./adminpage/importProduct/ImportProduct";
 import NewImport from "./adminpage/newImport/NewImport";
-import Statistics from "./adminpage/statistics/Statistics";
+import InvoiceManager from "./adminpage/invoiceManager/InvoiceManager";
 function Admin() {
   return (
     <div>
@@ -56,7 +56,7 @@ function Admin() {
           <Route path="discountProducts" element={<DiscountProducts/>}/>
           <Route path="newdiscount" element={<NewDiscount/>}/>
 
-          <Route path="statistics" element={<Statistics/>}/>
+          <Route path="invoiceManager" element={<InvoiceManager/>}/>
         </Routes>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import './featuredinfo.css';
+import './invoicemanager.css';
 import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
 import { Link} from 'react-router-dom';
 import dateFormat from 'dateformat';
 import { DeleteOutline } from "@material-ui/icons";
 
-export default function Featuredinfo() {
+export default function InvoiceManager() {
     const [dondat, setDondat] = useState([]);
     // const [sortModel, setSortModel] = useState([
     //   {

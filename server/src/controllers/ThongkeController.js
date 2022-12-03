@@ -1,6 +1,6 @@
 const db = require("../models/index");
 
-let DoanhThuTheoThang = async (req, res) => {
+let DoanhThuTheoNam = async (req, res) => {
   const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const year = req.body.year;
   try {
@@ -43,7 +43,53 @@ let DoanhThuTheoThang = async (req, res) => {
   }
 };
 
-let TongDonHangTheoThang = async (req, res) => {
+
+
+let DoanhThuTheoThang = async (req, res) => {
+  const Ngay = [];
+  const month = req.body.month;
+  try {
+    const result = await db.Dondatct.findAll({
+      raw: true,
+      attributes: [
+        [db.sequelize.fn("SUM", db.sequelize.col("Gia")), "tongtien"],
+        [
+          db.sequelize.fn("DAY", db.sequelize.col("Dondat.Ngaygiao")),
+          "day",
+        ],
+      ],
+
+      include: [
+        {
+          model: db.Dondat,
+          as: "Dondat",
+          where: {
+            Ngaygiao: db.sequelize.where(
+              db.sequelize.fn("MONTH", db.sequelize.col("Ngaygiao")),
+              month
+            ),
+            Trangthai: 2,
+            //Trạng thái đơn hàng đã thanh toán
+          },
+          attributes: [],
+        },
+      ],
+      group: ["day"],
+    });
+    // result.map((item) => {
+    //   thang[item.day - 1] = item.tongtien;
+    // })
+    // console.log(result);
+    return res.json(result);
+  } catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+};
+
+let TongDonHangTheoNam = async (req, res) => {
   const year = req.body.year;
   const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   try {
@@ -77,7 +123,7 @@ let TongDonHangTheoThang = async (req, res) => {
   }
 };
 
-let DonHangHoanThanhTheoThang = async (req, res) => {
+let DonHangHoanThanhTheoNam = async (req, res) => {
     const year = req.body.year;
     const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     try {
@@ -112,7 +158,7 @@ let DonHangHoanThanhTheoThang = async (req, res) => {
     }
   };
 
-  let DonHangDaHuyTheoThang = async (req, res) => {
+  let DonHangDaHuyTheoNam = async (req, res) => {
     const year = req.body.year;
     const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     try {
@@ -148,8 +194,9 @@ let DonHangHoanThanhTheoThang = async (req, res) => {
   };
 
 module.exports = {
+  DoanhThuTheoNam: DoanhThuTheoNam,
+  TongDonHangTheoNam: TongDonHangTheoNam,
+  DonHangHoanThanhTheoNam: DonHangHoanThanhTheoNam,
+  DonHangDaHuyTheoNam: DonHangDaHuyTheoNam,
   DoanhThuTheoThang: DoanhThuTheoThang,
-  TongDonHangTheoThang: TongDonHangTheoThang,
-  DonHangHoanThanhTheoThang: DonHangHoanThanhTheoThang,
-  DonHangDaHuyTheoThang: DonHangDaHuyTheoThang,
 };

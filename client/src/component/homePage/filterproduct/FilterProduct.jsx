@@ -9,51 +9,36 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 function FilterProduct({handleClick}) {
     const categoryId = useParams();
-    const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [limit, setLimit] = useState(0);
     const [countProducts, setCountProducts] = useState();
     const [phoneList, setPhoneList] = useState([]);
     const [phoneId, setPhoneId] = useState([]);
-    const [filter, setFilter] = useState([]);
+    const [product, setProduct] = useState([]);
+    const [sort, setSort] = useState(0);
     useEffect(() => {
-      getData();
       getPhoneList();
       if(phoneId.length > 0) {
-        axios
-      .post(`/locsp/dt/${categoryId.id}`, {
-       limit: limit,
-       madt: phoneId, 
-     })
-       .then((res) => {
-        console.log(res.data);
-        if(limit === 0) {
-          setFilter(res.data.rows)
-        
-          }
-          else setFilter(data => [...data, ...res.data.rows])
-          setCountProducts(res.data.count.length);
-          setLoading(false);
-       })
-       .catch((err) => {
-         console.log(err);
-       }); 
+      filterbyPhone();
       }
-    }, [limit, phoneId])
-    console.log(phoneId)
-    console.log(products);
-  console.log(filter);
+      else 
+      getData();
+    }, [limit, phoneId, sort])
+  //   console.log(phoneId)
+  //   console.log(products);
+  // console.log(product);
 
     const getData = async () => {
       await axios
         .post(`/locsp/${categoryId.id}`, {
           limit: limit,
+          sortid: sort,
         })
         .then((res) => {
           if(limit === 0) {
-            setProducts(res.data.rows)
+            setProduct(res.data.rows)
             }
-            else setProducts(data => [...data, ...res.data.rows])
+            else setProduct(data => [...data, ...res.data.rows])
             setCountProducts(res.data.count.length);
             setLoading(false);
         })
@@ -61,6 +46,27 @@ function FilterProduct({handleClick}) {
           console.log(err + " Không thể lấy được sản phẩm");
         });
     };
+    console.log(countProducts);
+
+    const filterbyPhone = () => {
+      axios
+      .post(`/locsp/dt/${categoryId.id}`, {
+       limit: limit,
+       madt: phoneId,
+       sortid: sort 
+     })
+       .then((res) => {
+        if(limit === 0) {
+          setProduct(res.data.rows)
+          }
+          else setProduct(data => [...data, ...res.data.rows])
+          setCountProducts(res.data.count.length);
+          setLoading(false);
+       })
+       .catch((err) => {
+         console.log(err);
+       }); 
+    }
 
     const getPhoneList = () => {
       axios
@@ -75,8 +81,8 @@ function FilterProduct({handleClick}) {
     const Loading = () => {
       return (
         <>
-          {products &&
-            products.map((sp, i) => {
+          {product &&
+            product.map((sp, i) => {
               return (
                 <div className="col-md-3 mb-4" key={i}>
                   <Skeleton height={300} />
@@ -117,50 +123,23 @@ function FilterProduct({handleClick}) {
     </div>
     )
 
-    const FilterByPhone = (value) => {
+    const getLstPhoneId = (value) => {
      
       if(phoneId.includes(value) === false) {
         setPhoneId([...phoneId, value])
       }else
         setPhoneId(phoneId.filter((item) => item !== value))
       
-      //  FilterPhone(); 
     }
 
-    const FilterPhone = () => {
-      axios
-      .post(`/locsp/dt/${categoryId.id}`, {
-       limit: limit,
-       tendt: phoneId, 
-     })
-       .then((res) => {
-         setPhoneList(res.data);
-       })
-       .catch((err) => {
-         console.log(err);
-       }); 
+    const selectSortChange = (value) => {
+      setSort(value.target.value);
     }
-    const Phone = () => (
-      <div className="buttons d-inline justify-content-center mb-1 pb-5">
-      {phoneList &&
-            phoneList.map((value) => {
-              return (
-                <button
-                  key={value.id}
-                  className="btn ms-1 mb-2"
-                  style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
-                  onClick={() => FilterByPhone(value.id)}
-                >
-                  {value.DT_Ten}
-                </button>
-              );
-            })}
-    </div>
-    )
+    console.log(sort);
   return (
     <div className='container my-5 py-2'>
       <Carousel className="mb-5"/>
-      <h5 className="fw-bolder mt-5">Tìm được {products.length} sản phẩm</h5>
+      <h5 className="fw-bolder mt-5">Tìm được {product.length} sản phẩm</h5>
 
       <div className="bg-light p-2 mb-5 pb-4 shadow-lg mt-3">
       <h5 className="fw-bolder">Bộ lọc</h5>
@@ -173,8 +152,8 @@ function FilterProduct({handleClick}) {
                 <button
                   key={value.id}
                   className="btn ms-1 mb-2"
-                  style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
-                  onClick={() => FilterByPhone(value.id)}
+                  style={{ backgroundColor: phoneId.includes(value.id) ? "rgba(166, 181, 226, 1)" : "rgba(161, 89, 160, 0.9)" }}
+                  onClick={() => getLstPhoneId(value.id)}
                 >
                   {value.DT_Ten}
                 </button>
@@ -184,23 +163,51 @@ function FilterProduct({handleClick}) {
 
       </div>
     <div className='p-3 mb-5 mt-5 bg-danger bg-opacity-100 shadow-lg'>
+      <div className='d-flex flex-row-reverse bd-highlight'>
+      <select
+            className="p-2 border-0 rounded"
+            id="order"
+            onChange={selectSortChange}
+            placeholder="Sắp xếp: "
+          >
+ 
+            <option value={0}>
+              Mặc định
+            </option>
+
+           
+                  <option value={1} key={1}>
+                    Giá cao đến thấp
+                  </option>
+                  <option value={2} key={2}>
+                    Giá thấp đến cao
+                  </option>
+                  <option value={3} key={3}>
+                    Mới nhất
+                  </option>
+                  <option value={4} key={4}>
+                    Giảm giá
+                  </option>
+              
+          </select>
+      </div>
       <div className="row mt-2">
             {loading ? (
               <Loading />
             ) : (
-              filter && products && (
-                phoneId.length > 0  ?
-                <Product products={filter} handleClick={handleClick}/>
-                : <Product products={products} handleClick={handleClick}/>
+              product && (
+                // phoneId.length > 0  ?
+                <Product products={product} handleClick={handleClick}/>
+                // : <Product products={products} handleClick={handleClick}/>
               )
             )}
           </div>
-          {  products.length < countProducts  ? (
+          {  product.length < countProducts  ? (
         <div className="d-grid gap-2 col-3 mx-auto">
             <div className="btn btn-outline-secondary w-100" onClick={loadMore}>Xem thêm sản phẩm</div>
             
           </div>)
-          : ( products.length > 12 || filter.length > 12 && <div className="d-grid gap-2 col-3 mx-auto">
+          : ( product.length > 12 && <div className="d-grid gap-2 col-3 mx-auto">
           <div className="btn btn-outline-secondary w-100" onClick={shortCut}>Rút gọn</div>
           
         </div>)

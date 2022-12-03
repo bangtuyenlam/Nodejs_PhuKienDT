@@ -4,6 +4,14 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
     const limit = 12;
     const offset = limit * req.body.limit;
     const LSP_Ma = req.params.id;
+    const sort = req.body.sortid;
+    var fieldsort = [];
+    
+      if(sort === "3")
+        fieldsort = ["id", "DESC"];
+      else
+        fieldsort = ["id", "ASC"];
+    
     try {
       const Sanpham = await db.Sanpham.findAndCountAll({
         raw: true,
@@ -21,6 +29,9 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
             db.sequelize.fn("AVG", db.sequelize.col("Danhgia_SPs.DG_Diem")),
             "DiemTB",
           ],
+          [
+            db.sequelize.literal('(SP_Gia - (SP_Gia * Khuyenmaicts.PhanTramKM/100))'), 'cost'
+          ]
         ],
         include: [
           {
@@ -35,12 +46,34 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
         where: {
             LSP_Ma: LSP_Ma,
         },
+        order: [
+          fieldsort
+        ],
+       
         limit: limit,
         offset: offset,
         subQuery: false, //https://selleo.com/til/posts/ddesmudzmi-offset-pagination-with-subquery-in-sequelize-
         group: ["id"],
       });
-    
+      Sanpham.rows.map((item) => {
+        if(item.cost === null) {
+          item.cost = item.SP_Gia;
+        }
+      });
+      switch(sort) {
+        case "1": 
+        Sanpham.rows.sort((a, b) => (b.cost - a.cost));
+          break;
+        case "2":
+          Sanpham.rows.sort((a, b) => (a.cost - b.cost));
+          break;
+        case "4":
+          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmaicts.id"] !== null);
+          break;
+       
+          
+      }
+      
       return res.json(Sanpham);
     } catch (err) {
       console.log("Lỗi");
@@ -56,7 +89,16 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
     const offset = limit * req.body.limit;
     const LSP_Ma = req.params.id;
     const DT_Ma = req.body.madt;
-    console.log(DT_Ma);
+    const sort = req.body.sortid;
+    var fieldsort = [];
+    
+    if(sort === "3")
+      fieldsort = ["id", "DESC"];
+    else
+      fieldsort = ["id", "ASC"];
+  
+
+   
       // if(DT_Ma) {
       //   return res.json({rows: "Không tìm thấy"})
       // } else
@@ -77,6 +119,9 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
             db.sequelize.fn("AVG", db.sequelize.col("Danhgia_SPs.DG_Diem")),
             "DiemTB",
           ],
+          [
+            db.sequelize.literal('(SP_Gia - (SP_Gia * Khuyenmaicts.PhanTramKM/100))'), 'cost'
+          ]
         ],
         include: [
           {
@@ -94,11 +139,33 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
             {DT_Ma: DT_Ma}
           ]
         },
+        order: [
+          fieldsort
+        ],
         limit: limit,
         offset: offset,
         subQuery: false, //https://selleo.com/til/posts/ddesmudzmi-offset-pagination-with-subquery-in-sequelize-
         group: ["id"],
       });
+      Sanpham.rows.map((item) => {
+        if(item.cost === null) {
+          item.cost = item.SP_Gia;
+        }
+      });
+      switch(sort) {
+        case "1": 
+        Sanpham.rows.sort((a, b) => (b.cost - a.cost));
+          break;
+        case "2":
+          Sanpham.rows.sort((a, b) => (a.cost - b.cost));
+          break;
+        case "4":
+          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmaicts.id"] !== null);
+          break;
+       
+          
+      }
+      console.log(Sanpham);
       return res.json(Sanpham);
     } catch (err) {
       console.log("Lỗi");

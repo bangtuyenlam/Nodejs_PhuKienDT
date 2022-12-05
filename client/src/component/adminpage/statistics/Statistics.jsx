@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
   PointElement,
-  LineElement
+  LineElement,
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 ChartJS.register(
@@ -24,7 +24,10 @@ ChartJS.register(
 );
 
 function Statistics() {
-  const [date, setDate] = useState(new Date());
+  const date = new Date();
+  const [month, setMonth] = useState(date.getMonth());
+  const [year, setYear] = useState(date.getFullYear());
+  const [listyear, setListYear] = useState([]);
   const [revenue, setRevenue] = useState([]);
   const [receipt, setReceipt] = useState([]);
   const [finishList, setFinishList] = useState([]);
@@ -37,16 +40,32 @@ function Statistics() {
     getFinhishList();
     getCancelList();
     getRevenuebyMonth();
-  }, []);
-console.log(revenuebymonth);
+    getYear();
+  }, [month, year]);
+  console.log(revenuebymonth);
   const getData = () => {
     axios
       .post("/thongke/nam/doanhthu", {
-        year: date.getFullYear(),
+        year: year,
       })
       .then((res) => {
         setRevenue(res.data);
         console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getYear = () => {
+    axios
+      .get("/thongke/laynam")
+      .then((res) => {
+        setListYear(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -54,45 +73,55 @@ console.log(revenuebymonth);
     let a = 0;
     axios
       .post("/thongke/thang/doanhthu", {
-        month: date.getMonth(),
+        month: month,
+        year: year,
       })
       .then((res) => {
         setRevenueByMonth(res.data);
-        res.data.map(item => a += item.tongtien)
-        setTongDoanhThu(a)
+        res.data.map((item) => (a += item.tongtien));
+        setTongDoanhThu(a);
         console.log(res.data);
       });
   };
 
+  function formatCash(str) {
+    return str.toString().split('').reverse().reduce((prev, next, index) => {
+      return ((index % 3) ? next : (next + '.')) + prev
+    })
+ }
+
   const getReceipt = () => {
     axios
-    .post("/thongke/nam/donhang", {
-      year: date.getFullYear(),
-    }).then((res) => {
-      setReceipt(res.data);
-      console.log(res.data);
-    })
-  }
+      .post("/thongke/nam/donhang", {
+        year: year,
+      })
+      .then((res) => {
+        setReceipt(res.data);
+        console.log(res.data);
+      });
+  };
 
   const getFinhishList = () => {
     axios
-    .post("/thongke/nam/hoanthanh", {
-      year: date.getFullYear()
-    }).then((res) => {
-      setFinishList(res.data);
-      console.log(res.data);
-    })
-  }
+      .post("/thongke/nam/hoanthanh", {
+        year: year,
+      })
+      .then((res) => {
+        setFinishList(res.data);
+        console.log(res.data);
+      });
+  };
 
   const getCancelList = () => {
     axios
-    .post("/thongke/nam/dahuy", {
-      year: date.getFullYear()
-    }).then((res) => {
-      setCancelList(res.data);
-      console.log(res.data);
-    })
-  }
+      .post("/thongke/nam/dahuy", {
+        year: year,
+      })
+      .then((res) => {
+        setCancelList(res.data);
+        console.log(res.data);
+      });
+  };
 
   const labels = [
     "Tháng một",
@@ -109,114 +138,152 @@ console.log(revenuebymonth);
     "Tháng mười hai",
   ];
 
-  
+  const selectMonthChange = (value) => {
+    setMonth(value.target.value);
+  };
+  console.log(month, year);
+
+  const selectYearChange = (value) => {
+    setYear(value.target.value);
+  };
 
   return (
-    <div className="customer">
-      <div class="row">
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon purple">
-                                                    <i class="iconly-boldShow"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Tổng doanh thu</h6>
-                                                <h6 class="font-extrabold mb-0">{tongdoanhthu}</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon blue">
-                                                    <i class="iconly-boldProfile"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Tổng đơn hàng</h6>
-                                                <h6 class="font-extrabold mb-0">183.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon green">
-                                                    <i class="iconly-boldAdd-User"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Số khách hàng</h6>
-                                                <h6 class="font-extrabold mb-0">80.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
+    <div className="customer bg-danger bg-opacity-25">
+      <div className="">
+        <h5 className=" fw-bolder me-2">Chọn thống kê</h5>
+        <div className="d-flex flex-row bd-highlight mb-2">
+          <select
+            className="p-2 border-1"
+            id="order"
+            onChange={selectMonthChange}
+            placeholder="Sắp xếp: "
+          >
+            <option defaultValue value={date.getMonth()}>
+              Chọn tháng
+            </option>
 
+            <option value={1} key={1}>
+              Tháng một
+            </option>
+            <option value={2} key={2}>
+              Tháng hai
+            </option>
+            <option value={3} key={3}>
+              Tháng ba
+            </option>
+            <option value={4} key={4}>
+              Tháng tư
+            </option>
+            <option value={5} key={5}>
+              Tháng năm
+            </option>
+            <option value={6} key={6}>
+              Tháng sáu
+            </option>
+            <option value={7} key={7}>
+              Tháng bảy
+            </option>
+            <option value={8} key={8}>
+              Tháng tám
+            </option>
+            <option value={9} key={9}>
+              Tháng chín
+            </option>
+            <option value={10} key={10}>
+              Tháng mười
+            </option>
+            <option value={11} key={11}>
+              Tháng mười một
+            </option>
+            <option value={12} key={12}>
+              Tháng mười hai
+            </option>
+          </select>
+
+          <select
+            className="p-2 ps-2 border-1"
+            id="order"
+            onChange={selectYearChange}
+            placeholder="Sắp xếp: "
+          >
+            <option defaultChecked value={date.getFullYear()}>
+              Chọn năm
+            </option>
+
+            {listyear &&
+              listyear.map((val) => {
+                return (
+                  <option value={val.year} key={1}>
+                    {val.year}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-6 col-lg-3 col-md-6">
+          <div className="card">
+            <div className="card-body px-3 py-4-5 bg-info">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="stats-icon purple">
+                    <i className="iconly-boldShow"></i>
+                  </div>
+                </div>
+                <div className="col-md-8">
+                  <h6 className="text-muted font-semibold">
+                    Tổng doanh thu
+                  </h6>
+                  <h6 className="font-extrabold mb-0">{formatCash(tongdoanhthu)} VNĐ</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-6 col-lg-3 col-md-6">
+          <div className="card">
+            <div className="card-body px-3 py-4-5 bg-danger bg-opacity-100">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="stats-icon blue">
+                    <i className="iconly-boldProfile"></i>
+                  </div>
+                </div>
+                <div className="col-md-8">
+                  <h6 className="text-muted font-semibold">Tổng đơn hàng</h6>
+                  <h6 className="font-extrabold mb-0">184</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-6 col-lg-3 col-md-6">
+          <div className="card">
+            <div className="card-body px-3 py-4-5 bg-success bg-opacity-50">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="stats-icon green">
+                    <i className="iconly-boldAdd-User"></i>
+                  </div>
+                </div>
+                <div className="col-md-8">
+                  <h6 className="text-muted font-semibold">Số khách hàng</h6>
+                  <h6 className="font-extrabold mb-0">100</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div
         className=" bg-light mt-2 shadow-sm rounded-4"
         style={{
           height: "30%",
-          width: "70%",
+          width: "100%",
           position: "relative",
           marginBottom: "30px",
-          
-        }}
-      >
-        <Bar
-          data={{
-            labels: labels,
-            datasets: [
-              {
-                label: "VNĐ",
-                backgroundColor: "rgba(53, 162, 235, 0.5)",
-                data: revenue,
-              },
-            ],
-          }}
-          options={{
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "right",
-              },
-              title: {
-                position: "top",
-                display: true,
-                text: "Doanh thu theo năm",
-              },
-            },
-          }}
-        />
-      
-</div>
-
-
-
-<div
-        className=" bg-light mt-2 shadow-sm rounded-4"
-        style={{
-          height: "30%",
-          width: "70%",
-          position: "relative",
-          marginBottom: "30px",
-          
         }}
       >
         <Bar
@@ -225,7 +292,7 @@ console.log(revenuebymonth);
             datasets: [
               {
                 label: "VNĐ",
-                backgroundColor: "rgba(53, 162, 235, 0.5)",
+                backgroundColor: "rgba(220, 189, 43, 0.6)",
                 data: revenuebymonth.map((item) => item.tongtien),
               },
             ],
@@ -244,53 +311,89 @@ console.log(revenuebymonth);
             },
           }}
         />
-      
-</div>
-<div  style={{
-          height: "200px",
-          width: "600px",
+      </div>
+
+      <div
+        className=" bg-light mt-2 shadow-sm rounded-4"
+        style={{
+          height: "30%",
+          width: "100%",
           position: "relative",
-          paddingTop: "100px"
-        }}>
-      <Line
-    data={{
-      labels: labels,
-      datasets: [
-        {
-          data: receipt,
-          label: "Đơn đặt",
-          borderColor: "#3e95cd",
-    
-        },
-        {
-          data: finishList,
-          label: "Đã hoàn thành",
-          borderColor: "#8e5ea2",
-      
-        },
-        {
-          data: cancelList,
-          label: "Đã hủy đơn",
-          borderColor: "#3cba9f",
-       
-        },
-      ]
-    }}
-    options={{
-      responsive: true,
-      plugins: {
-        legend: {
-          position: "bottom",
-        },
-        title: {
-          position: 'bottom',
-          display: true,
-          text: 'Thống kê đơn hàng theo năm',
-        },
-      },
-    }}
-  />
-</div>
+          marginBottom: "30px",
+        }}
+      >
+        <Bar
+          data={{
+            labels: labels,
+            datasets: [
+              {
+                label: "VNĐ",
+                backgroundColor: "rgba(90, 30, 101, 0.6)",
+                data: revenue,
+              },
+            ],
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "right",
+              },
+              title: {
+                position: "top",
+                display: true,
+                text: "Doanh thu theo năm",
+              },
+            },
+          }}
+        />
+      </div>
+
+      <div
+       className=" bg-light mt-2 shadow-sm rounded-4"
+        style={{
+          height: "30%",
+          width: "100%",
+          position: "relative",
+          marginBottom: "30px",
+        }}
+      >
+        <Line
+          data={{
+            labels: labels,
+            datasets: [
+              {
+                data: receipt,
+                label: "Đơn đặt",
+                borderColor: "#3e95cd",
+              },
+              {
+                data: finishList,
+                label: "Đã hoàn thành",
+                borderColor: "#8e5ea2",
+              },
+              {
+                data: cancelList,
+                label: "Đã hủy đơn",
+                borderColor: "#3cba9f",
+              },
+            ],
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+              title: {
+                position: "bottom",
+                display: true,
+                text: "Thống kê đơn hàng theo năm",
+              },
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }

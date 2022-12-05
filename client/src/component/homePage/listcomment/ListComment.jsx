@@ -45,7 +45,6 @@ function ListComment({
     setActiveComment({ id: id, isReply: true });
     setReply("@" + user + ": ");
   };
-
   return (
     <>
     <hr className="row col-9"/>
@@ -71,7 +70,7 @@ function ListComment({
 
         <div className="col-sm-2 fst-italic">
           {" "}
-          - {dateFormat(comment.BL_Ngaybinhluan, "hh:mm:ss dd-mm-yyyy")}
+          - {dateFormat(comment.BL_Ngaybinhluan, "H:MM:ss dd-mm-yyyy")}
         </div>
       </div>
 
@@ -115,7 +114,7 @@ function ListComment({
                 </button>
                 <div className="col-sm-3 fst-italic">
                   {" "}
-                  - {dateFormat(item.BL_Ngaybinhluan, "hh:mm:ss dd-mm-yyyy")}
+                  - {dateFormat(item.BL_Ngaybinhluan, "H:MM:ss dd-mm-yyyy")}
                 </div>
               </div>
             </div>

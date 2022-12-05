@@ -272,21 +272,21 @@ console.log(lstComment);
                 <h2 className="text-uppercase text-black-50">
                   {product.SP_Ten}
                 </h2>
-                {product["Khuyenmaicts.PhanTramKM"] !== null ? (
-                  <>
-                    <h4 className="display-6 fw-bold my-4">
-                      {product.SP_Gia -
+                {product["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&  product["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > dateFormat(dateComment, "isoDateTime")? (
+                  <div className="d-flex mb-2">
+                    <h4 className="text-dark mb-0 fw-bolder">
+                      {(product.SP_Gia -
                         (product.SP_Gia * product["Khuyenmaicts.PhanTramKM"]) /
-                          100}{" "}
-                      VNĐ
+                          100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{" "}
+                       đ
                     </h4>
-                    <p className="small text-danger">
-                      <s>{product.SP_Gia} VNĐ</s>
-                    </p>
-                  </>
+                    <span className="small text-danger mb-0 ms-2">
+                      <s>{product.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ</s>
+                    </span>
+                  </div>
                 ) : (
                   <h4 className="display-6 fw-bold my-4">
-                    {product.SP_Gia} VNĐ
+                    {product.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ
                   </h4>
                 )}
                 {/* <h4 className="describe"> Mô tả</h4> */}

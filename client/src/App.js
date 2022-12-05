@@ -12,7 +12,7 @@ import Register from "./component/register/Register";
 import Admin from "./component/Admin";
 import { PrivateRoute } from "./Utils/PrivateRoute";
 import AdminRoute from "./Utils/AdminRoute";
-import HomeRouter from "./component/HomeRouter";
+import HomeRoute from "./component/HomeRoute";
 
 function App() {
   // const [authLoading, setAuthLoading] = useState(true);
@@ -78,11 +78,14 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route element={<PrivateRoute />}>
-          <Route element={<AdminRoute/>}>\
+          <Route element={<AdminRoute/>}>
           <Route path="/admin/*" element={<Admin />} />
           </Route>
+          
         </Route>
-        <Route path="/*" element={<HomeRouter />} />
+       
+        <Route path="/*" element={<HomeRoute />} />
+        
       </Routes>
       </Wrapper>
     </div>

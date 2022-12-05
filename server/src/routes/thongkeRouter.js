@@ -7,5 +7,6 @@ router.post("/nam/dahuy", thongkeController.DonHangDaHuyTheoNam);
 router.post("/nam/hoanthanh", thongkeController.DonHangHoanThanhTheoNam);
 router.post("/nam/donhang", thongkeController.TongDonHangTheoNam);
 router.post("/nam/doanhthu", thongkeController.DoanhThuTheoNam);
+router.get("/laynam", thongkeController.NamCoDoanhThu);
 
 module.exports = router;

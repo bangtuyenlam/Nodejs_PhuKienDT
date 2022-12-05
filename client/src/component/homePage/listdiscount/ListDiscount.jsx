@@ -56,13 +56,13 @@ function ListDiscount({handleClick}) {
                 {/* <h5 className="mb-0">HP Notebook</h5> */}
     
                 <h5 className="text-dark mb-0">
-                  {item.SP_Gia -
+                  {(item.SP_Gia -
                     (item.SP_Gia * item["Khuyenmaicts.PhanTramKM"]) /
-                      100}
-                  VNĐ
+                      100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                   đ
                 </h5>
                 <p className="small text-danger">
-                  <s>{item.SP_Gia} VNĐ</s>
+                  <s>{item.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ</s>
                 </p>
               </div>
           
@@ -114,8 +114,12 @@ function ListDiscount({handleClick}) {
         1024: { items: 4},
     
     };
+    
   return (
-    <div>
+    <>
+    { promotion[0] ? (
+    <div className="border border-info bg-info p-2 mb-3">
+    <h5 className="fw-bolder">SẢN PHẨM KHUYẾN MÃI</h5>
         <AliceCarousel mouseTracking items={item} 
           responsive={responsive}
           controlsStrategy="alternate"
@@ -126,6 +130,9 @@ function ListDiscount({handleClick}) {
           autoPlayInterval={1000}
           />
     </div>
+    ) : <div></div>
+}
+    </>
   )
 }
 

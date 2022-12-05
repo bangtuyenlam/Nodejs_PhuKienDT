@@ -135,7 +135,7 @@ function FilterProduct({handleClick}) {
     const selectSortChange = (value) => {
       setSort(value.target.value);
     }
-    console.log(sort);
+    console.log(countProducts);
   return (
     <div className='container my-5 py-2'>
       <Carousel className="mb-5"/>
@@ -151,7 +151,7 @@ function FilterProduct({handleClick}) {
               return (
                 <button
                   key={value.id}
-                  className="btn ms-1 mb-2"
+                  className="btn btn-outline-dark ms-1 mb-2"
                   style={{ backgroundColor: phoneId.includes(value.id) ? "rgba(166, 181, 226, 1)" : "rgba(161, 89, 160, 0.9)" }}
                   onClick={() => getLstPhoneId(value.id)}
                 >
@@ -196,9 +196,14 @@ function FilterProduct({handleClick}) {
               <Loading />
             ) : (
               product && (
+                product[0] ?
                 // phoneId.length > 0  ?
-                <Product products={product} handleClick={handleClick}/>
+                <Product products={product} handleClick={handleClick}/> :
                 // : <Product products={products} handleClick={handleClick}/>
+
+                <div className="d-flex justify-content-center fw-bold">
+          Không tìm thấy sản phẩm phù hợp yêu cầu
+        </div>
               )
             )}
           </div>

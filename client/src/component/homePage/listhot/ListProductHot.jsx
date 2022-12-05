@@ -5,9 +5,9 @@ import Rating from "@material-ui/lab/Rating";
 import ImageHoverZoom from "../imghoverzoom/ImgHoverZoom";
 import { Link } from 'react-router-dom';
 import { getUser } from "../../../Utils/Common"
-
+import dateFormat from 'dateformat';
 function ListHotProduct({handleClick}) {
-
+    const day = new Date();
     const [hotProduct, setHotProduct] = useState([]);
     const user = getUser();
 
@@ -54,25 +54,25 @@ function ListHotProduct({handleClick}) {
               <p className="small" style={{height: "40px"}}>{item.SP_Ten}</p>
             </div>
          
-            {item["Khuyenmaicts.PhanTramKM"] != null ? (
+            {item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&  item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > dateFormat(day, "isoDateTime") ? (
                   <div className="d-flex justify-content-between">
                     {/* <h5 className="mb-0">HP Notebook</h5> */}
 
                     <h5 className="text-dark mb-0">
-                      {item.SP_Gia -
+                      {(item.SP_Gia -
                         (item.SP_Gia * item["Khuyenmaicts.PhanTramKM"]) /
-                          100}
-                      VNĐ
+                          100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                       đ
                     </h5>
                     <p className="small text-danger mb-0">
-                      <s>{item.SP_Gia} VNĐ</s>
+                      <s>{item.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ</s>
                     </p>
                   </div>
                 ) : (
                   <div className="d-flex justify-content-between">
                     {/* <h5 className="mb-0">HP Notebook</h5> */}
 
-                    <h5 className="text-dark mb-0">{item.SP_Gia} VNĐ</h5>
+                    <h5 className="text-dark mb-0">{item.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ</h5>
                   </div>
                 )}
           

@@ -11,7 +11,7 @@ import ListHotProduct from "../listhot/ListProductHot";
 function ListProduct({ handleClick }) {
   const user = getUser();
  
-  const [filter, setFilter] = useState([]);
+  const [product, setProduct] = useState([]);
  
   const [loading, setLoading] = useState(true);
   const [limit, setLimit] = useState(0);
@@ -32,9 +32,9 @@ function ListProduct({ handleClick }) {
       .then((res) => {
       
         if(limit === 0) {
-        setFilter(res.data.rows)
+        setProduct(res.data.rows)
         }
-        else setFilter(data => [...data, ...res.data.rows])
+        else setProduct(data => [...data, ...res.data.rows])
         setCountProducts(res.data.count.length);
         setLoading(false);
       })
@@ -46,8 +46,8 @@ function ListProduct({ handleClick }) {
   const Loading = () => {
     return (
       <>
-        {filter &&
-          filter.map((sp, i) => {
+        {product &&
+          product.map((sp, i) => {
             return (
               <div className="col-md-3 mb-4" key={i}>
                 <Skeleton height={300} />
@@ -73,23 +73,22 @@ function ListProduct({ handleClick }) {
 
       <div className="container my-5 py-2">
   
-      <div className="border border-info bg-info p-2 mb-5">
-      <h5 className="fw-bolder">SẢN PHẨM KHUYẾN MÃI</h5>
+      
           <ListDiscount handleClick={handleClick}/>
-          </div>
+        
 
-          <div className="bg-warning p-2 mb-5 bg-opacity-25" >
+          <div className="bg-warning p-2 mb-3 bg-opacity-25" >
       <h5 className="fw-bolder">SẢN PHẨM NỔI BẬT</h5>
           <ListHotProduct handleClick={handleClick}/>
           </div>
 
-          <div className="bg-light p-2 mb-5 pb-4">
+          <div className="bg-light p-2 mb-3 pb-4">
       <h5 className="fw-bolder">DANH MỤC SẢN PHẨM</h5>
           <CategoryList/>
           </div>
         <div className="p-2 mb-5 bg-danger bg-opacity-100">
         
-            <h2 className="fw-bolder text-center">Tất cả sản phẩm</h2>
+            <h5 className="fw-bolder">TẤT CẢ SẢN PHẨM</h5>
             <hr />
        
           <div>
@@ -97,13 +96,13 @@ function ListProduct({ handleClick }) {
             {loading ? (
               <Loading />
             ) : (
-              filter && (
-                <Product products={filter} handleClick={handleClick} />
+              product && (
+                <Product products={product} handleClick={handleClick} />
               )
             )}
           </div>
         </div>
-        { filter && filter.length < countProducts ? (
+        { product && product.length < countProducts ? (
         <div className="d-grid gap-2 col-3 mx-auto">
             <div className="btn btn-outline-dark w-100" onClick={loadMore}>Xem thêm sản phẩm</div>
             
@@ -119,7 +118,7 @@ function ListProduct({ handleClick }) {
           <button
             key={0}
             className="btn btn-outline-dark me-2"
-            onClick={() => setFilter(products)}
+            onClick={() => setProduct(products)}
           >
             Tất cả sản phẩm
           </button>

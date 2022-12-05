@@ -1,5 +1,5 @@
 const db = require("../models/index");
-
+const { Op } = require("sequelize");
 let DoanhThuTheoNam = async (req, res) => {
   const thang = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const year = req.body.year;
@@ -43,11 +43,44 @@ let DoanhThuTheoNam = async (req, res) => {
   }
 };
 
+const NamCoDoanhThu = async(req, res) => {
+  try{
+    const listyear = await db.Dondatct.findAll({
+      raw: true,
+      attributes: [
+        [
+          db.sequelize.fn("YEAR", db.sequelize.col("Dondat.Ngaygiao")),
+          "year",
+        ],
+      ],
+   
+      include: [
+        {
+        model: db.Dondat,
+        as: "Dondat",
+        where: {
+          Trangthai: 2
+        },
+        attributes: []
+       }   ],
+       group: ['year']
+    })
+      const result = listyear.filter(item => item.year !== null);
+      return res.json(result)
+  }catch(err){
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server"
+    })
+  }
+}
 
 
 let DoanhThuTheoThang = async (req, res) => {
   const Ngay = [];
   const month = req.body.month;
+  const year = req.body.year;
+  console.log(month, year);
   try {
     const result = await db.Dondatct.findAll({
       raw: true,
@@ -64,10 +97,17 @@ let DoanhThuTheoThang = async (req, res) => {
           model: db.Dondat,
           as: "Dondat",
           where: {
-            Ngaygiao: db.sequelize.where(
+            [Op.and]: [
+            db.sequelize.where(
               db.sequelize.fn("MONTH", db.sequelize.col("Ngaygiao")),
               month
             ),
+            db.sequelize.where(
+                db.sequelize.fn("YEAR", db.sequelize.col("Ngaygiao")),
+                year
+              )
+            ]
+            ,
             Trangthai: 2,
             //Trạng thái đơn hàng đã thanh toán
           },
@@ -199,4 +239,5 @@ module.exports = {
   DonHangHoanThanhTheoNam: DonHangHoanThanhTheoNam,
   DonHangDaHuyTheoNam: DonHangDaHuyTheoNam,
   DoanhThuTheoThang: DoanhThuTheoThang,
+  NamCoDoanhThu: NamCoDoanhThu,
 };

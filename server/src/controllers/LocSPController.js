@@ -1,6 +1,7 @@
 const db = require("../models/index");
 const { Op } = require("sequelize");
 let DanhSachSPTheoLoaiSP = async (req, res) => {
+    const day = new Date();
     const limit = 12;
     const offset = limit * req.body.limit;
     const LSP_Ma = req.params.id;
@@ -41,6 +42,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           },
           {
             model: db.Khuyenmaict,
+            include: db.Khuyenmai_SP,
           },
         ],
         where: {
@@ -68,7 +70,8 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           Sanpham.rows.sort((a, b) => (a.cost - b.cost));
           break;
         case "4":
-          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmaicts.id"] !== null);
+          Sanpham.count = Sanpham.rows.filter((item) => item["Khuyenmaicts.Khuyenmai_SP.id"] !== null && item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmaicts.Khuyenmai_SP.id"] !== null && item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > day);
           break;
        
           
@@ -85,6 +88,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
   };
 
   let DanhSachSPTheoDT = async (req, res) => {
+    const day = new Date();
     const limit = 12;
     const offset = limit * req.body.limit;
     const LSP_Ma = req.params.id;
@@ -131,6 +135,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           },
           {
             model: db.Khuyenmaict,
+            include: db.Khuyenmai_SP
           },
         ],
         where: {
@@ -160,12 +165,13 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           Sanpham.rows.sort((a, b) => (a.cost - b.cost));
           break;
         case "4":
-          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmaicts.id"] !== null);
+          Sanpham.count = Sanpham.rows.filter((item) => item["Khuyenmaicts.Khuyenmai_SP.id"] !== null && item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmaicts.Khuyenmai_SP.id"] !== null && item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > day);
           break;
        
           
       }
-      console.log(Sanpham);
+    
       return res.json(Sanpham);
     } catch (err) {
       console.log("Lỗi");

@@ -21,7 +21,7 @@ function Navbar({ size }) {
   console.log(user);
 
   return (
-    <div>
+    <div className="bg-light">
       <nav
         className="navbar navbar-expand-lg navbar-light bg-warning shadow-sm"
         style={{

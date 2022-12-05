@@ -24,7 +24,7 @@ function CategoryList() {
               return (
                 <Link
                   key={value.id}
-                  className="btn ms-1 mb-2"
+                  className="btn btn-outline-dark ms-1 mb-2"
                   style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
                   to={`/filter-${value.id}`}
                 >

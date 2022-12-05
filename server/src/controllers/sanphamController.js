@@ -45,6 +45,7 @@ let productVsRating = async (req, res) => {
         },
         {
           model: db.Khuyenmaict,
+          include: db.Khuyenmai_SP
         },
       ],
       limit: limit,
@@ -117,6 +118,7 @@ let ProductIdfromHome = async (req, res) => {
         },
         {
           model: db.Khuyenmaict,
+          include: db.Khuyenmai_SP,
         },
         {
           model: db.Dienthoai,
@@ -258,6 +260,7 @@ let danhsachdondat = (makh) => {
           ],
           where: {
             KH_Ma: makh,
+            Trangthai: 2
           },
         },
         {
@@ -289,18 +292,19 @@ let productPurchased = async (req, res) => {
   try {
     const dsdondat = await danhsachdondat(makh);
     const sanpham = await khachhangdanhgia(makh);
-    dsdondat.filter((item, index) => {
-      //Loại bỏ sản phẩm trùng nhau
-      if (dsdondat.findIndex((i) => i.SP_Ma === item.SP_Ma) === index)
-        result.push(item);
-    });
+    // dsdondat.filter((item, index) => {
+    //   //Loại bỏ sản phẩm trùng nhau
+    //   if (dsdondat.findIndex((i) => i.SP_Ma === item.SP_Ma) === index)
+    //     result.push(item);
+    // });
     //Loại bỏ sản phẩm đã đánh giá
     sanpham.filter((item) => {
-      result.map((sp, index) => {
-        if (sp.SP_Ma === item.SP_Ma) result.splice(index, 1);
+      dsdondat.map((sp, index) => {
+        if (sp.SP_Ma === item.SP_Ma) dsdondat.splice(index, 1);
       });
     });
-    return res.json(result);
+   
+    return res.json(dsdondat);
   } catch (err) {
     return res.status(500).json({
       error: true,
@@ -376,6 +380,7 @@ let listHotProduct = async (req, res) => {
         },
         {
           model: db.Khuyenmaict,
+          include: db.Khuyenmai_SP
         },
       ],
       limit: 10,

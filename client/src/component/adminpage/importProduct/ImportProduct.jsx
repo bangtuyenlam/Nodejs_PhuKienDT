@@ -80,7 +80,7 @@ function ImportProduct() {
   return (
     <div className="productManager">
       <div className="productManagerContainer">
-        <h1 className="productManagerTitle">Danh sách sản phẩm</h1>
+        <h1 className="productManagerTitle">Danh sách phiếu nhập</h1>
         <Link to={"/admin/newImport"}>
           <button className="productAddButton">Thêm</button>
         </Link>

@@ -1,6 +1,7 @@
 const db = require("../models/index");
 const path = require("path");
 const { Op } = require("sequelize");
+
 let listDiscount = async(req,res) => {
     try{
         const Khuyenmai = await db.Khuyenmai_SP.findAll({
@@ -16,31 +17,9 @@ let listDiscount = async(req,res) => {
 }
 
 const listDiscountDetail = async(req, res) => {
+  const date = new Date();
+ 
   try{
-    // const Khuyenmaict = await db.Khuyenmaict.findAll({
-    //     raw: true,
-    //     attributes: [
-    //       "*",
-    //       [
-    //         db.sequelize.fn("AVG", db.sequelize.col("Sanpham.Danhgia_SPs.DG_Diem")),
-    //         "DiemTB",
-    //       ]
-    //     ],
-    //     include: [
-    //       {
-    //         model: db.Sanpham,
-    //         as: "Sanpham",
-    //         include: [
-    //           {
-    //             model: db.Danhgia_SP,
-    //             as: "Danhgia_SPs",
-    //              attributes: [],
-    //           },
-    //         ],
-    //       }
-    //     ],
-    //    group: ["Sanpham.id"]
-    // });
     const Khuyenmaict = await db.Sanpham.findAndCountAll({
       raw: true,
       attributes: [
@@ -66,7 +45,18 @@ const listDiscountDetail = async(req, res) => {
         },
         {
           model: db.Khuyenmaict,
-          as: "Khuyenmaicts"
+          as: "Khuyenmaicts",
+          include: [
+            {
+              model: db.Khuyenmai_SP,
+              as: "Khuyenmai_SP",
+              where: {
+                NgayKetThuc: {
+                  [Op.gt]: date   //NgayKetThuc phải lớn hơn hôm nay, còn hiệu lực
+              }
+              },
+            }
+          ]
         },
       ],
       group: ["id"],
@@ -76,9 +66,10 @@ const listDiscountDetail = async(req, res) => {
         }
       }
     });
-    
+  
     return res.json(Khuyenmaict);
 }catch(err) {
+  console.log("Lỗi");
     return res.status(500).json({
         error: true,
         message: "Lỗi server",

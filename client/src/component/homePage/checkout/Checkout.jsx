@@ -4,8 +4,10 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import dateFormat from "dateformat";
 function Checkout({ cart }) {
   var totalPrice = 0;
+  const day = new Date();
   const navigate = useNavigate();
   const user = getUser();
   const [customer, setCustomer] = useState([]);
@@ -45,21 +47,16 @@ function Checkout({ cart }) {
         dondatct: cart,
       })
       .then((res) => {
-     
         Swal.fire({
-          icon: 'success',
-          title: 'Đặt hàng thành công!',
-          confirmButtonText: 'OK',
-         
+          icon: "success",
+          title: "Đặt hàng thành công!",
+          confirmButtonText: "OK",
         }).then((result) => {
-       
           if (result.isConfirmed) {
-            navigate("/personal/listorder")
-            window.location.reload()
+            navigate("/personal/listorder");
+            window.location.reload();
           }
-        })
-       
-         
+        });
       })
       .catch((error) => {
         if (error.response.status === 402) {
@@ -141,33 +138,30 @@ function Checkout({ cart }) {
                         ></textarea>
                       </div>
                     </div>
-                    {check ? 
-                     <div className="col-md-12">
-                     <div className="form-group text-end">
-                       <button
-                         type="button"
-                         
-                         className="btn btn-primary"
-                         onClick={handleCheckOut}
-                       >
-                         Đặt hàng
-                       </button>
-                     </div>
-                   </div> : 
-                    <div className="col-md-12">
-                    <div className="form-group text-end">
-                      <Link
-                       
-                        to={`/personal/${customer.id}`}
-                        className="btn btn-primary"
-                      
-                      >
-                        Cập nhật tài khoản
-                      </Link>
-                    </div>
-                  </div>
-                    }
-                   
+                    {check ? (
+                      <div className="col-md-12">
+                        <div className="form-group text-end">
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={handleCheckOut}
+                          >
+                            Đặt hàng
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="col-md-12">
+                        <div className="form-group text-end">
+                          <Link
+                            to={`/personal/${customer.id}`}
+                            className="btn btn-primary"
+                          >
+                            Cập nhật tài khoản
+                          </Link>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -186,37 +180,43 @@ function Checkout({ cart }) {
               <tbody>
                 {cart &&
                   cart.map((val) => {
-                    if (val["Khuyenmaicts.id"] === null)
-                      totalPrice += val.SP_Gia * val.amount;
-                    else
+                    if (
+                      val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&
+                      val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] >
+                        dateFormat(day, "isoDateTime")
+                    )
                       totalPrice +=
                         val.amount *
                         (val.SP_Gia -
                           (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) / 100);
+                    else totalPrice += val.SP_Gia * val.amount;
                     return (
                       <tr>
                         <td>{val.SP_Ten}</td>
-                        {val["Khuyenmaicts.id"] === null ? (
-                          <td>{val.SP_Gia} </td>
-                        ) : (
+                        {val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&
+                        val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] >
+                          dateFormat(day, "isoDateTime") ? (
                           <td>
                             {val.SP_Gia -
                               (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) /
                                 100}
                           </td>
+                        ) : (
+                          <td>{val.SP_Gia} </td>
                         )}
 
                         <td>{val.amount}</td>
-                        {val["Khuyenmaicts.id"] === null ? (
-                          <td>{val.SP_Gia * val.amount}</td>
-                        ) : (
-                          <span>
+                        {val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&
+                        val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] >
+                          dateFormat(day, "isoDateTime") ? (
+                          <td>
                             {val.amount *
                               (val.SP_Gia -
                                 (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) /
                                   100)}
-                            
-                          </span>
+                          </td>
+                        ) : (
+                          <td>{val.SP_Gia * val.amount}</td>
                         )}
                       </tr>
                     );

@@ -74,7 +74,7 @@ export default function HomeRoute() {
         <Route
           path="/showcart"
           element={
-            <Cart cart={product} setCart={setProduct} handleChange={handleChange} xoa={xoa} />
+            <Cart cart={product} setCart={setProduct} handleChange={handleChange} xoa={xoa} handleClick={handleClick}/>
           }
         />
         <Route element={<PrivateRoute/>}>

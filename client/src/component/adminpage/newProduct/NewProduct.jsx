@@ -3,7 +3,8 @@ import "./newProduct.css";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import defaultImg from "../../image/default.png";
-
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 export default function NewProduct() {
   const [productName, setProductName] = useState("");
   const [categoryList, setCategoryList] = useState([]);
@@ -93,7 +94,9 @@ export default function NewProduct() {
   };
 
   return (
+   
     <div className="newProduct">
+      <div className="border border-3 rounded p-lg-3 shadow-lg bg-light bg-opacity-100 ">
       <h4 className="newProductTitle">Thêm sản phẩm</h4>
       <form className="newProductForm">
         <div className="newProductItem">
@@ -176,24 +179,32 @@ export default function NewProduct() {
           <div className="col-md-5 me-4 mt-2">
             <img src={previewImg} alt="" id="img" className="img-fluid" />
           </div>
+         
         </div>
         <div className="newProductItem">
           <label> Mô tả</label>
+          
+          {/* <label> Nội dung</label>
           <textarea
             type="text"
-            value={describe}
-            onChange={(value) => setDescribe(value.target.value)}
-            rows="8"
-          ></textarea>
-          <button
+            value={noidung}
+            onChange={(value) => setNoidung(value.target.value)}
+            rows="12"
+          ></textarea> */}
+          <ReactQuill value={describe} onChange={setDescribe} style={{height: "200px", marginBottom: "17px"}}/>
+       
+          
+        </div>
+        <button
             className="newProductButton"
             type="button"
             onClick={handleCreate}
           >
             Lưu
           </button>
-        </div>
       </form>
     </div>
+    </div>
+    
   );
 }

@@ -96,7 +96,7 @@ export default function Sidebar() {
     //   </div>
     // </div>
 
-    <div className="sidebar">
+    <div className="sidebar ">
       <div className="container-fluid">
         <div className="row flex-nowrap">
           <div className=" bg-info bg-opacity-25">

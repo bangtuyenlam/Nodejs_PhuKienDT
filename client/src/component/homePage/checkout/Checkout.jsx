@@ -4,10 +4,9 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import dateFormat from "dateformat";
+
 function Checkout({ cart }) {
   var totalPrice = 0;
-  const day = new Date();
   const navigate = useNavigate();
   const user = getUser();
   const [customer, setCustomer] = useState([]);
@@ -181,24 +180,20 @@ function Checkout({ cart }) {
                 {cart &&
                   cart.map((val) => {
                     if (
-                      val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&
-                      val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] >
-                        dateFormat(day, "isoDateTime")
+                     val.KM_Ma != null
                     )
                       totalPrice +=
                         val.amount *
                         (val.SP_Gia -
-                          (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) / 100);
+                          (val.SP_Gia * val["Khuyenmai_SP.PhanTramKM"]) / 100);
                     else totalPrice += val.SP_Gia * val.amount;
                     return (
                       <tr>
                         <td>{val.SP_Ten}</td>
-                        {val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&
-                        val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] >
-                          dateFormat(day, "isoDateTime") ? (
+                        {val.KM_Ma != null ? (
                           <td>
                             {val.SP_Gia -
-                              (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) /
+                              (val.SP_Gia * val["Khuyenmai_SP.PhanTramKM"]) /
                                 100}
                           </td>
                         ) : (
@@ -206,13 +201,11 @@ function Checkout({ cart }) {
                         )}
 
                         <td>{val.amount}</td>
-                        {val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&
-                        val["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] >
-                          dateFormat(day, "isoDateTime") ? (
+                        {val.KM_Ma != null ? (
                           <td>
                             {val.amount *
                               (val.SP_Gia -
-                                (val.SP_Gia * val["Khuyenmaicts.PhanTramKM"]) /
+                                (val.SP_Gia * val["Khuyenmai_SP.PhanTramKM"]) /
                                   100)}
                           </td>
                         ) : (

@@ -41,9 +41,18 @@ export default function ProductImg() {
       })
       .catch((error) => {
         if (error.response.status === 402) {
-          setError(error.response.data.message);
-          console.log("Lỗi chưa chọn hình ảnh");
-        } else console.log("Thêm sản phẩm không thành công");
+          Swal.fire({
+            title: "Thông báo",
+            text: "Lỗi chưa chọn hình ảnh",
+            icon: "error",
+            confirmButtonText: "OK",
+          })
+        } else   Swal.fire({
+          title: "Thông báo",
+          text: "Thêm ảnh không thành công",
+          icon: "error",
+          confirmButtonText: "OK",
+        })
       });
   };
 

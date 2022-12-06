@@ -57,7 +57,7 @@ function ListDiscount({handleClick}) {
     
                 <h5 className="text-dark mb-0">
                   {(item.SP_Gia -
-                    (item.SP_Gia * item["Khuyenmaicts.PhanTramKM"]) /
+                    (item.SP_Gia * item["Khuyenmai_SP.PhanTramKM"]) /
                       100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                    đ
                 </h5>

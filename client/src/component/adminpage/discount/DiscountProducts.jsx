@@ -30,7 +30,7 @@ export default function DiscountProducts() {
         .get("/khuyenmai")
         .then((res) => {
           setDiscounts(res.data);
-          console.log(res.data);
+        
         })
         .catch((err) => {
           console.log(err + " Không thể lấy được khách hàng");

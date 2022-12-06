@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
       Sanpham.hasMany(models.Danhgia_SP, {foreignKey:"SP_Ma"});
       Sanpham.hasMany(models.Dondatct,{ foreignKey: "SP_Ma" });
       Sanpham.hasMany(models.Phieunhapct, {foreignKey: "SP_Ma"});
-      Sanpham.hasMany(models.Khuyenmaict, {foreignKey: "SP_Ma"});
       Sanpham.hasMany(models.Hinhanh, {foreignKey:"SP_Ma"});
       Sanpham.hasMany(models.Binhluan, {foreignKey:"SP_Ma"});
       Sanpham.belongsTo(models.Dienthoai, { foreignKey: "DT_Ma" });
       Sanpham.belongsTo(models.Loaisanpham, { foreignKey: "LSP_Ma" });
+      Sanpham.belongsTo(models.Khuyenmai_SP, {foreignKey: "KM_Ma"});
     }
   }
   Sanpham.init(
@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       LSP_Ma: DataTypes.INTEGER,
       DT_Ma: DataTypes.INTEGER,
+      KM_Ma: DataTypes.INTEGER,
       SP_Ten: DataTypes.STRING,
       SP_Gia: DataTypes.FLOAT,
       SP_Mota: DataTypes.STRING,

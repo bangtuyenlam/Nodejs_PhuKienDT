@@ -12,7 +12,7 @@ import {
   Paper,
   Chip,
 } from "@material-ui/core";
-import "./newdiscount.css";
+
 import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Swal from "sweetalert2";
@@ -168,9 +168,10 @@ function newDiscount() {
   }
   return (
     <div className="newProduct">
+       <div className="border border-3 rounded p-lg-3 shadow-lg bg-light bg-opacity-100 ">
       <h4 className="newProductTitle">Thêm sản phẩm</h4>
       <form className="newProductForm">
-        <div className="newCustomerItem">
+        <div className="newProductItem">
           <label> Tên khuyến mãi</label>
           <input
             type="text"
@@ -178,7 +179,7 @@ function newDiscount() {
             onChange={(value) => setName(value.target.value)}
           ></input>
         </div>
-        <div className="newCustomerItem">
+        <div className="newProductItem">
           <label> Ngày bắt đầu </label>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DateTimePicker
@@ -198,7 +199,7 @@ function newDiscount() {
             onChange={(value) => setPercent(value.target.value)}
           ></input>
         </div>
-        <div className="newCustomerItem">
+        <div className="newProductItem">
           <label> Ngày kết thúc </label>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DateTimePicker
@@ -211,7 +212,7 @@ function newDiscount() {
             />
           </MuiPickersUtilsProvider>
         </div>
-        <div className="newCustomerItem">
+        <div className="newProductItem">
           {productList && (
             <FormControl className={classes.formControl}>
               <InputLabel id="mutiple-select-label">Chọn sản phẩm</InputLabel>
@@ -277,12 +278,13 @@ function newDiscount() {
               </div> */}
       </form>
       <button
-          className="newCustomerButton"
+          className="newProductButton"
           type="button"
           onClick={handleCreate}
         >
           Lưu
         </button>
+    </div>
     </div>
   );
 }

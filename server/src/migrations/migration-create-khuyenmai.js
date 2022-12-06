@@ -16,6 +16,9 @@ module.exports = {
         ngayketthuc: {
           type: Sequelize.DataTypes.DATE,
         },
+        phantramkm: {
+          type: Sequelize.DataTypes.INTEGER,
+        },
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,

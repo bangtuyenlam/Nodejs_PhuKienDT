@@ -26,6 +26,7 @@ let productVsRating = async (req, res) => {
         "id",
         "LSP_Ma",
         "DT_Ma",
+        "KM_Ma",
         "SP_Ten",
         "SP_Gia",
         "SP_Mota",
@@ -44,16 +45,15 @@ let productVsRating = async (req, res) => {
           attributes: [],
         },
         {
-          model: db.Khuyenmaict,
-          include: db.Khuyenmai_SP
-        },
+          model: db.Khuyenmai_SP,
+        }
       ],
       limit: limit,
       offset: offset,
       subQuery: false, //https://selleo.com/til/posts/ddesmudzmi-offset-pagination-with-subquery-in-sequelize-
       group: ["id"],
     });
-
+    
     return res.json(Sanpham);
   } catch (err) {
     console.log("Lỗi");
@@ -117,8 +117,8 @@ let ProductIdfromHome = async (req, res) => {
           model: db.Loaisanpham,
         },
         {
-          model: db.Khuyenmaict,
-          include: db.Khuyenmai_SP,
+         
+          model: db.Khuyenmai_SP,
         },
         {
           model: db.Dienthoai,
@@ -351,6 +351,7 @@ let listHotProduct = async (req, res) => {
         "id",
         "LSP_Ma",
         "DT_Ma",
+        "KM_Ma",
         "SP_Ten",
         "SP_Gia",
         "SP_Mota",
@@ -379,8 +380,8 @@ let listHotProduct = async (req, res) => {
           attributes: [],
         },
         {
-          model: db.Khuyenmaict,
-          include: db.Khuyenmai_SP
+         
+          model: db.Khuyenmai_SP
         },
       ],
       limit: 10,

@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       TL_Ten: DataTypes.STRING,
+      
     },
     {
       sequelize,

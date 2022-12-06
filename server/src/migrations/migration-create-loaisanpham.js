@@ -9,6 +9,10 @@ module.exports = {
       },
       lsp_ten: {
         type: Sequelize.DataTypes.STRING(100),
+      }
+      ,
+      lsp_anh: {
+        type: Sequelize.DataTypes.STRING,
       },
       createdAt: {
         allowNull: false,

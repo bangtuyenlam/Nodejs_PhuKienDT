@@ -40,7 +40,7 @@ function PostId() {
               {post.Tieude}
             </h2>
             <br />
-            <p className="card-text" style={{ whiteSpace: "pre-line" }} dangerouslySetInnerHTML={{__html: post.Noidung}}>
+            <p className="card-text" dangerouslySetInnerHTML={{__html: post.Noidung}}>
             
             </p>
 

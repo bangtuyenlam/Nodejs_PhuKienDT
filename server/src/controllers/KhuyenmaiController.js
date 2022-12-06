@@ -16,6 +16,35 @@ let listDiscount = async(req,res) => {
     }
 }
 
+let checkexpired = async(req, res) => {
+  const date = new Date();
+  try{
+    const Khuyenmai = await db.Khuyenmai_SP.findAll({
+      raw: true,
+      where: {
+        NgayKetThuc: {
+          [Op.lt]: date   //NgayKetThuc phải lớn hơn hôm nay, còn hiệu lực
+      },
+    }
+    });
+    Khuyenmai.map((item) => {
+       db.Sanpham.update({ KM_Ma: null }, {
+        where: {
+          KM_Ma: item.id
+        }
+      });
+    })
+      
+  }
+  catch(err) {
+    console.log("Lỗi");
+    return res.status(500).json({
+        error: true,
+        message: "Lỗi server",
+    })
+}
+}
+
 const listDiscountDetail = async(req, res) => {
   const date = new Date();
  
@@ -26,6 +55,7 @@ const listDiscountDetail = async(req, res) => {
         "id",
         "LSP_Ma",
         "DT_Ma",
+        "KM_Ma",
         "SP_Ten",
         "SP_Gia",
         "SP_Mota",
@@ -44,10 +74,7 @@ const listDiscountDetail = async(req, res) => {
           attributes: [],
         },
         {
-          model: db.Khuyenmaict,
-          as: "Khuyenmaicts",
-          include: [
-            {
+        
               model: db.Khuyenmai_SP,
               as: "Khuyenmai_SP",
               where: {
@@ -55,18 +82,18 @@ const listDiscountDetail = async(req, res) => {
                   [Op.gt]: date   //NgayKetThuc phải lớn hơn hôm nay, còn hiệu lực
               }
               },
-            }
-          ]
+            
+          
         },
       ],
       group: ["id"],
       where: {
-        '$Khuyenmaicts.id$': {
+        'KM_Ma': {
           [Op.not] : null
         }
       }
     });
-  
+  //  console.log(Khuyenmaict);
     return res.json(Khuyenmaict);
 }catch(err) {
   console.log("Lỗi");
@@ -94,20 +121,22 @@ let createDiscount = async (req, res) => {
            await db.Khuyenmai_SP.create({
                 KM_Ten: KM_Ten,
                 NgayBatDau: Ngaybd,
-                NgayKetThuc: Ngaykt
+                NgayKetThuc: Ngaykt,
+                PhanTramKM: PhanTram,
             }).then((result) => {
                 DsSanpham.map((SP_Ma) => {
-                    db.Khuyenmaict.create({
-                        SP_Ma: SP_Ma,
-                        KM_Ma: result.id,
-                        PhanTramKM: PhanTram
+                    db.Sanpham.update({ KM_Ma: result.id },
+                      {
+                        where: {
+                          id: SP_Ma
+                        }
                     })
                 })
                 //console.log(result);
             })
           }
           return res.json({
-            message: "Tạo khách hàng thành công"
+            message: "Tạo khuyến mãi thành công"
           });
     }
     catch(err) {
@@ -121,17 +150,19 @@ let createDiscount = async (req, res) => {
 const deleteDiscount = async (req, res) => {
     const id = req.params.id;
     try {
-      await db.Khuyenmaict.destroy({
+      await db.Sanpham.update({ KM_Ma: null }, {
         where: {
-          KM_Ma: id,
-        },
+          KM_Ma: id
+        }
       });
       await db.Khuyenmai_SP.destroy({
         where: {
           id: id,
         },
       });
+      // console.log("xong");
     } catch (err) {
+      // console.log("Lỗi");
       return res.status(500).json({
         error: true,
         message: "Lỗi server",
@@ -144,4 +175,5 @@ module.exports = {
     createDiscount: createDiscount,
     deleteDiscount: deleteDiscount,
     listDiscountDetail: listDiscountDetail,
+    checkexpired: checkexpired,
 }

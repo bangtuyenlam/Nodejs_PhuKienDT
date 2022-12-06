@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { getUser } from "../../../Utils/Common";
 import ImageHoverZoom from "../imghoverzoom/ImgHoverZoom";
 import Rating from "@material-ui/lab/Rating";
-import dateFormat from "dateformat";
+
 function Product({ products, handleClick }) {
-  const day = new Date();
+ 
   console.log(products);
   const user = getUser();
 
@@ -41,13 +41,13 @@ function Product({ products, handleClick }) {
                   <p className="small" style={{height: "40px"}}>{product.SP_Ten}</p>
                 </div>
                 {/** Sản phẩm có khuyến mãi và còn hiệu lực */}
-                {product["Khuyenmaicts.Khuyenmai_SP.id"] != null &&  product["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > dateFormat(day, "isoDateTime")?  (
+                {product.KM_Ma != null?  (
                   <div className="d-flex justify-content-between mb-3">
                     {/* <h5 className="mb-0">HP Notebook</h5> */}
 
                     <h5 className="text-dark mb-0">
                       {(product.SP_Gia -
-                        (product.SP_Gia * product["Khuyenmaicts.PhanTramKM"]) /
+                        (product.SP_Gia * product["Khuyenmai_SP.PhanTramKM"]) /
                           100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                        đ
                     </h5>

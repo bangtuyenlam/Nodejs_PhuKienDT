@@ -34,7 +34,7 @@ module.exports = {
             .addConstraint("Phieunhaps", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_NV_PN_k",
+              name: "FK_NV_PN_FK15",
               references: {
                 table: "Nhanviens",
                 field: "id",

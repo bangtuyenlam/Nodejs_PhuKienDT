@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./cart.css";
 import { Link } from "react-router-dom";
-import dateFormat from "dateformat";
-function Cart({ cart, setCart, handleChange, xoa }) {
-  const day = new Date();
+import ListHotProduct from "../homePage/listhot/ListProductHot";
+function Cart({ cart, setCart, handleChange, xoa, handleClick }) {
+  
   const [price, setPrice] = useState(0);
   const handleRemove = (id) => {
     const arr = cart.filter((item) => item.id !== id);
@@ -15,11 +15,11 @@ function Cart({ cart, setCart, handleChange, xoa }) {
   const handlePrice = () => {
     let ans = 0;
     cart.map((item) =>{
-    item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&  item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > dateFormat(day, "isoDateTime")
+   item.KM_Ma != null
         ?(ans +=
           item.amount *
           (item.SP_Gia -
-            (item.SP_Gia * item["Khuyenmaicts.PhanTramKM"]) / 100))
+            (item.SP_Gia * item["Khuyenmai_SP.PhanTramKM"]) / 100))
          
         : (ans += item.amount * item.SP_Gia)
              
@@ -32,7 +32,11 @@ function Cart({ cart, setCart, handleChange, xoa }) {
     handlePrice();
   });
   return (
-    <article>
+    <div>
+    <div className="container my-5 py-2">
+    
+    <article className="border">
+   {price !== 0 ? <h5 className="fw-bolder">Danh sách giỏ hàng</h5> : <></>}
       {cart.map((item) => (
         <div className="cart_box" key={item.id}>
           <div className="cart_img">
@@ -53,10 +57,10 @@ function Cart({ cart, setCart, handleChange, xoa }) {
             <button onClick={() => handleChange(item, -1)}>-</button>
           </div>
           <div>
-            {item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&  item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > dateFormat(day, "isoDateTime") ? (
+            { item.KM_Ma != null ? (
              <span>
              {(item.SP_Gia -
-               (item.SP_Gia * item["Khuyenmaicts.PhanTramKM"]) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{" "}
+               (item.SP_Gia * item["Khuyenmai_SP.PhanTramKM"]) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{" "}
               đ
            </span>
              
@@ -68,7 +72,7 @@ function Cart({ cart, setCart, handleChange, xoa }) {
           </div>
         </div>
       ))}
-      {price !== 0 ? (
+     {price !== 0 ? (
         <div>
           <div className="total">
             <span>Tổng tiền</span>
@@ -84,6 +88,16 @@ function Cart({ cart, setCart, handleChange, xoa }) {
         </div>
       )}
     </article>
+   
+    {price!== 0 ? (
+      <div className="bg-warning p-2 mb-3 bg-opacity-50">
+    <h5 className="fw-bolder">SẢN PHẨM TƯƠNG TỰ</h5>
+          <ListHotProduct handleClick={handleClick}/>
+          </div>
+    ) : <></>}
+          </div>
+          </div> 
+       
   );
 }
 

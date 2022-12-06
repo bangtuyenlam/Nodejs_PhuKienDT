@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       LSP_Ten: DataTypes.STRING,
+      LSP_Anh: DataTypes.STRING,
     },
     {
       sequelize,

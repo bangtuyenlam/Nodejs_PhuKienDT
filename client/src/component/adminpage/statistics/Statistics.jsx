@@ -148,7 +148,7 @@ function Statistics() {
   };
 
   return (
-    <div className="customer bg-danger bg-opacity-25">
+    <div className="customer bg-light bg-opacity-100">
       <div className="">
         <h5 className=" fw-bolder me-2">Chọn thống kê</h5>
         <div className="d-flex flex-row bd-highlight mb-2">
@@ -278,7 +278,7 @@ function Statistics() {
       </div>
 
       <div
-        className=" bg-light mt-2 shadow-sm rounded-4"
+        className=" bg-white mt-2 shadow-sm rounded-4"
         style={{
           height: "30%",
           width: "100%",
@@ -314,7 +314,7 @@ function Statistics() {
       </div>
 
       <div
-        className=" bg-light mt-2 shadow-sm rounded-4"
+        className=" bg-white mt-2 shadow-sm rounded-4"
         style={{
           height: "30%",
           width: "100%",
@@ -350,7 +350,7 @@ function Statistics() {
       </div>
 
       <div
-       className=" bg-light mt-2 shadow-sm rounded-4"
+       className=" bg-white mt-2 shadow-sm rounded-4"
         style={{
           height: "30%",
           width: "100%",

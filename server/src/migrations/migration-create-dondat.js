@@ -25,6 +25,15 @@ module.exports = {
       ghichu: {
         type: Sequelize.DataTypes.STRING,
       },
+      diachinhan: {
+        type: Sequelize.DataTypes.STRING,
+      },
+      tennguoinhan: {
+        type: Sequelize.DataTypes.STRING(50)
+      },
+      sdtnhan: {
+        type: Sequelize.DataTypes.STRING(10),
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -22,6 +22,9 @@ module.exports = {
           //   key: "MaTK",
           // },
         },
+        km_ma: {
+          type: Sequelize.DataTypes.INTEGER,
+        },
         sp_ten: {
           type: Sequelize.DataTypes.STRING,
         },
@@ -55,7 +58,7 @@ module.exports = {
             .addConstraint("Dondatcts", {
               type: "FOREIGN KEY",
               fields: ["sp_ma"],
-              name: "FK_SP_DDCT_k",
+              name: "FK_SP_DDCT_FK15",
               references: {
                 table: "Sanphams",
                 field: "id",
@@ -67,7 +70,7 @@ module.exports = {
             .addConstraint("Binhluans", {
               type: "FOREIGN KEY",
               fields: ["sp_ma"],
-              name: "FK_SP_BL_k",
+              name: "FK_SP_BL_FK15",
               references: {
                 table: "Sanphams",
                 field: "id",
@@ -79,7 +82,7 @@ module.exports = {
                   .addConstraint("Danhgia_SPs", {
                     type: "FOREIGN KEY",
                     fields: ["sp_ma"],
-                    name: "FK_SP_DG_k",
+                    name: "FK_SP_DG_FK15",
                     references: {
                       table: "Sanphams",
                       field: "id",
@@ -91,7 +94,7 @@ module.exports = {
                         .addConstraint("Hinhanhs", {
                           type: "FOREIGN KEY",
                           fields: ["sp_ma"],
-                          name: "FK_SP_HA_k",
+                          name: "FK_SP_HA_FK15",
                           references: {
                             table: "Sanphams",
                             field: "id",
@@ -103,19 +106,7 @@ module.exports = {
                               .addConstraint("Phieunhapcts", {
                                 type: "FOREIGN KEY",
                                 fields: ["sp_ma"],
-                                name: "FK_PNCT_SP_k",
-                                references: {
-                                  table: "Sanphams",
-                                  field: "id",
-                                },
-                        })
-                        .then(
-                          async () =>
-                            await queryInterface
-                              .addConstraint("Khuyenmaicts", {
-                                type: "FOREIGN KEY",
-                                fields: ["sp_ma"],
-                                name: "FK_KMCT_SP_k",
+                                name: "FK_PNCT_SP_FK15",
                                 references: {
                                   table: "Sanphams",
                                   field: "id",
@@ -126,8 +117,20 @@ module.exports = {
                             await queryInterface
                               .addConstraint("Sanphams", {
                                 type: "FOREIGN KEY",
+                                fields: ["km_ma"],
+                                name: "FK_KM_SP_FK15",
+                                references: {
+                                  table: "Khuyenmai_SPs",
+                                  field: "id",
+                                },
+                        })
+                        .then(
+                          async () =>
+                            await queryInterface
+                              .addConstraint("Sanphams", {
+                                type: "FOREIGN KEY",
                                 fields: ["lsp_ma"],
-                                name: "FK_LSP_SP_k",
+                                name: "FK_LSP_SP_FK15",
                                 references: {
                                   table: "Loaisanphams",
                                   field: "id",
@@ -140,7 +143,7 @@ module.exports = {
                                     {
                                       type: "FOREIGN KEY",
                                       fields: ["dt_ma"],
-                                      name: "FK_DT_SP_k",
+                                      name: "FK_DT_SP_FK15",
                                       references: {
                                         table: "Dienthoais",
                                         field: "id",

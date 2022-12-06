@@ -8,6 +8,9 @@ import cover2 from "./image/1615267853f39977d392ba9de413da48c8fdd41387.jpg";
 import cover3 from "./image/01_Apraad43118d5560ef4e4af1620cd813334.gif";
 function Home({handleClick}) {
   
+    useEffect(() => {
+      axios.get("/khuyenmai/hethan")
+    }, [])
  
   return (
     <div>

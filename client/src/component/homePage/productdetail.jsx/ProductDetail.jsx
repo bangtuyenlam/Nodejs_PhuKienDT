@@ -290,8 +290,8 @@ console.log(lstComment);
                   </h4>
                 )}
                 {/* <h4 className="describe"> Mô tả</h4> */}
-                <p className="lead" style={{ whiteSpace: "pre-line" }}>
-                  {product.SP_Mota}
+                <p className="lead" style={{ whiteSpace: "pre-line" }} dangerouslySetInnerHTML={{__html: product.SP_Mota}}>
+                 
                 </p>
 
                 <button

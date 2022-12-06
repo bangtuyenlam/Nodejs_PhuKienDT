@@ -10,6 +10,10 @@ module.exports = {
       dt_ten: {
         type: Sequelize.DataTypes.STRING(100),
       },
+      dt_anh: {
+        type: Sequelize.DataTypes.STRING,
+      }
+      ,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

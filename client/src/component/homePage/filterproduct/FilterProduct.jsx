@@ -151,11 +151,13 @@ function FilterProduct({handleClick}) {
               return (
                 <button
                   key={value.id}
-                  className="btn btn-outline-dark ms-1 mb-2"
+                  className="btn btn-outline-dark ms-1 me-1 mb-2"
                   style={{ backgroundColor: phoneId.includes(value.id) ? "rgba(166, 181, 226, 1)" : "rgba(161, 89, 160, 0.9)" }}
                   onClick={() => getLstPhoneId(value.id)}
                 >
-                  {value.DT_Ten}
+                  <img className="rounded-circle" style={{width: "60px", height: "50px"}} src={`http://localhost:5000/image/${value.DT_Anh}`}/>
+                  <div> {value.DT_Ten} </div>
+                  
                 </button>
               );
             })}

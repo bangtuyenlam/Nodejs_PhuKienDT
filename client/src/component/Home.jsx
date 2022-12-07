@@ -6,6 +6,7 @@ import cover from "./image/1615267646c5fd7d8146a32e9eee257b25a0ded7ae.png";
 import ListProduct from "./homePage/listproduct/ListProduct";
 import cover2 from "./image/1615267853f39977d392ba9de413da48c8fdd41387.jpg";
 import cover3 from "./image/01_Apraad43118d5560ef4e4af1620cd813334.gif";
+import ProvincesVN from "./provincesVN/ProvincesVN";
 function Home({handleClick}) {
   
     useEffect(() => {
@@ -60,6 +61,7 @@ function Home({handleClick}) {
       </div>
       <ListProduct handleClick={handleClick}/>
 
+      <ProvincesVN/>
     </div>
   );
 }

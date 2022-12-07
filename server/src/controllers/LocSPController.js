@@ -20,6 +20,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           "id",
           "LSP_Ma",
           "DT_Ma",
+          "KM_Ma",
           "SP_Ten",
           "SP_Gia",
           "SP_Mota",
@@ -31,7 +32,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
             "DiemTB",
           ],
           [
-            db.sequelize.literal('(SP_Gia - (SP_Gia * Khuyenmaicts.PhanTramKM/100))'), 'cost'
+            db.sequelize.literal('(SP_Gia - (SP_Gia * Khuyenmai_SP.PhanTramKM/100))'), 'cost'
           ]
         ],
         include: [
@@ -41,8 +42,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
             attributes: [],
           },
           {
-            model: db.Khuyenmaict,
-            include: db.Khuyenmai_SP,
+            model: db.Khuyenmai_SP,
           },
         ],
         where: {
@@ -70,8 +70,8 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           Sanpham.rows.sort((a, b) => (a.cost - b.cost));
           break;
         case "4":
-          Sanpham.count = Sanpham.rows.filter((item) => item["Khuyenmaicts.Khuyenmai_SP.id"] !== null && item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > day);
-          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmaicts.Khuyenmai_SP.id"] !== null && item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.count = Sanpham.rows.filter((item) => item["Khuyenmai_SP.id"] !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmai_SP.id"] !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
           break;
        
           
@@ -113,6 +113,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           "id",
           "LSP_Ma",
           "DT_Ma",
+          "KM_Ma",
           "SP_Ten",
           "SP_Gia",
           "SP_Mota",
@@ -124,7 +125,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
             "DiemTB",
           ],
           [
-            db.sequelize.literal('(SP_Gia - (SP_Gia * Khuyenmaicts.PhanTramKM/100))'), 'cost'
+            db.sequelize.literal('(SP_Gia - (SP_Gia * Khuyenmai_SP.PhanTramKM/100))'), 'cost'
           ]
         ],
         include: [
@@ -134,8 +135,7 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
             attributes: [],
           },
           {
-            model: db.Khuyenmaict,
-            include: db.Khuyenmai_SP
+            model: db.Khuyenmai_SP
           },
         ],
         where: {
@@ -165,8 +165,8 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           Sanpham.rows.sort((a, b) => (a.cost - b.cost));
           break;
         case "4":
-          Sanpham.count = Sanpham.rows.filter((item) => item["Khuyenmaicts.Khuyenmai_SP.id"] !== null && item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > day);
-          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmaicts.Khuyenmai_SP.id"] !== null && item["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.count = Sanpham.rows.filter((item) => item["Khuyenmai_SP.id"] !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmai_SP.id"] !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
           break;
        
           

@@ -3,7 +3,7 @@ import "./cart.css";
 import { Link } from "react-router-dom";
 import ListHotProduct from "../homePage/listhot/ListProductHot";
 function Cart({ cart, setCart, handleChange, xoa, handleClick }) {
-  
+  console.log(cart);
   const [price, setPrice] = useState(0);
   const handleRemove = (id) => {
     const arr = cart.filter((item) => item.id !== id);
@@ -30,12 +30,9 @@ function Cart({ cart, setCart, handleChange, xoa, handleClick }) {
 
   useEffect(() => {
     handlePrice();
-  });
-  return (
-    <div>
-    <div className="container my-5 py-2">
-    
-    <article className="border">
+  }, [cart]);
+  return ( 
+    <article className="border p-4">
    {price !== 0 ? <h5 className="fw-bolder">Danh sách giỏ hàng</h5> : <></>}
       {cart.map((item) => (
         <div className="cart_box" key={item.id}>
@@ -73,7 +70,7 @@ function Cart({ cart, setCart, handleChange, xoa, handleClick }) {
         </div>
       ))}
      {price !== 0 ? (
-        <div>
+        <div className=" bg-success bg-opacity-100">
           <div className="total">
             <span>Tổng tiền</span>
             <span>{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ</span>
@@ -89,16 +86,7 @@ function Cart({ cart, setCart, handleChange, xoa, handleClick }) {
       )}
     </article>
    
-    {price!== 0 ? (
-      <div className="bg-warning p-2 mb-3 bg-opacity-50">
-    <h5 className="fw-bolder">SẢN PHẨM TƯƠNG TỰ</h5>
-          <ListHotProduct handleClick={handleClick}/>
-          </div>
-    ) : <></>}
-          </div>
-          </div> 
-       
-  );
+  )
 }
 
 export default Cart;

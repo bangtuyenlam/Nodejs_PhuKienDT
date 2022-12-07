@@ -6,7 +6,7 @@ import Rating from "@material-ui/lab/Rating";
 
 function Product({ products, handleClick }) {
  
-  console.log(products);
+  
   const user = getUser();
 
 

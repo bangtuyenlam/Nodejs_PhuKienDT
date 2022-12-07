@@ -37,7 +37,7 @@ export default function HomeRoute() {
         cart.splice(index, 1);
       }
     });
-  console.log(cart);
+  // console.log(cart);
     setProduct(result);
   }, [cart])
 
@@ -48,14 +48,16 @@ export default function HomeRoute() {
   }
 
   const handleChange = (item, d) => {
+    
     const ind = cart.indexOf(item);
     const arr = cart;
     //  arr[ind].amount = 1;
     arr[ind].amount += d;
-    console.log(arr[ind], d);
+    console.log(arr[ind], d, arr[ind].amount);
 
     if (arr[ind].amount === 0) arr[ind].amount = 1;
     setCart([...arr]);
+    console.log(cart);
   };
 
   return (

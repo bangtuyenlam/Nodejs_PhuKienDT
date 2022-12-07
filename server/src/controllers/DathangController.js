@@ -7,6 +7,9 @@ let DatHang = async (req, res) => {
     const Trangthai = req.body.trangthai;
     const Ghichu = req.body.ghichu;
     const dondatct = req.body.dondatct;
+    const nguoinhan = req.body.nguoinhan;
+    const Diachinhan = req.body.diachi;
+    const SDTNhan = req.body.sdt;
 
    // console.log(NV_Ma, KH_Ma, Ngaydat, Trangthai, Ghichu, dondatct);
     try{
@@ -22,7 +25,10 @@ let DatHang = async (req, res) => {
                 KH_Ma: KH_Ma,
                 Ngaydat: Ngaydat,
                 Trangthai: Trangthai,
-                Ghichu: Ghichu
+                Ghichu: Ghichu,
+                TenNguoiNhan: nguoinhan,
+                DiaChiNhan: Diachinhan,
+                SDTNhan: SDTNhan,
             });
            await ChiTietDonDat(Ngaydat, dondatct);
             return res.json({

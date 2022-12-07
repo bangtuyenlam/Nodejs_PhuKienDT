@@ -9,16 +9,14 @@ function Checkout({ cart }) {
   var totalPrice = 0;
   const navigate = useNavigate();
   const user = getUser();
-  const [customer, setCustomer] = useState([]);
-  const [note, setNote] = useState("");
+  
+  const [fullname, setFullName] = useState();
+  const [address, setAddress] = useState();
+  const [numphone, setNumPhone] = useState();
+  const [note, setNote] = useState();
   const ngaydat = new Date();
   const [error, setError] = useState("");
-  const check =
-    customer.KH_Hoten !== null &&
-    customer.KH_SDT !== null &&
-    customer.KH_Diachi !== null
-      ? true
-      : false;
+ 
 
   useEffect(() => {
     axios
@@ -26,7 +24,10 @@ function Checkout({ cart }) {
         customerId: user["Khachhang.id"],
       })
       .then((res) => {
-        setCustomer(res.data);
+        console.log(res.data);
+          setFullName(res.data.KH_Hoten);
+          setAddress(res.data.KH_Diachi);
+          setNumPhone(res.data.KH_SDT);
       })
       .catch((err) => {
         if (err.response.status === 404)
@@ -36,6 +37,23 @@ function Checkout({ cart }) {
   }, []);
 
   const handleCheckOut = () => {
+    if(!fullname|| !address || !numphone){
+      Swal.fire({
+        icon: "error",
+        title: "Thông báo",
+        text: "Vui lòng nhập đầy đủ thông tin khách hàng!",
+        confirmButtonText: "OK",
+      })
+    }
+    else if (!cart[0]){
+      Swal.fire({
+        icon: "error",
+        title: "Thông báo",
+        text: "Chưa có sản phẩm cần mua!",
+        confirmButtonText: "OK",
+      })
+    }
+    else {
     axios
       .post("/dathang", {
         manv: 1,
@@ -43,6 +61,9 @@ function Checkout({ cart }) {
         ngaydat: ngaydat,
         trangthai: 0,
         ghichu: note,
+        nguoinhan: fullname,
+        diachi: address,
+        sdt: numphone,
         dondatct: cart,
       })
       .then((res) => {
@@ -63,113 +84,19 @@ function Checkout({ cart }) {
           console.log("Lỗi nhập chưa nhập đủ thông tin");
         } else console.log("Đặt hàng không thành công");
       });
+    }
   };
   return (
     <div className="py-4 mt-lg-5">
       <div className="container">
         <div className="row">
-          {user && (
-            <div className="col-md-7">
-              <div className="card">
-                <div className="card-header">
-                  <h4>Thông tin khách hàng</h4>
+        <div className="col-md-6">
+        <div className="card-header border">
+                  <h4>Thông tin đơn hàng</h4>
                 </div>
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group mb-3">
-                        <label>Họ tên khách hàng</label>
-                        <input
-                          readOnly={true}
-                          type="text"
-                          name="name"
-                          className="form-control"
-                          value={customer.KH_Hoten}
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group mb-3">
-                        <label>Số điện thoại</label>
-                        <input
-                          readOnly={true}
-                          type="text"
-                          name="phone"
-                          className="form-control"
-                          value={customer.KH_SDT}
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group mb-3">
-                        <label>Email</label>
-                        <input
-                          readOnly={true}
-                          type="email"
-                          name="email"
-                          className="form-control"
-                          value={customer.KH_Email}
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="col-md-12">
-                      <div className="form-group mb-3">
-                        <label>Địa chỉ nhận hàng</label>
-                        <textarea
-                          readOnly={true}
-                          rows={2}
-                          type="text"
-                          name="name"
-                          className="form-control"
-                          value={customer.KH_Diachi}
-                        ></textarea>
-                      </div>
-                    </div>
-                    <div className="col-md-12">
-                      <div className="form-group mb-3">
-                        <label>Ghi chú</label>
-                        <textarea
-                          rows={3}
-                          type="text"
-                          name="name"
-                          className="form-control"
-                          onChange={(value) => setNote(value.target.value)}
-                        ></textarea>
-                      </div>
-                    </div>
-                    {check ? (
-                      <div className="col-md-12">
-                        <div className="form-group text-end">
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={handleCheckOut}
-                          >
-                            Đặt hàng
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="col-md-12">
-                        <div className="form-group text-end">
-                          <Link
-                            to={`/personal/${customer.id}`}
-                            className="btn btn-primary"
-                          >
-                            Cập nhật tài khoản
-                          </Link>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          <div className="col-md-5">
             <table className="table table-bordered">
               <thead>
-                <tr>
+                <tr className="bg-info">
                   <th style={{ width: "50%" }}>Sản phẩm</th>
                   <th>Giá</th>
                   <th>Số lượng</th>
@@ -189,7 +116,10 @@ function Checkout({ cart }) {
                     else totalPrice += val.SP_Gia * val.amount;
                     return (
                       <tr>
-                        <td>{val.SP_Ten}</td>
+                        <td>
+                          <img className="rounded-circle" style={{width: "40px", height: "40px"}} src={`http://localhost:5000/image/${val.Anhdaidien}`}/>
+                          {val.SP_Ten}
+                          </td>
                         {val.KM_Ma != null ? (
                           <td>
                             {val.SP_Gia -
@@ -224,7 +154,88 @@ function Checkout({ cart }) {
                 </tr>
               </tbody>
             </table>
+            <div className="col-md-12">
+                        <div className="form-group text-end">
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={handleCheckOut}
+                          >
+                            Đặt hàng
+                          </button>
+                        </div>
+                      </div>
           </div>
+          {user && (
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-header">
+                  <h4>Thông tin nhận hàng</h4>
+                </div>
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Họ tên khách hàng</label>
+                        <input
+                        
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          value={fullname}
+                          onChange={(value) => setFullName(value.target.value)}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Số điện thoại</label>
+                        <input
+                          
+                          type="text"
+                          name="phone"
+                          className="form-control"
+                          value={numphone}
+                          onChange={(value) => setNumPhone(value.target.value)}
+                        ></input>
+                      </div>
+                    </div>
+                   
+                    <div className="col-md-12">
+                      <div className="form-group mb-3">
+                        <label>Địa chỉ nhận hàng</label>
+                        <textarea
+                          
+                          rows={2}
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          value={address}
+                          onChange={(value) => setAddress(value.target.value)}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group mb-3">
+                        <label>Ghi chú</label>
+                        <textarea
+                          rows={3}
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          onChange={(value) => setNote(value.target.value)}
+                        ></textarea>
+                      </div>
+                    </div>
+                   
+                     
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+         
         </div>
       </div>
     </div>

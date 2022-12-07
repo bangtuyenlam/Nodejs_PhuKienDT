@@ -28,7 +28,8 @@ function CategoryList() {
                   style={{ backgroundColor: "rgba(166, 181, 226, 1)" }}
                   to={`/filter-${value.id}`}
                 >
-                  {value.LSP_Ten}
+                  <img className="rounded-circle" style={{width: "40px", height: "40px"}} src={`http://localhost:5000/image/${value.LSP_Anh}`}/>
+                  <div> {value.LSP_Ten} </div>
                 </Link>
               );
             })}

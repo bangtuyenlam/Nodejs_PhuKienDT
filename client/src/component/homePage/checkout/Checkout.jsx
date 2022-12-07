@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import ProvincesVN from "../../provincesVN/ProvincesVN";
 
 function Checkout({ cart }) {
   var totalPrice = 0;
@@ -16,7 +17,7 @@ function Checkout({ cart }) {
   const [note, setNote] = useState();
   const ngaydat = new Date();
   const [error, setError] = useState("");
- 
+  const [isChange, setIsChange] = useState(false);
 
   useEffect(() => {
     axios
@@ -86,6 +87,24 @@ function Checkout({ cart }) {
       });
     }
   };
+
+  const getAddress = (province, district, ward, street) => {
+    setIsChange(false);
+    if(!province || !district || !ward || !street){
+      Swal.fire({
+        icon: "error",
+        title: "Thông báo",
+        text: "Vui lòng nhập đầy đủ địa chỉ!",
+        confirmButtonText: "OK",
+      })
+    }else
+    setAddress(street + ", " + ward.label + ", " + district.label + ", " + province.label);
+  }
+  console.log(address);
+
+  const handleChangeAddress = () => {
+    setIsChange(true);
+  }
   return (
     <div className="py-4 mt-lg-5">
       <div className="container">
@@ -165,6 +184,15 @@ function Checkout({ cart }) {
                           </button>
                         </div>
                       </div>
+
+                      <div className="card mt-5" style={{width: "18rem"}}>
+  <div className="card-body">
+  
+    <h6 className="card-subtitle mb-2 fw-bold">Thông tin giao hàng</h6>
+    <div className="card-text text-success">Miễn phí giao hàng</div>
+    <div className="card-text text-success">Thanh toán khi nhận hàng (COD)</div>    
+  </div>
+</div>         
           </div>
           {user && (
             <div className="col-md-6">
@@ -205,7 +233,7 @@ function Checkout({ cart }) {
                       <div className="form-group mb-3">
                         <label>Địa chỉ nhận hàng</label>
                         <textarea
-                          
+                          readOnly={true}
                           rows={2}
                           type="text"
                           name="name"
@@ -214,6 +242,12 @@ function Checkout({ cart }) {
                           onChange={(value) => setAddress(value.target.value)}
                         ></textarea>
                       </div>
+
+                      {isChange ? <ProvincesVN getAddress={getAddress}/> :  <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                      <button className="btn btn-success" onClick={handleChangeAddress}> Thay đổi địa chỉ </button>
+                      </div>}
+                    
+                      
                     </div>
                     <div className="col-md-12">
                       <div className="form-group mb-3">

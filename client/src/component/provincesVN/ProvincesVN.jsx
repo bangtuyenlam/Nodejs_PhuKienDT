@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-function ProvincesVN() {
+function ProvincesVN({getAddress}) {
     const [provinces, setProvinces] = useState([]);
     const [province, setProvince] = useState();
     const [districts, setDistricts] = useState([]);
     const [district, setDistrict] = useState();
     const [wards, setWards] = useState([]);
     const [ward, setWard] = useState();
+    const [street, setStreet] = useState("");
     const URL = "https://provinces.open-api.vn/api";
     useEffect(() => {
         axios.get(`${URL}/?depth=1`)
@@ -33,10 +34,10 @@ function ProvincesVN() {
         })
     }
 
-    console.log(province);
-
     const selectChangeDistrict = (e) => {
-        setDistrict(e.target.value);
+      let index = e.nativeEvent.target.selectedIndex;
+      let label = e.nativeEvent.target[index].text;
+        setDistrict({code: e.target.value, label: label});
         if(e.target.value === "") {
             setWards([]);
         }
@@ -49,12 +50,16 @@ function ProvincesVN() {
     
 
     const selectChangeWard = (e) => {
-        setWard(e.target.value);
+      let index = e.nativeEvent.target.selectedIndex;
+      let label = e.nativeEvent.target[index].text;
+        setWard({code: e.target.value, label:label});
+      
     }
     
   return (
+    <div>
     <div className="row">
-        <div className="col-4">
+        <div className="col-6">
     <label>Tỉnh / Thành phố</label>
     <select
       className="form-control"
@@ -74,7 +79,7 @@ function ProvincesVN() {
       })}
     </select>
     </div>
-    <div className="col-4">
+    <div className="col-6">
     <label>Quận / Huyện </label>
     <select
       className="form-control"
@@ -94,7 +99,8 @@ function ProvincesVN() {
       })}
     </select>
     </div>
-    <div className="col-4">
+    <div className="w-100"></div>
+    <div className="col-6 mt-2">
     <label>Phường / Xã </label>
     <select
       className="form-control"
@@ -114,6 +120,27 @@ function ProvincesVN() {
       })}
     </select>
     </div>
+    <div className='col-6 mt-2'>
+    <label>Tên đường / số nhà </label>
+      <input 
+      type="text"
+      value={street}
+      className="form-control"
+      onChange={(value) => setStreet(value.target.value)}/>
+    </div>
+  </div>
+  
+  <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+
+  <button
+            className="btn btn-primary mt-2"
+            onClick={() =>
+              getAddress(province, district, ward, street)
+            }
+          >
+            Lưu
+          </button>
+          </div>
   </div>
   )
 }

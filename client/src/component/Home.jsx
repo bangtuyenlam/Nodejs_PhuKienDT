@@ -61,7 +61,6 @@ function Home({handleClick}) {
       </div>
       <ListProduct handleClick={handleClick}/>
 
-      <ProvincesVN/>
     </div>
   );
 }

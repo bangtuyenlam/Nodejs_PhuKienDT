@@ -70,8 +70,8 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           Sanpham.rows.sort((a, b) => (a.cost - b.cost));
           break;
         case "4":
-          Sanpham.count = Sanpham.rows.filter((item) => item["Khuyenmai_SP.id"] !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
-          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmai_SP.id"] !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.count = Sanpham.rows.filter((item) => item.KM_Ma !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.rows = Sanpham.rows.filter((item) => item.KM_Ma !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
           break;
        
           
@@ -165,8 +165,8 @@ let DanhSachSPTheoLoaiSP = async (req, res) => {
           Sanpham.rows.sort((a, b) => (a.cost - b.cost));
           break;
         case "4":
-          Sanpham.count = Sanpham.rows.filter((item) => item["Khuyenmai_SP.id"] !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
-          Sanpham.rows = Sanpham.rows.filter((item) => item["Khuyenmai_SP.id"] !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.count = Sanpham.rows.filter((item) => item.KM_Ma !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
+          Sanpham.rows = Sanpham.rows.filter((item) => item.KM_Ma !== null && item["Khuyenmai_SP.NgayKetThuc"] > day);
           break;
        
           

@@ -54,7 +54,7 @@ const ChiTietDonDat = async (ngaydat, dsdondat) => {
           });
           
           dsdondat.map(dondat => {
-            if(dondat["Khuyenmaicts.id"] === null)
+            if(dondat["KM_Ma"] === null)
                db.Dondatct.create({
                 SP_Ma: dondat.id,
                 DD_Ma: MaDD[0].id,
@@ -66,7 +66,7 @@ const ChiTietDonDat = async (ngaydat, dsdondat) => {
               SP_Ma: dondat.id,
               DD_Ma: MaDD[0].id,
               Soluongdat: dondat.amount,
-              Gia: dondat.SP_Gia - (dondat.SP_Gia * dondat["Khuyenmaicts.PhanTramKM"])/100
+              Gia: dondat.SP_Gia - (dondat.SP_Gia * dondat["Khuyenmai_SP.PhanTramKM"])/100
             });
              db.Sanpham.update({
               Soluong: dondat.Soluong - dondat.amount

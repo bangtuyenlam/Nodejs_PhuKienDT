@@ -85,12 +85,12 @@ export default function DonDatCT() {
                         <div className="form-group mb-3">
                           <label>Họ tên khách hàng</label>
                           <input
-                            key={dondat["Khachhang.KH_Hoten"]}
+                            key={dondat.TenNguoiNhan}
                             readOnly={true}
                             type="text"
                             name="name"
                             className="form-control"
-                            value={dondat["Khachhang.KH_Hoten"]}
+                            value={dondat.TenNguoiNhan}
                           ></input>
                         </div>
                       </div>
@@ -98,12 +98,12 @@ export default function DonDatCT() {
                         <div className="form-group mb-3">
                           <label>Số điện thoại</label>
                           <input
-                            key={dondat["Khachhang_KH_SDT"]}
+                            key={dondat.SDTNhan}
                             readOnly={true}
                             type="text"
                             name="phone"
                             className="form-control"
-                            value={dondat["Khachhang.KH_SDT"]}
+                            value={dondat.SDTNhan}
                           ></input>
                         </div>
                       </div>
@@ -171,14 +171,14 @@ export default function DonDatCT() {
                         <div className="form-group mb-3">
                           <label>Địa chỉ nhận hàng</label>
                           <textarea
-                            key={dondat["Khachhang.KH_Diachi"]}
+                            key={dondat.DiaChiNhan}
                             readOnly={true}
                             rows={2}
                             type="text"
                             name="name"
                             className="form-control"
                             style={{ resize: "none" }}
-                            value={dondat["Khachhang.KH_Diachi"]}
+                            value={dondat.DiaChiNhan}
                           ></textarea>
                         </div>
                       </div>

@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { getUser } from "../../../Utils/Common";
 import { useNavigate } from "react-router";
+import dateFormat from "dateformat";
 export default function OrderDetail() {
   const navigate = useNavigate();
   const user = getUser();
@@ -47,7 +48,7 @@ export default function OrderDetail() {
       })
       .then((res) => {
         console.log(res.data);
-        navigate("/admin");
+        navigate("/admin/invoiceManager");
       })
       .catch((error) => {
         console.log("Duyệt đơn hàng không thành công");
@@ -55,61 +56,84 @@ export default function OrderDetail() {
   };
 
   return (
-    <div className="customer">
-      <div className="customerManagerContainer">
-        <h1 className="customerManagerTitle">Chi tiết đơn hàng</h1>
+    <div className="order">
+      <div className="orderTitleContainer">
+        <h1 className="orderTitle">Chi tiết đơn hàng</h1>
       </div>
-      <div className="py-4">
+     
         <div className="container">
           <div className="row">
-            {dondat && (
-              <div className="col-md-7">
-                <div className="card">
-                  <div className="card-header">
-                    <h4>Thông tin khách hàng</h4>
-                  </div>
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group mb-3">
-                          <label>Họ tên khách hàng</label>
-                          <input
-                            readOnly={true}
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            value={dondat["Khachhang.KH_Hoten"]}
-                          ></input>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group mb-3">
-                          <label>Số điện thoại</label>
-                          <input
-                            readOnly={true}
-                            type="text"
-                            name="phone"
-                            className="form-control"
-                            value={dondat["Khachhang.KH_SDT"]}
-                          ></input>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group mb-3">
-                          <label>Email</label>
-                          <input
-                            readOnly={true}
-                            type="email"
-                            name="email"
-                            className="form-control"
-                            value={dondat["Khachhang.KH_Email"]}
-                          ></input>
-                        </div>
-                      </div>
-                      {dondat.Ngaygiao == null ? (
-                        <div className="col-md-6">
+          <div className="col-md-7 shadow-sm p-2">
+            <div className="card-header border">
+              <h4>Thông tin đơn hàng</h4>
+            </div>
+            <table className="table table-bordered">
+              <thead>
+                <tr className="bg-info">
+                  <th className="col-5">Sản phẩm</th>
+                  <th className="col-3">Giá</th>
+                  <th className="col-1">Số lượng</th>
+                  <th className="col-3">Tổng cộng</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {dondatct &&
+                    dondatct.map((val, i) => {
+                      totalPrice += val.Gia * val.Soluongdat;
+                      return (
+                        <tr key={i}>
+                          <td>
+                          <img
+                            className="rounded-circle"
+                            style={{ width: "40px", height: "40px" }}
+                            src={`http://localhost:5000/image/${val["Sanpham.Anhdaidien"]}`}
+                          />
+                          {val["Sanpham.SP_Ten"]}
+                        </td>
+                        {val["Sanpham.KM_Ma"] != null ? (
+                          <td>
+                            {val.Gia
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}{" "}
+                            đ 
+                            <p className="small text-danger mb-0">
+                              <s>
+                                {val["Sanpham.SP_Gia"].toString().replace(
+                                  /\B(?=(\d{3})+(?!\d))/g,
+                                  "."
+                                )}{" "}
+                                đ
+                              </s>
+                            </p>
+                          </td>
+                        ) : (
+                          <td>
+                            {val.Gia.toString().replace(
+                              /\B(?=(\d{3})+(?!\d))/g,
+                              "."
+                            )}{" "}
+                            đ
+                          </td>
+                        )}
+                          <td>{val.Soluongdat}</td>
+                          <td>{val.Gia * val.Soluongdat}</td>
+                        </tr>
+                      );
+                    })}
+                  <tr>
+                    <td colSpan="2" className="text-end">
+                      Tổng tiền
+                    </td>
+                    <td colSpan="2" className="text-end">
+                      {totalPrice}
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            {dondat.Ngaygiao == null ? (
+                        <div className="col-md-12">
                           <div className="form-group mb-3">
-                            <label>Ngày giao</label>
+                            <label className="me-4 btn btn-info p-2">Chọn ngày giao (dự kiến)</label>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <DateTimePicker
                                 id="date-picker-dialog"
@@ -122,9 +146,9 @@ export default function OrderDetail() {
                           </div>
                         </div>
                       ) : (
-                        <div className="col-md-6">
+                        <div className="col-md-12">
                           <div className="form-group mb-3">
-                            <label>Ngày giao</label>
+                            <label className="me-4 btn btn-info p-2">Ngày giao (dự kiến)</label>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <DateTimePicker
                                 id="date-picker-dialog"
@@ -137,37 +161,7 @@ export default function OrderDetail() {
                           </div>
                         </div>
                       )}
-                      <div className="col-md-12">
-                        <div className="form-group mb-3">
-                          <label>Địa chỉ nhận hàng</label>
-                          <textarea
-                            readOnly={true}
-                            rows={2}
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            value={dondat["Khachhang.KH_Diachi"]}
-                          ></textarea>
-                        </div>
-                      </div>
-                      {dondat.Ghichu !== "" ? (
-                        <div className="col-md-12">
-                          <div className="form-group mb-3">
-                            <label>Ghi chú</label>
-                            <textarea
-                              readOnly={true}
-                              rows={3}
-                              type="text"
-                              name="name"
-                              className="form-control"
-                              value={dondat.Ghichu}
-                            ></textarea>
-                          </div>
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                      {dondat.Trangthai === 0 ? (
+           {dondat.Trangthai === 0 ? (
                         <div className="col-md-12">
                           <div className="form-group text-end">
                             <button
@@ -183,54 +177,51 @@ export default function OrderDetail() {
                       ) : (
                         <div className="col-md-12">
                           <div className="form-group text-end">
-                            <label className="btn btn-light">
+                            <label className="btn btn-success">
                               Đơn hàng đã được duyệt
                             </label>
                           </div>
                         </div>
                       )}
-                    </div>
+
+          </div>
+          {dondat && (
+              <div className="col-md-5 shadow-sm p-2">
+                <div className="card">
+                  <div className="card-header">
+                    <h4>Thông tin nhận hàng</h4>
                   </div>
+                  <div className="card" style={{ width: "100%"}}>
+              <div className="card-body">
+                <div className="card-text"><span className=" fw-bolder">Họ tên khách hàng: </span> {dondat.TenNguoiNhan}</div>
+                <div className="card-text">
+                 <span className=" fw-bolder">Số điện thoại: </span> {dondat.SDTNhan}
                 </div>
+                <div className="card-text">
+                 <span className=" fw-bolder">Địa chỉ nhận hàng: </span> {dondat.DiaChiNhan}
+                </div>
+                <div className="card-text">
+                 <span className=" fw-bolder">Ghi chú: </span> {dondat.Ghichu}
+                </div>
+                
+                {dondat.Ngaygiao !== null ? 
+                <div className="card-text btn-info">
+                
+                <span className=" fw-bolder">Ngày giao: </span> {dateFormat(dondat.Ngaygiao, "H:MM dd-mm-yyyy")}
+                 
+                </div>
+                 : <></>}
+              </div>
+            </div>
+                </div>
+                
               </div>
             )}
-            <div className="col-md-5">
-              <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th style={{ width: "50%" }}>Sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Tổng cộng</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dondatct &&
-                    dondatct.map((val) => {
-                      totalPrice += val.Gia * val.Soluongdat;
-                      return (
-                        <tr>
-                          <td>{val["Sanpham.SP_Ten"]}</td>
-                          <td>{val.Gia}</td>
-                          <td>{val.Soluongdat}</td>
-                          <td>{val.Gia * val.Soluongdat}</td>
-                        </tr>
-                      );
-                    })}
-                  <tr>
-                    <td colSpan="2" className="text-end">
-                      Tổng tiền
-                    </td>
-                    <td colSpan="2" className="text-end">
-                      {totalPrice}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+           
+           
           </div>
         </div>
-      </div>
+     
     </div>
   );
 }

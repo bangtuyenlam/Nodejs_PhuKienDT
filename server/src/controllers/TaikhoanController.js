@@ -23,6 +23,8 @@ let login = async (req, res) => {
     [Op.or]: [
       {TenTK: username},
       {'$Khachhang.KH_SDT$': username},
+      {'$Khachhang.KH_Email$': username},
+      {'$Nhanvien.NV_Email$': username},
       {'$Nhanvien.NV_SDT$': username}
     ]
   },
@@ -35,6 +37,7 @@ let login = async (req, res) => {
       as: "Nhanvien"
     }],
   });
+ 
   try {
     if (user[0]) {
       const password = await bcrypt.compare(req.body.password, user[0].Matkhau);

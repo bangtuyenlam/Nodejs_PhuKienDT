@@ -96,7 +96,7 @@ export default function NewProduct() {
   return (
    
     <div className="newProduct">
-      <div className="border border-3 rounded p-lg-3 shadow-lg bg-light bg-opacity-100 ">
+      <div className="border border-3 rounded p-lg-3 shadow-lg bg-primary bg-opacity-25 ">
       <h4 className="newProductTitle">Thêm sản phẩm</h4>
       <form className="newProductForm">
         <div className="newProductItem">
@@ -179,7 +179,7 @@ export default function NewProduct() {
           <div className="col-md-5 me-4 mt-2">
             <img src={previewImg} alt="" id="img" className="img-fluid" />
           </div>
-         
+        
         </div>
         <div className="newProductItem">
           <label> Mô tả</label>
@@ -191,8 +191,9 @@ export default function NewProduct() {
             onChange={(value) => setNoidung(value.target.value)}
             rows="12"
           ></textarea> */}
-          <ReactQuill value={describe} onChange={setDescribe} style={{height: "200px", marginBottom: "17px"}}/>
-       
+          <div className="bg-white" style={{height: "200px"}}>
+          <ReactQuill value={describe} onChange={setDescribe} style={{height: "80%", marginBottom: "17px"}}/>
+</div>       
           
         </div>
         <button
@@ -203,6 +204,7 @@ export default function NewProduct() {
             Lưu
           </button>
       </form>
+      
     </div>
     </div>
     

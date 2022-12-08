@@ -18,7 +18,7 @@ function Navbar({ size }) {
     // navigate("/");
     window.location.href = "/";
   };
-  console.log(user);
+  // console.log(user);
 
   return (
     <div className="bg-light">

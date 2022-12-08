@@ -71,7 +71,7 @@ function ListProduct({ handleClick }) {
   return (
     <div>
 
-      <div className="container my-5 py-2">
+      <div className="container my-2 py-2">
   
       
           <ListDiscount handleClick={handleClick}/>

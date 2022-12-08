@@ -93,6 +93,7 @@ function Statistics() {
   const getReceipt = () => {
     axios
       .post("/thongke/nam/donhang", {
+        month: month,
         year: year,
       })
       .then((res) => {
@@ -105,6 +106,7 @@ function Statistics() {
     axios
       .post("/thongke/nam/hoanthanh", {
         year: year,
+        month: month,
       })
       .then((res) => {
         setFinishList(res.data);
@@ -116,12 +118,15 @@ function Statistics() {
     axios
       .post("/thongke/nam/dahuy", {
         year: year,
+        month: month,
       })
       .then((res) => {
         setCancelList(res.data);
         console.log(res.data);
       });
   };
+
+  const ngay = [1, 2,3 ,4 ,5,6,7,8,9,10];
 
   const labels = [
     "Tháng một",
@@ -226,16 +231,16 @@ function Statistics() {
           <div className="card">
             <div className="card-body px-3 py-4-5 bg-info">
               <div className="row">
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="stats-icon purple">
                     <i className="iconly-boldShow"></i>
                   </div>
-                </div>
+                </div> */}
                 <div className="col-md-8">
                   <h6 className="text-muted font-semibold">
                     Tổng doanh thu
                   </h6>
-                  <h6 className="font-extrabold mb-0">{formatCash(tongdoanhthu)} VNĐ</h6>
+                  <h6 className="font-extrabold mb-0 text-center">{formatCash(tongdoanhthu)} đ</h6>
                 </div>
               </div>
             </div>
@@ -245,14 +250,14 @@ function Statistics() {
           <div className="card">
             <div className="card-body px-3 py-4-5 bg-danger bg-opacity-100">
               <div className="row">
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="stats-icon blue">
                     <i className="iconly-boldProfile"></i>
                   </div>
-                </div>
-                <div className="col-md-8">
+                </div> */}
+                <div className="col-md-12">
                   <h6 className="text-muted font-semibold">Tổng đơn hàng</h6>
-                  <h6 className="font-extrabold mb-0">184</h6>
+                  <h6 className="font-extrabold mb-0 text-center">10</h6>
                 </div>
               </div>
             </div>
@@ -262,26 +267,26 @@ function Statistics() {
           <div className="card">
             <div className="card-body px-3 py-4-5 bg-success bg-opacity-50">
               <div className="row">
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="stats-icon green">
                     <i className="iconly-boldAdd-User"></i>
                   </div>
-                </div>
-                <div className="col-md-8">
-                  <h6 className="text-muted font-semibold">Số khách hàng</h6>
-                  <h6 className="font-extrabold mb-0">100</h6>
+                </div> */}
+                <div className="col-md-12">
+                  <h6 className="text-muted font-semibold">Đơn hàng cần duyệt</h6>
+                  <h6 className="font-extrabold mb-0 text-center">2</h6>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+<div className="row">
       <div
-        className=" bg-white mt-2 shadow-sm rounded-4"
+        className=" bg-white mt-2 shadow-sm rounded-4 col-6"
         style={{
-          height: "30%",
-          width: "100%",
+          height: "20%",
+          width: "50%",
           position: "relative",
           marginBottom: "30px",
         }}
@@ -312,48 +317,11 @@ function Statistics() {
           }}
         />
       </div>
-
       <div
-        className=" bg-white mt-2 shadow-sm rounded-4"
+       className=" bg-white mt-2 shadow-sm rounded-4 col-6"
         style={{
-          height: "30%",
-          width: "100%",
-          position: "relative",
-          marginBottom: "30px",
-        }}
-      >
-        <Bar
-          data={{
-            labels: labels,
-            datasets: [
-              {
-                label: "VNĐ",
-                backgroundColor: "rgba(90, 30, 101, 0.6)",
-                data: revenue,
-              },
-            ],
-          }}
-          options={{
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "right",
-              },
-              title: {
-                position: "top",
-                display: true,
-                text: "Doanh thu theo năm",
-              },
-            },
-          }}
-        />
-      </div>
-
-      <div
-       className=" bg-white mt-2 shadow-sm rounded-4"
-        style={{
-          height: "30%",
-          width: "100%",
+          height: "20%",
+          width: "50%",
           position: "relative",
           marginBottom: "30px",
         }}
@@ -394,6 +362,44 @@ function Statistics() {
           }}
         />
       </div>
+      </div>
+      <div
+        className=" bg-white mt-2 shadow-sm rounded-4"
+        style={{
+          height: "20%",
+          width: "60%",
+          position: "relative",
+          marginBottom: "30px",
+        }}
+      >
+        <Bar
+          data={{
+            labels: labels,
+            datasets: [
+              {
+                label: "VNĐ",
+                backgroundColor: "rgba(90, 30, 101, 0.6)",
+                data: revenue,
+              },
+            ],
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "right",
+              },
+              title: {
+                position: "top",
+                display: true,
+                text: "Doanh thu theo năm",
+              },
+            },
+          }}
+        />
+      </div>
+
+   
     </div>
   );
 }

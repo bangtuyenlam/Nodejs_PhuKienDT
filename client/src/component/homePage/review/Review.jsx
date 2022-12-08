@@ -11,11 +11,11 @@ import {
   Description,
 } from "@material-ui/icons";
 import { getUser } from "../../../Utils/Common";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 export default function Review() {
   const user = getUser();
   const [value, setValue] = useState(5);
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState();
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
   const ngaydanhgia = new Date();
@@ -35,7 +35,7 @@ export default function Review() {
   }, []);
 
   const handleReview = async () => {
-   await axios
+    await axios
       .post("/sanpham/danhgia", {
         MaKH: user["Khachhang.id"],
         MaSP: productId.id,
@@ -44,7 +44,7 @@ export default function Review() {
         ngay: ngaydanhgia,
       })
       .then((res) => {
-       navigate(`/personal/reviewed-product/${user["Khachhang.id"]}`)
+        navigate(`/personal/reviewed-product/${user["Khachhang.id"]}`);
       })
       .catch((error) => {
         if (error.response.status === 402) {
@@ -52,11 +52,12 @@ export default function Review() {
           console.log("Chưa đánh giá sao cho sản phẩm");
         } else console.log("Đặt hàng không thành công");
       });
-  }
-
+  };
+ 
   return (
     <div className="review">
       {product && (
+        
         <div className="reviewContainer">
           <div className="reviewShow">
             <div className="reviewShowTop">
@@ -65,7 +66,6 @@ export default function Review() {
                 alt="Anh dai dien"
                 className="reviewShowImg"
               />
-
               <div className="reviewShowTopTitle">
                 <span className="reviewShowName">{product.SP_Ten}</span>
               </div>
@@ -87,7 +87,15 @@ export default function Review() {
               </div>
               <div className="reviewShowInfo">
                 <AttachMoney className="reviewShowIcon" />
-                <span className="reviewInfoTitle">{product.SP_Gia}</span>
+                <span className="reviewInfoTitle">
+                  <div>
+                  {product.SP_Gia.toString().replace(
+                    /\B(?=(\d{3})+(?!\d))/g,
+                    "."
+                  )}{" "}
+                  đ
+                  </div>
+                </span>
               </div>
               <div className="reviewShowInfo">
                 <ColorLens className="reviewShowIcon" />
@@ -117,18 +125,19 @@ export default function Review() {
                     setValue(newValue);
                   }}
                 />
-            
               </div>
               {error && <div className="error">{error}</div>}
               <div>
                 <textarea
                   rows={8}
                   placeholder="Nhập đánh giá của bạn..."
-                  className="reviewComment"
+                  className="reviewComment py-2 px-2"
                   onChange={(value) => setComment(value.target.value)}
                 />
               </div>
-              <button className="reviewUpdateButton"  onClick={handleReview}>Gửi đánh giá</button>
+              <button className="reviewUpdateButton btn btn-primary" onClick={handleReview}>
+                Gửi đánh giá
+              </button>
             </div>
           </div>
         </div>

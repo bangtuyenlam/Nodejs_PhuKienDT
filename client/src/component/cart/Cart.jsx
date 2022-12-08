@@ -43,7 +43,7 @@ function Cart({ cart, setCart, handleChange, xoa, handleClick }) {
             />
             <p>{item.SP_Ten}</p>
           </div>
-          <div>
+          <div className="ms-3">
             {//Số lượng đặt hàng không vượt quá sl có trong kho
             item.Soluong !== item.amount ? (
               <button onClick={() => handleChange(item, 1)}>+</button>
@@ -53,20 +53,33 @@ function Cart({ cart, setCart, handleChange, xoa, handleClick }) {
             <button>{item.amount}</button>
             <button onClick={() => handleChange(item, -1)}>-</button>
           </div>
-          <div>
+          <div className="d-flex flex-row-reverse mb-2">
             { item.KM_Ma != null ? (
+              
              <span>
-             {(item.SP_Gia -
-               (item.SP_Gia * item["Khuyenmai_SP.PhanTramKM"]) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{" "}
-              đ
+              <div>
+              <s className="small text-danger mb-0 ms-2">{item.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ</s>
+              </div>
+              <div>
+                {(item.SP_Gia -
+                  (item.SP_Gia * item["Khuyenmai_SP.PhanTramKM"]) /
+                    100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{" "}
+                 đ
+
+              </div>
+              
            </span>
              
             ) : (
+            
               <span>{item.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ</span>
+
+             
             )}
 
-            <button onClick={() => handleRemove(item.id)}>Xóa</button>
+           
           </div>
+          <button className="btn btn-danger" onClick={() => handleRemove(item.id)}>Xóa</button>
         </div>
       ))}
      {price !== 0 ? (

@@ -45,6 +45,7 @@ let customerUpdate = async (req, res) => {
   const birthday = req.body.selectedDate;
   const phoneNumber = req.body.phoneNumber;
   const location = req.body.location;
+  
   try {
     const result = await db.Khachhang.update(
       {
@@ -61,8 +62,10 @@ let customerUpdate = async (req, res) => {
         },
       }
     );
+  
     return res.json(result[0]);
   } catch (err) {
+    console.log("Lỗi");
     return res.status(500).json({
       error: true,
       message: "Lỗi server",

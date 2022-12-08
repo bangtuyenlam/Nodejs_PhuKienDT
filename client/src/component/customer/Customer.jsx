@@ -16,8 +16,10 @@ import {
   MuiPickersUtilsProvider,
   DatePicker,
 } from "@material-ui/pickers";
+import Swal from "sweetalert2";
 import axios from "axios";
 import dateFormat from "dateformat";
+import ProvincesVN from "../provincesVN/ProvincesVN";
 export default function Customer() {
   const customerId = useParams();
   const [customer, setCustomer] = useState([]);
@@ -27,7 +29,7 @@ export default function Customer() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [location, setLocation] = useState("");
-
+  const [isChange, setIsChange] = useState(false);
   useEffect(() => {
     axios
       .post("/khachhang/id", {
@@ -53,7 +55,7 @@ export default function Customer() {
     setSelectedDate(date);
   };
 
-  console.log(selectedDate);
+  console.log(selectedDate, customerName, location, email, gender);
   const handleUpdate = async () => {
     await axios
       .put("/khachhang/capnhat", {
@@ -75,14 +77,32 @@ export default function Customer() {
       });
   };
 
+  const handleChangeAddress = () => {
+    setIsChange(true);
+  }
+
+  const getAddress = (province, district, ward, street) => {
+    setIsChange(false);
+    if(!province || !district || !ward || !street){
+      Swal.fire({
+        icon: "error",
+        title: "Thông báo",
+        text: "Vui lòng nhập đầy đủ địa chỉ!",
+        confirmButtonText: "OK",
+      })
+    }else
+    setLocation(street + ", " + ward.label + ", " + district.label + ", " + province.label);
+  }
   return (
     <div className="customer">
+      <div className="border border-3 rounded p-lg-3 shadow-lg bg-primary bg-opacity-25 ">
       <div className="customerTitleContainer">
         <h4 className="customerTitle">Thông tin khách hàng</h4>
       </div>
+     
       {customer && (
         <div className="customerContainer">
-          <div className="customerShow">
+          <div className="customerShow bg-light">
             <div className="customerShowTop">
               {customer.KH_Gioitinh === 0 ? (
                 <img
@@ -103,7 +123,7 @@ export default function Customer() {
               </div>
             </div>
             <div className="customerShowBottom">
-              <span className="customerShowTitle">Thông tin chi tiết</span>
+              <span className="customerShowTitle">Thông tin tài khoản</span>
               <div className="customerShowInfo">
                 <PermIdentity className="customerShowIcon" />
 
@@ -132,7 +152,7 @@ export default function Customer() {
               </div>
             </div>
           </div>
-          <div className="customerEdit">
+          <div className="customerEdit bg-light">
             <span className="customerUpdateTitle">Chỉnh sửa</span>
             <form action="" className="customerUpdateForms">
               <div className="customerUpdateLeft">
@@ -142,7 +162,7 @@ export default function Customer() {
                     type="text"
                     placeholder={customer.KH_Hoten}
                     value={customerName}
-                    className="customerUpdateInput"
+                    className="customerUpdateInput p-1"
                     onChange={(value) => {
                       setCustomerName(value.target.value);
                     }}
@@ -185,6 +205,7 @@ export default function Customer() {
                       onChange={handleDateChange}
                       maxDate={"2010-12-31"}
                       minDate={"1952-12-31"}
+                      className="col-8"
                     />
                   </MuiPickersUtilsProvider>
                 </div>
@@ -211,23 +232,29 @@ export default function Customer() {
                 <div className="customerUpdateItem">
                   <label>Địa chỉ</label>
                   <input
+                    disabled={true}
                     type="text"
                     value={location}
                     placeholder={customer.KH_Diachi}
                     className="customerUpdateInput"
-                    onChange={(value) => setLocation(value.target.value)}
+                   
                   />
+                  {isChange ? <div className="mt-3"><ProvincesVN getAddress={getAddress}/> </div> :  <div className="d-grid gap-2 mt-2 d-md-flex justify-content-md-end">
+                      <button className="btn btn-success" onClick={handleChangeAddress}> Chọn </button>
+                      </div>}
                 </div>
-              </div>
-              <div className="customerUpdateRight">
-                <button className="customerUpdateButton" onClick={handleUpdate}>
+                <div className="customerUpdateRight">
+                <button className="btn btn-primary" onClick={handleUpdate}>
                   Cập nhật
                 </button>
               </div>
+              </div>
+             
             </form>
           </div>
         </div>
       )}
+       </div>
     </div>
   );
 }

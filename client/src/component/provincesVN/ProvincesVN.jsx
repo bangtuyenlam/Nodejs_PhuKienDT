@@ -14,10 +14,12 @@ function ProvincesVN({getAddress}) {
         .then((res)=> {
             setProvinces(res.data);
         })
-        if(province == "") {
+        if(province && province.code === "") {
+            setWard({code: "", label: "Chọn Phường / Xã"});
+            setDistrict({code: "", label: "Chọn Quận / Huyện"});
             setWards([]);
         }
-    }, [districts, wards, province]);
+    }, [district, ward, province]);
    
 
     const selectChange = (e) => {
@@ -26,6 +28,7 @@ function ProvincesVN({getAddress}) {
         setProvince({code: e.target.value, label: label});
         if(e.target.value === "") {
             setDistricts([]);
+            setDistrict({code: "", label: "Chọn Quận / Huyện"})
         }
         else
         axios.get(`${URL}/p/${e.target.value}/?depth=2`)
@@ -40,6 +43,7 @@ function ProvincesVN({getAddress}) {
         setDistrict({code: e.target.value, label: label});
         if(e.target.value === "") {
             setWards([]);
+            setWard({code: "", label: "Chọn Phường / Xã"})
         }
         else
         axios.get(`${URL}/d/${e.target.value}/?depth=2`)

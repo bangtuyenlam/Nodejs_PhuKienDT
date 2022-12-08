@@ -138,6 +138,7 @@ const DanhSachDatCT = async (req, res) => {
         },
         {
           model: db.Sanpham,
+          include: db.Khuyenmai_SP,
         },
       ],
     });

@@ -2,7 +2,7 @@ import React from 'react';
 import "./sidePersonal.css";
 import {
   StorefrontOutlined, AssignmentIndOutlined,
-  RateReviewOutlined, StarBorder
+  RateReviewOutlined, StarBorder, VpnKey
   } from '@material-ui/icons';
   import { Link } from 'react-router-dom';
   import {getUser} from "../../../Utils/Common";
@@ -17,7 +17,7 @@ export default function SidePersonal() {
             <li className="sidebarListItem">
             <AssignmentIndOutlined className='sidebarIcon'/>
               <Link className='sidebarLink' to={`/personal/${user["Khachhang.id"]}`}>
-              Tài khoản
+              Thông tin cá nhân
               </Link>
             </li>
     
@@ -56,6 +56,20 @@ export default function SidePersonal() {
               </Link>
             
             </li>
+          </ul>
+        </div>
+        <div className="sidebarMenu">
+          <h3 className="sidebarTitle">Tài khoản</h3>
+          <ul className="sidebarList">
+          <li className="sidebarListItem">
+            <VpnKey className='sidebarIcon'/>
+              <Link className='sidebarLink' to={'/personal/review-product'}>
+             Đổi mật khẩu
+              </Link>
+            
+            </li>
+
+          
           </ul>
         </div>
        </div>

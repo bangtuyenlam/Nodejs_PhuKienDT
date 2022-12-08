@@ -4,9 +4,19 @@ import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
 import { Link} from 'react-router-dom';
 import dateFormat from 'dateformat';
-import { DeleteOutline } from "@material-ui/icons";
+import { DeleteOutline , RemoveRedEyeOutlined} from "@material-ui/icons";
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+  root: {
+    '& .super-app-theme--header': {
+      backgroundColor: 'rgba(255, 7, 0, 0.55)',
+    },
+  },
+});
 
 export default function InvoiceManager() {
+  const classes = useStyles();
     const [dondat, setDondat] = useState([]);
     // const [sortModel, setSortModel] = useState([
     //   {
@@ -44,12 +54,14 @@ export default function InvoiceManager() {
      {
        field: 'Khachhang.KH_Hoten',
        headerName: 'Tên khách hàng',
-       width: 200,
+       headerClassName: 'super-app-theme--header',
+       width: 230,
      },
      {
        field: 'Ngaydat',
        headerName: 'Ngày đặt',
-       width: 180,
+       headerClassName: 'super-app-theme--header',
+       width: 250,
        renderCell: (params) => {
          return  dateFormat(params.row.Ngaydat, "h:MM:ss TT dd/mm/yyyy");
        }
@@ -57,7 +69,8 @@ export default function InvoiceManager() {
     {
         field: 'state',
         headerName: 'Tình trạng đơn hàng',
-        width: 250,
+        headerClassName: 'super-app-theme--header',
+        width: 270,
         renderCell: (params) => {
             if (params.row.Trangthai === 0) return <div>Chưa duyệt</div>;
             else if (params.row.Trangthai === 1) return <div>Đã duyệt</div>;
@@ -68,18 +81,21 @@ export default function InvoiceManager() {
      {
        field: 'action',
        headerName: 'Điều khiển',
-       width: 150,
+       width: 270,
+       headerClassName: 'super-app-theme--header',
        renderCell: (params) => {
          
          return(
            <>
-           <Link to={`/admin/orderDetail/${params.row.id}`}>
-           <button className="employeeManagerEdit">Chi tiết</button>
+           <Link to={`/admin/orderDetail/${params.row.id}`} className="btn btn-success">
+           <RemoveRedEyeOutlined/>
            </Link>
+           <div className='btn btn-outline-danger ms-1'>
            <DeleteOutline
               className="customerManagerDelete"
               onClick={() => handleDelete(params.row.id)}
             />        
+            </div>
            </>
          )
        }
@@ -87,21 +103,25 @@ export default function InvoiceManager() {
    ];
   return (
     <div className="checkoutManager">
+      <div className="border border-3 rounded p-lg-3 pt-0 shadow-lg bg-primary bg-opacity-25" style={{ height: "120%", width: '100%' }}>
     <div className='checkoutManagerContainer'>
-      <h1 className="checkoutManagerTitle">Danh sách đơn đặt</h1>
-    </div>
+      <h4 className="checkoutManagerTitle">Danh sách đơn đặt</h4>
+    </div >
+    <div style={{ height: "90%", width: '100%', background: "white" }} className={classes.root}>
     {dondat && (
      <DataGrid
       rows={dondat}
       columns={columns}
       pageSize={7}
-      checkboxSelection
+      // checkboxSelection
       disableSelectionOnClick
       sortModel={sortModel}
      // onSortModelChange={(model) => setSortModel(model)}
     />
     )
 }
+</div>
+</div>
   </div>
   )
 }

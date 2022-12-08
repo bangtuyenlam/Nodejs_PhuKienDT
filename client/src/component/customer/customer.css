@@ -11,7 +11,7 @@
 
 .customerContainer {
     display: flex;
-    margin-top: 20px;
+  
 }
 
 .customerShow {
@@ -82,14 +82,14 @@
 
 
 .customerUpdateTitle {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     margin-left: 20px;
 }
 
 .customerUpdateForms {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
     justify-content: space-between;
     margin-left: 20px;
 }
@@ -98,6 +98,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    width: auto;
 }
 
 .customerUpdateItem>label{
@@ -112,11 +113,11 @@
     border-bottom: 1px solid gray;
 }
 
-.customerUpdateRight{
+/* .customerUpdateRight{
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-}
+} */
 
 
 .customerUpdateButton{

@@ -165,7 +165,7 @@ console.log(lstComment);
         Ngay: dateComment,
       })
       .then((res) => {
-        console.log(res.data);
+       
         getListComment();
       })
       .catch((error) => {
@@ -182,12 +182,15 @@ console.log(lstComment);
 
   return (
     <>
-      <div className="container py-5">
+      <div className="container py-5 my-3">
         {loading ? (
           <Loading />
         ) : (
           product && (
-            <div className="row py-4">
+            <div className="row py-3 bg-info bg-opacity-25">
+              <h4 className="text-uppercase text-black-50 mb-2">
+                  {product.SP_Ten}
+                </h4>
               <div className="col-md-6">
                 <div
                   id="carouselExampleControls"
@@ -269,28 +272,34 @@ console.log(lstComment);
                   })}
               </div>
               <div className="col-md-5">
-                <h2 className="text-uppercase text-black-50">
-                  {product.SP_Ten}
-                </h2>
-                {product["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] != null &&  product["Khuyenmaicts.Khuyenmai_SP.NgayKetThuc"] > dateFormat(dateComment, "isoDateTime")? (
+                
+                {product.KM_Ma != null? (
                   <div className="d-flex mb-2">
-                    <h4 className="text-dark mb-0 fw-bolder">
+                    <h5 className="text-dark mb-0 fw-bolder">
                       {(product.SP_Gia -
-                        (product.SP_Gia * product["Khuyenmaicts.PhanTramKM"]) /
+                        (product.SP_Gia * product["Khuyenmai_SP.PhanTramKM"]) /
                           100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{" "}
                        đ
-                    </h4>
+                    </h5>
                     <span className="small text-danger mb-0 ms-2">
                       <s>{product.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ</s>
                     </span>
                   </div>
                 ) : (
-                  <h4 className="display-6 fw-bold my-4">
+                  <h5 className="text-dark fw-bolder mb-0">
                     {product.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ
-                  </h4>
+                  </h5>
                 )}
                 {/* <h4 className="describe"> Mô tả</h4> */}
-                <p className="lead" style={{ whiteSpace: "pre-line" }} dangerouslySetInnerHTML={{__html: product.SP_Mota}}>
+                <Rating
+                      key={"Diemtb"}
+                      name="half-rating"
+                      value={avg()}
+                      precision={0.5}
+                      readOnly
+                    />
+
+                <p className="mt-1 fs-6 bg-light p-2" style={{ whiteSpace: "pre-line" }} dangerouslySetInnerHTML={{__html: product.SP_Mota}}>
                  
                 </p>
 
@@ -305,10 +314,10 @@ console.log(lstComment);
           )
         )}
 
-        <ul className="nav nav-tabs" id="myTab" role="tablist">
+        <ul className="nav nav-tabs pt-2" id="myTab" role="tablist">
           <li className="nav-item" role="presentation">
             <a
-              className="nav-link active"
+              className="nav-link active btn-outline-primary"
               id="home-tab"
               data-bs-toggle="tab"
               href="#home"
@@ -321,7 +330,7 @@ console.log(lstComment);
           </li>
           <li className="nav-item" role="presentation">
             <a
-              className="nav-link"
+              className="nav-link btn-outline-primary"
               id="profile-tab"
               data-bs-toggle="tab"
               href="#profile"
@@ -333,7 +342,7 @@ console.log(lstComment);
             </a>
           </li>
         </ul>
-        <div className="tab-content" id="myTabContent">
+        <div className="tab-content bg-light p-4" id="myTabContent">
           <div
             className="tab-pane fade show active"
             id="home"

@@ -18,7 +18,7 @@ function Checkout({ cart }) {
   const ngaydat = new Date();
   const [error, setError] = useState("");
   const [isChange, setIsChange] = useState(false);
-
+console.log(cart);
   useEffect(() => {
     axios
       .post("/khachhang/id", {
@@ -44,6 +44,7 @@ function Checkout({ cart }) {
         title: "Thông báo",
         text: "Vui lòng nhập đầy đủ thông tin khách hàng!",
         confirmButtonText: "OK",
+        allowOutsideClick: false,
       });
     } else if (!cart[0]) {
       Swal.fire({
@@ -51,6 +52,7 @@ function Checkout({ cart }) {
         title: "Thông báo",
         text: "Chưa có sản phẩm cần mua!",
         confirmButtonText: "OK",
+        allowOutsideClick: false,
       });
     } else {
       axios
@@ -94,6 +96,7 @@ function Checkout({ cart }) {
         title: "Thông báo",
         text: "Vui lòng nhập đầy đủ địa chỉ!",
         confirmButtonText: "OK",
+        allowOutsideClick: false,
       });
     } else {
       setIsChange(false);

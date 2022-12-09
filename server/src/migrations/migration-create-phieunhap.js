@@ -13,8 +13,8 @@ module.exports = {
         pn_tongtien: {
           type: Sequelize.DataTypes.FLOAT,
         },
-        pn_dathanhtoan: {
-            type: Sequelize.DataTypes.BOOLEAN,
+        pn_nhacungcap: {
+            type: Sequelize.DataTypes.STRING,
           },
         ngaynhap: {
           type: Sequelize.DataTypes.DATE,
@@ -34,7 +34,7 @@ module.exports = {
             .addConstraint("Phieunhaps", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_NV_PN_FK15",
+              name: "FK_NV_PN_FK2K",
               references: {
                 table: "Nhanviens",
                 field: "id",

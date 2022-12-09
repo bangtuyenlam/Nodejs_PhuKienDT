@@ -2,14 +2,13 @@ import "./newEmployee.css";
 import React, { useState } from "react";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  DatePicker,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import axios from "axios";
-import { useNavigate } from 'react-router';
-
+import { useNavigate } from "react-router";
+import ProvincesVN from "../../provincesVN/ProvincesVN";
+import Swal from "sweetalert2";
 export default function NewEmployee() {
+  const [isChange, setIsChange] = useState(false);
   const [nhanvienName, setNhanvienName] = useState("");
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
@@ -25,7 +24,7 @@ export default function NewEmployee() {
     setSelectedDate(date);
   };
 
-  const handleCreate =  () => {
+  const handleCreate = () => {
     axios
       .post("/nhanvien/them", {
         NhanvienName: nhanvienName,
@@ -36,51 +35,83 @@ export default function NewEmployee() {
         selectedDate: selectedDate,
         phoneNumber: phoneNumber,
         location: location,
-        chucvu: chucvu
+        chucvu: chucvu,
       })
       .then((res) => {
-       console.log(res.data);
-       navigate("/admin/employeeManager");
+        console.log(res.data);
+        navigate("/admin/employeeManager");
       })
       .catch((error) => {
-        if (error.response.status === 402){
+        if (error.response.status === 402) {
           setError(error.response.data.message);
-          console.log("Lỗi nhập chưa nhập đủ thông tin");
-        }
-        else
-          console.log("Cập nhật không thành công");
-      });    
-  }
+          Swal.fire({
+            icon: "error",
+            title: "Thông báo",
+            text: "Vui lòng nhập đầy đủ thông tin!",
+            confirmButtonText: "OK",
+            allowOutsideClick: false,
+          });
+        } else console.log("Cập nhật không thành công");
+      });
+  };
 
   const selectChange = (value) => {
     setChucvu(value.target.value);
-}
+  };
+
+  const handleChangeAddress = () => {
+    setIsChange(true);
+  };
+
+  const getAddress = (province, district, ward, street) => {
+    setIsChange(false);
+    if (!province || !district || !ward || !street) {
+      Swal.fire({
+        icon: "error",
+        title: "Thông báo",
+        text: "Vui lòng nhập đầy đủ địa chỉ!",
+        confirmButtonText: "OK",
+      });
+    } else
+      setLocation(
+        street +
+          ", " +
+          ward.label +
+          ", " +
+          district.label +
+          ", " +
+          province.label
+      );
+  };
 
   return (
     <div className="newEmployee">
-      <h1 className="newEmployeeTitle">Thêm nhân viên</h1>
+      <div className="border border-3 rounded p-lg-3 shadow-lg bg-primary bg-opacity-25 ">
+      <h4 className="newEmployeeTitle">Thêm nhân viên</h4>
       <form className="newEmployeeForm">
         <div className="newEmployeeItem">
           <label> Tên nhân viên</label>
           <input
-           type="text"
-           value={nhanvienName}
-           onChange={(value) => setNhanvienName(value.target.value)}
+            type="text"
+            value={nhanvienName}
+            onChange={(value) => setNhanvienName(value.target.value)}
           ></input>
         </div>
         <div className="newEmployeeItem">
           <label> Tên tài khoản</label>
           <input
-           type="text"
-           value={account}
-           onChange={(value) => setAccount(value.target.value)}></input>
+            type="text"
+            value={account}
+            onChange={(value) => setAccount(value.target.value)}
+          ></input>
         </div>
         <div className="newEmployeeItem">
           <label>Mật khẩu</label>
           <input
-           type="password"
-           value={pwd}
-           onChange={(value) => setPwd(value.target.value)}></input>
+            type="password"
+            value={pwd}
+            onChange={(value) => setPwd(value.target.value)}
+          ></input>
         </div>
         <div className="newEmployeeItem">
           <label> Ngày sinh </label>
@@ -103,6 +134,7 @@ export default function NewEmployee() {
                 className="form-check-input"
                 type="radio"
                 id="inlineRadio1"
+                name="isMale"
                 value="1"
                 onChange={(value) => setGender(value.target.value)}
               />
@@ -113,6 +145,7 @@ export default function NewEmployee() {
                 className="form-check-input"
                 type="radio"
                 id="inlineRadio2"
+                name="isMale"
                 value="0"
                 onChange={(value) => setGender(value.target.value)}
               />
@@ -123,46 +156,65 @@ export default function NewEmployee() {
         <div className="newEmployeeItem">
           <label> Email</label>
           <input
-           type="email"
-           value={email}
-           onChange={(value) => setEmail(value.target.value)}></input>
+            type="email"
+            value={email}
+            onChange={(value) => setEmail(value.target.value)}
+          ></input>
         </div>
         <div className="newEmployeeItem">
           <label> Số điện thoại</label>
           <input
-           type="text"
-           value={phoneNumber}
-           onChange={(value) => setPhoneNumber(value.target.value)}></input>
+            type="text"
+            value={phoneNumber}
+            onChange={(value) => setPhoneNumber(value.target.value)}
+          ></input>
+        </div>
+        <div className="newEmployeeItem">
+          <label>Chức vụ</label>
+          <select
+            className="form-control"
+            id="district"
+            onChange={selectChange}
+          >
+            <option value="Nhân viên" default>
+              Nhân viên
+            </option>
+            <option value="Quản lý">Quản lý</option>
+          </select>
         </div>
         <div className="newEmployeeItem">
           <label> Địa chỉ</label>
           <input
-           type="text"
-           value={location}
-           onChange={(value) => setLocation(value.target.value)}></input>
+            disabled={true}
+            type="text"
+            value={location}
+            onChange={(value) => setLocation(value.target.value)}
+          ></input>
+
+          {isChange ? (
+            <div className="mt-3">
+              <ProvincesVN getAddress={getAddress} />{" "}
+            </div>
+          ) : (
+            <div className="d-grid gap-2 mt-2 d-md-flex justify-content-md-end">
+              <button className="btn btn-success" onClick={handleChangeAddress}>
+                {" "}
+                Chọn{" "}
+              </button>
+            </div>
+          )}
         </div>
-        <div className="newEmployeeItem">
-                <label >
-                  Chức vụ 
-               
-                </label>
-                <select
-                  className="form-control"
-                  id="district"
-                  onChange={selectChange}
-                >
-                  <option value="Nhân viên" default>
-                    Nhân viên
-                  </option>
-                  <option value="Quản lý">Quản lý</option>
-                </select>
-         </div>
-                
-        <button
-         className="newEmployeeButton"
-         type="button"
-         onClick={handleCreate}>Lưu</button>
+        <div className="newCustomerItem">  <button
+          className="newEmployeeButton"
+          type="button"
+          onClick={handleCreate}
+        >
+          Lưu
+        </button></div>
       </form>
+      
+    
+      </div>
     </div>
   );
 }

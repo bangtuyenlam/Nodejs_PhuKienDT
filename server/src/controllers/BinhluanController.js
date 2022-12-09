@@ -44,7 +44,7 @@ let comment = (req, res) => {
     const NV_Ma = req.body.MaNV;
     const Noidung = req.body.Noidung;
     const Ngay = req.body.Ngay;
-    console.log(Ngay);
+    const Binhluantruoc = req.body.Binhluantruoc;
     try{
         if(!Noidung) 
         return res.status(402).json({

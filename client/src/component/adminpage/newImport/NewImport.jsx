@@ -8,19 +8,38 @@ function NewImport() {
   const user = getUser();
   const [productList, setProductList] = useState([]);
   const [product, setProduct] = useState(2);
-  const [state, setState] = useState(false);
+  const [vendor, setVendor] = useState("");
   const [error, setError] = useState();
   const navigate = useNavigate();
   const [add, setAdd] = useState(false);
   const [employee, setEmployee] = useState();
-  const [listDetail, setListDetail] = useState([{ SP_Ma:"", Soluong: 0, Giatien: 0 }]);
+  const [listDetail, setListDetail] = useState([{ SP_Ma:"", Soluongnhap: 0, Gianhap: 0 }]);
   const [amount, setAmount] = useState();
   const [price, setPrice] = useState();
   const [a, setA] = useState(0);
-
+  
   useEffect(() => {
     getProduct();
   }, [])
+
+  const handleSave = () => {
+    let trunglap = [];
+    let check = false;
+    console.log(listDetail);
+    listDetail.filter((item, index) => {
+      if(listDetail.findIndex((i) => i.SP_Ma === item.SP_Ma) !== index)
+        trunglap.push(item);
+        
+  })
+ if(trunglap[0])
+  Swal.fire({
+    icon: "error",
+    title: "Thông báo",
+    text: "Có hàng trùng tên sản phẩm, vui lòng xóa bớt!",
+    confirmButtonText: "OK",
+  })
+  console.log(trunglap);
+  }
 
   const getProduct = async () => {
     await axios.get("/sanpham")
@@ -41,21 +60,20 @@ function NewImport() {
     setPrice(0);
   };
 
-  const handleRemoveRow = (SP_Ma) => {    
+  const handleRemoveRow = (index) => {    
    
-    setListDetail(listDetail.filter((item) => item.SP_Ma !== SP_Ma));
+    setListDetail(listDetail.filter((item, i) => i !== index));
 
   };
+
+  
 
 
   const selectChange = (e) => {
     setProduct(e.target.value);
   };
-  const handleClickState = (e) => {
-    setState(e.target.checked); 
-  }
- 
- 
+  
+ console.log(listDetail);
   return (
     <div className="newProduct">
       <h4 className="newProductTitle">Thêm phiếu nhập</h4>
@@ -71,19 +89,12 @@ function NewImport() {
           ></input>
         </div>
         <div className="newProductItem">
-          <label>Trạng thái</label>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexCheckChecked"
-              onChange={(e) => handleClickState(e)}
-        
-            />
-            <label className="form-check-label" for="flexCheckChecked">
-              Đã thanh toán
-            </label>
-          </div>
+          <label> Nhà cung cấp</label>
+          <input
+            type="text"
+            value={vendor}
+            onChange={(value) => setVendor(value.target.value)}
+          ></input>
         </div>
       </form>
       </div>
@@ -97,13 +108,12 @@ function NewImport() {
               <li className="list-group-item col-4">Tên sản phẩm</li>
               <li className="list-group-item col-2">Số lượng</li>
               <li className="list-group-item col-2">Giá</li>
-              <li className="list-group-item col-3">Điều khiển</li>
             </ul>
          
             {listDetail &&
           listDetail.map((item, index) => (
-            <>
-              <ul className="list-group list-group-horizontal" >
+            
+              <ul className="list-group list-group-horizontal-sm" >
                 <li className="list-group-item col-4">
                   <select  className="form-control" id="district" onChange={(e) => {selectChange(e); item.SP_Ma = e.target.value}}>
                     <option default value={0}>
@@ -123,6 +133,7 @@ function NewImport() {
                   <input
                     type="number"
                     className="form-control"
+                    min={0}
                     value={item.Soluong}
                     onChange={(value) =>{item.Soluong = value.target.value; setAmount(value.target.value) }}
                   ></input>
@@ -130,36 +141,41 @@ function NewImport() {
                 <li className="list-group-item col-2">
                   <input
                     type="text"
+                    onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                     className="form-control"
                     value={item.Giatien}
                     onChange={(value) =>{item.Giatien = value.target.value; setPrice(value.target.value)}}
                   ></input>
                 </li>
-                <li className="list-group-item col-3">
-                  {listDetail.length > 1 && (
-                    
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleRemoveRow(item.SP_Ma)}
-                    >
-                      Xóa
-                    </button>
-                  )}
-                </li>
-              </ul>
-              {listDetail.length - 1 === index && listDetail.length < 4 && (
-                <div key={index}>
+             
+              <div className=" btn-group">
+              {listDetail.length - 1 === index && listDetail.length < 10 && (
+                <div>
                   <button
-                    className="btn btn-outline-info mt-2"
+                    className="btn btn-outline-info mt-2 ms-3"
                     onClick={() => handleAddRow()}
                   >
                     Thêm
                   </button>
                 </div>
               )}
-            </>
+              {/**listDetail.length - 1 === index chỉ true 1 lần duy nhất */}
+               {listDetail.length - 1 === index && listDetail.length > 1 &&
+                <div>
+              <button
+                      className="btn btn-outline-danger ms-3 mt-2 "
+                      onClick={() => handleRemoveRow(index)}
+                    >
+                      Xóa
+                    </button>
+                    </div>
+}
+              </div>
+              </ul>
+           
           ))}
           </div>
+          <button className="btn btn-primary mt-4 ms-5" onClick={handleSave}> Lưu phiếu nhập</button>
         </div>
        
       </div>

@@ -135,11 +135,15 @@ let createDiscount = async (req, res) => {
                 //console.log(result);
             })
           }
+          console.log("Thành công");
           return res.json({
             message: "Tạo khuyến mãi thành công"
           });
+        
     }
+ 
     catch(err) {
+      console.log("Lỗi");
         return res.status(500).json({
             error: true,
             message: "Lỗi server"

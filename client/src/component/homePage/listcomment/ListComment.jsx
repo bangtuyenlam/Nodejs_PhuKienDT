@@ -68,7 +68,7 @@ function ListComment({
           Trả lời
         </button>
 
-        <div className="col-sm-2 fst-italic">
+        <div className="col-sm-3 fst-italic">
           {" "}
           - {dateFormat(comment.BL_Ngaybinhluan, "H:MM:ss dd-mm-yyyy")}
         </div>

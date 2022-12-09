@@ -55,7 +55,7 @@ export default function Customer() {
     setSelectedDate(date);
   };
 
-  console.log(selectedDate, customerName, location, email, gender);
+  
   const handleUpdate = async () => {
     await axios
       .put("/khachhang/capnhat", {
@@ -224,6 +224,7 @@ export default function Customer() {
                   <input
                     type="text"
                     value={phoneNumber}
+                    pattern="[0-9]{10}"
                     placeholder={customer.KH_SDT}
                     className="customerUpdateInput"
                     onChange={(value) => setPhoneNumber(value.target.value)}

@@ -118,17 +118,23 @@ export default function DonDatCT() {
                             đ
                           </td>
                         )}
-                          <td>{val.Soluongdat}</td>
-                          <td>{val.Gia * val.Soluongdat}</td>
+                          <td>{val.Soluongdat} </td>
+                          <td>{val.Gia * val.Soluongdat.toString().replace(
+                                  /\B(?=(\d{3})+(?!\d))/g,
+                                  "."
+                                )} đ</td>
                         </tr>
                       );
                     })}
-                  <tr>
-                    <td colSpan="2" className="text-end">
+                  <tr className=" bg-warning bg-opacity-50">
+                    <td colSpan="2" className="text-end fw-bolder">
                       Tổng tiền
                     </td>
-                    <td colSpan="2" className="text-end">
-                      {totalPrice}
+                    <td colSpan="2" className="text-end fw-bolder">
+                      {totalPrice.toString().replace(
+                                  /\B(?=(\d{3})+(?!\d))/g,
+                                  "."
+                                )} đ
                     </td>
                   </tr>
                 </tbody>

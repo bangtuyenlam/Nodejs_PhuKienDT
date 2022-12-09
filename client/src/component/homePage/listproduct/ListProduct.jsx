@@ -108,7 +108,7 @@ function ListProduct({ handleClick }) {
             
           </div>)
           : ( <div className="d-grid gap-2 col-3 mx-auto">
-          <div className="btn btn-secondary w-100" onClick={shortCut}>Rút gọn</div>
+          <div className="btn btn-outline-dark w-100" onClick={shortCut}>Rút gọn</div>
           
         </div>)
 }

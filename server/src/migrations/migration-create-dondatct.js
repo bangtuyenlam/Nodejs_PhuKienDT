@@ -38,7 +38,7 @@ module.exports = {
           await queryInterface.addConstraint("Dondatcts", {
             type: "FOREIGN KEY",
             fields: ["dd_ma"],
-            name: "FK_DDCT_DD_FK15",
+            name: "FK_DDCT_DD_FK2K",
             references: {
               table: "Dondats",
               field: "id",

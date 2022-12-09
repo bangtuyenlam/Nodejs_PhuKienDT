@@ -25,15 +25,17 @@ ChartJS.register(
 
 function Statistics() {
   const date = new Date();
-  const [month, setMonth] = useState(date.getMonth());
+  const [month, setMonth] = useState(date.getMonth() + 1);
   const [year, setYear] = useState(date.getFullYear());
   const [listyear, setListYear] = useState([]);
   const [revenue, setRevenue] = useState([]);
   const [receipt, setReceipt] = useState([]);
+  const [sumFinishReceipt, setSumFinishReceipt] = useState();
   const [finishList, setFinishList] = useState([]);
   const [cancelList, setCancelList] = useState([]);
   const [revenuebymonth, setRevenueByMonth] = useState([]);
   const [tongdoanhthu, setTongDoanhThu] = useState(0);
+  const [donchoduyet, setDonChoDuyet] = useState();
   useEffect(() => {
     getData();
     getReceipt();
@@ -41,8 +43,16 @@ function Statistics() {
     getCancelList();
     getRevenuebyMonth();
     getYear();
+    getOrderNeedApprove();
   }, [month, year]);
-  console.log(revenuebymonth);
+
+  const getOrderNeedApprove = () => {
+    axios.get("/thongke/choduyetdon")
+    .then((res) => {
+      setDonChoDuyet(res.data);
+    })
+  }
+ 
   const getData = () => {
     axios
       .post("/thongke/nam/doanhthu", {
@@ -110,7 +120,7 @@ function Statistics() {
       })
       .then((res) => {
         setFinishList(res.data);
-        console.log(res.data);
+        setSumFinishReceipt(res.data[month-1]);
       });
   };
 
@@ -126,7 +136,7 @@ function Statistics() {
       });
   };
 
-  const ngay = [1, 2,3 ,4 ,5,6,7,8,9,10];
+ 
 
   const labels = [
     "Tháng một",
@@ -145,9 +155,10 @@ function Statistics() {
 
   const selectMonthChange = (value) => {
     setMonth(value.target.value);
+    const val = value.target.value - 1;
+    setSumFinishReceipt(finishList[val]);
   };
-  console.log(month, year);
-
+  
   const selectYearChange = (value) => {
     setYear(value.target.value);
   };
@@ -163,7 +174,7 @@ function Statistics() {
             onChange={selectMonthChange}
             placeholder="Sắp xếp: "
           >
-            <option defaultValue value={date.getMonth()}>
+            <option defaultValue value={date.getMonth() + 1}>
               Chọn tháng
             </option>
 
@@ -257,7 +268,7 @@ function Statistics() {
                 </div> */}
                 <div className="col-md-12">
                   <h6 className="text-muted font-semibold">Tổng đơn hàng</h6>
-                  <h6 className="font-extrabold mb-0 text-center">10</h6>
+                  <h6 className="font-extrabold mb-0 text-center">{sumFinishReceipt}</h6>
                 </div>
               </div>
             </div>
@@ -274,7 +285,7 @@ function Statistics() {
                 </div> */}
                 <div className="col-md-12">
                   <h6 className="text-muted font-semibold">Đơn hàng cần duyệt</h6>
-                  <h6 className="font-extrabold mb-0 text-center">2</h6>
+                  <h6 className="font-extrabold mb-0 text-center">{donchoduyet}</h6>
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { getUser } from "../../../Utils/Common";
+import { getUser, getToken } from "../../../Utils/Common";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -9,6 +9,7 @@ import Rating from "@material-ui/lab/Rating";
 import dateFormat from "dateformat";
 import { StarRate } from "@material-ui/icons";
 import ListComment from "../listcomment/ListComment";
+import Swal from "sweetalert2";
 export default function ProductDetail({ handleClick }) {
   const productId = useParams();
   const [product, setProduct] = useState({});
@@ -20,6 +21,9 @@ export default function ProductDetail({ handleClick }) {
   const user = getUser();
   const makh = user && user["Khachhang.id"] !== null ? user["Khachhang.id"] : null;
   const manv = user && user["Nhanvien.id"] !== null ? user["Nhanvien.id"] : null;
+  const token = getToken();
+  const isLogin = !token ? false : true;
+  console.log(isLogin)
   const [lstComment, setLstComment] = useState([]); 
   const [activeComment, setActiveComment] = useState(null);
   const FirstComments = lstComment.filter(
@@ -136,6 +140,9 @@ console.log(lstComment);
   };
 
   const handleComment = (reply, setReply,id, isReply) => {
+
+    if(isLogin === true) {
+
     if(isReply !== true) 
     axios
       .post(`/binhluan/them/${productId.id}`, {
@@ -151,7 +158,13 @@ console.log(lstComment);
       })
       .catch((error) => {
         if (error.response.status === 402) {
-          console.log("Chưa nhập nội dung bình luận");
+          Swal.fire({
+            icon: "warning",
+            title: "Thông báo",
+            text: "Bạn chưa nhập nội dung bình luận",
+            confirmButtonText: "OK",
+            allowOutsideClick: false,
+          });
         } else console.log(error + "Bình luận không thành công");
       });
       else 
@@ -170,12 +183,28 @@ console.log(lstComment);
       })
       .catch((error) => {
         if (error.response.status === 402) {
-          console.log("Chưa nhập nội dung bình luận");
+          Swal.fire({
+            icon: "warning",
+            title: "Thông báo",
+            text: "Bạn chưa nhập nội dung bình luận",
+            confirmButtonText: "OK",
+            allowOutsideClick: false,
+          });
         } else
          console.log(error.response.status + "Bình luận không thành công");
       });
       setReply("");
     }
+  }
+  else {
+    Swal.fire({
+      icon: "info",
+      title: "Thông báo",
+      text: "Bạn vui lòng đăng nhập để thực hiện bình luận",
+      confirmButtonText: "OK",
+      allowOutsideClick: false,
+    });
+  }
       setComment("");
       setActiveComment({isReply: false});
   };
@@ -258,6 +287,7 @@ console.log(lstComment);
                         <div
                           className="col-md-6 col-lg-2 pe-1"
                           style={{ display: "inline" }}
+                          key={i}
                         >
                           <img
                             src={`http://localhost:5000/image/${item.Duongdan}`}
@@ -603,9 +633,9 @@ console.log(lstComment);
               <div className="row mt-4">
               
               </div>
-              { FirstComments && FirstComments.map((comment) => (
+              { FirstComments && FirstComments.map((comment,i) => (
                
-              <ListComment className= "row mt-4" lstComment = {lstComment} comment = {comment} handleComment = {handleComment}
+              <ListComment key={i} className= "row mt-4" lstComment = {lstComment} comment = {comment} handleComment = {handleComment}
               activeComment={activeComment}
               setActiveComment={setActiveComment}
               />

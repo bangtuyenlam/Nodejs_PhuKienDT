@@ -77,10 +77,10 @@ const NamCoDoanhThu = async(req, res) => {
 
 
 let DoanhThuTheoThang = async (req, res) => {
-  const Ngay = [];
+ 
   const month = req.body.month;
   const year = req.body.year;
-  console.log(month, year);
+  
   try {
     const result = await db.Dondatct.findAll({
       raw: true,
@@ -233,6 +233,23 @@ let DonHangHoanThanhTheoNam = async (req, res) => {
     }
   };
 
+  const DonHangCanDuyet = async (req, res) => {
+    try{
+      const sodon = await db.Dondat.count({
+        where: {
+          Trangthai: 0
+        }
+      });
+      return res.json(sodon);
+    }
+  catch (err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+  }
+
 module.exports = {
   DoanhThuTheoNam: DoanhThuTheoNam,
   TongDonHangTheoNam: TongDonHangTheoNam,
@@ -240,4 +257,5 @@ module.exports = {
   DonHangDaHuyTheoNam: DonHangDaHuyTheoNam,
   DoanhThuTheoThang: DoanhThuTheoThang,
   NamCoDoanhThu: NamCoDoanhThu,
+  DonHangCanDuyet: DonHangCanDuyet,
 };

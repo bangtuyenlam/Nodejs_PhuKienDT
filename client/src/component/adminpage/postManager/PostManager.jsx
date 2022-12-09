@@ -2,13 +2,21 @@ import React, { useEffect, useState } from "react";
 import "./postmanager.css";
 import { DataGrid } from "@material-ui/data-grid";
 import axios from "axios";
-import { DeleteOutline } from "@material-ui/icons";
+import { DeleteOutline, EditOutlined, RemoveRedEyeOutlined } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
+import { makeStyles } from '@material-ui/styles';
 
+const useStyles = makeStyles({
+  root: {
+    '& .super-app-theme--header': {
+      backgroundColor: 'rgba(255, 7, 0, 0.55)',
+    },
+  },
+});
 export default function PostManager() {
   const [posts, setPosts] = useState([]);
-
+  const classes = useStyles();
   useEffect(() => {
     getData();
   }, []);
@@ -39,7 +47,8 @@ export default function PostManager() {
     {
         field: "NV_Ma",
         headerName: "Tên nhân viên",
-        width: 200,
+        width: 230,
+        headerClassName: "super-app-theme--header",
         renderCell: (params) => {
           return (
               <div>
@@ -52,6 +61,7 @@ export default function PostManager() {
       field: "Tieude",
       headerName: "Tiêu đề",
       width: 430,
+      headerClassName: "super-app-theme--header",
       renderCell: (params) => {
         return (
           <div className="postName">
@@ -69,6 +79,7 @@ export default function PostManager() {
       field: "Ngaydang",
       headerName: "Ngày đăng",
       width: 180,
+      headerClassName: "super-app-theme--header",
       renderCell: (params) => {
         return dateFormat(params.row.Ngaydang, "dd/mm/yyyy");
       },
@@ -76,17 +87,20 @@ export default function PostManager() {
     {
       field: "action",
       headerName: "Điều khiển",
-      width: 151,
+      width: 180,
+      headerClassName: "super-app-theme--header",
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/admin/post/${params.row.id}`}>
-              <button className="postManagerEdit">Sửa</button>
+            <Link to={`/admin/post/${params.row.id}`} className="btn btn-success ms-1">
+            <RemoveRedEyeOutlined />
             </Link>
+            <div className="btn btn-outline-danger ms-1">
             <DeleteOutline
               className="postManagerDelete"
                  onClick = {() => handleDelete(params.row.id, params.row.Anhdaidien)}
             />
+            </div>
           </>
         );
       },
@@ -95,21 +109,29 @@ export default function PostManager() {
 
   return (
     <div className="postManager">
+       <div
+        className="border border-3 rounded p-lg-3 pt-0 shadow-lg bg-primary bg-opacity-25"
+        style={{ height: "120%", width: "100%" }}
+      >
       <div className="postManagerContainer">
-        <h1 className="postManagerTitle">Danh sách bài đăng</h1>
+        <h4 className="postManagerTitle">Danh sách bài đăng</h4>
         <Link to={"/admin/newpost"}>
           <button className="postAddButton">Thêm</button>
         </Link>
       </div>
+      <div
+          style={{ height: "90%", width: "100%", background: "white" }}
+          className={classes.root}
+        >
       {posts && (
         <DataGrid
           rows={posts}
           columns={columns}
           pageSize={7}
-          checkboxSelection
           disableSelectionOnClick
         />
-      )}
+      )}</div>
+      </div>
     </div>
   );
 }

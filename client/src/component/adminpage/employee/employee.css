@@ -11,7 +11,7 @@
 
 .employeeContainer {
     display: flex;
-    margin-top: 20px;
+   
 }
 
 .employeeShow {
@@ -81,14 +81,14 @@
 }
 
 .employeeUpdateTitle {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     margin-left: 20px;
 }
 
 .employeeUpdateForms {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
     justify-content: space-between;
     margin-left: 20px;
 }
@@ -97,6 +97,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    width: auto;
 }
 
 .employeeUpdateItem>label{
@@ -106,15 +107,9 @@
 
 .employeeUpdateInput {
     border: none;
-    width: 300px;
+    width: 500px;
     height: 30px;
     border-bottom: 1px solid gray;
-}
-
-.employeeUpdateRight{
-    display: flex;
-    flex-direction: column;
-    justify-content:end;
 }
 
 .employeeUpdateButton{

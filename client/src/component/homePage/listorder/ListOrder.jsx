@@ -106,7 +106,7 @@ export default function ListOrder({customer}) {
              <RemoveRedEyeOutlined/>
              </Link>
              {params.row.Trangthai === 2 ? (
- <Link to={`/personal/review-product`} onClick = {() => handleFinish(params.row.id)} className="btn btn-warning">
+ <Link to={`/personal/review-product`} onClick = {() => handleFinish(params.row.id)} className="btn btn-warning ms-2">
              <CheckCircleOutlineOutlined/>
              
              </Link>

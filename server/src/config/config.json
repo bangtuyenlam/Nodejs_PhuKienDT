@@ -2,7 +2,7 @@
   "development": {
     "username": "bangtuyen",
     "password": "phukien123",
-    "database": "phukien",
+    "database": "lv_phukien",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false

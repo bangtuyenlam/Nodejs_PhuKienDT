@@ -58,7 +58,7 @@ module.exports = {
             .addConstraint("Binhluans", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_NV_BL_FK15",
+              name: "FK_NV_BL_FK2K",
               references: {
                 table: "Nhanviens",
                 field: "id",
@@ -70,7 +70,7 @@ module.exports = {
             .addConstraint("Baidangs", {
               type: "FOREIGN KEY",
               fields: ["nv_ma"],
-              name: "FK_BD_NV_FK15",
+              name: "FK_BD_NV_FK2K",
               references: {
                 table: "Nhanviens",
                 field: "id",
@@ -81,7 +81,7 @@ module.exports = {
                 await queryInterface.addConstraint("Dondats", {
                   type: "FOREIGN KEY",
                   fields: ["nv_ma"],
-                  name: "FK_DD_NV_FK15",
+                  name: "FK_DD_NV_FK2K",
                   references: {
                     table: "Nhanviens",
                     field: "id",

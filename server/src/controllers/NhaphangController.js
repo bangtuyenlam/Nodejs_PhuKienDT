@@ -4,6 +4,7 @@ let DSPhieuNhap = async (req, res) => {
     try{
         const phieu = await db.Phieunhap.findAll({
             raw: true,
+            include: db.Nhanvien
         });
         // console.log(phieu);
         return res.json(phieu);
@@ -19,11 +20,11 @@ let DSPhieuNhap = async (req, res) => {
 let NhapHang = async (req, res) => {
     const NV_Ma = req.body.manv;
     const PN_Tongtien = req.body.tongtien;
-    const PN_Dathanhtoan = req.body.tinhtrang;
+    const PN_Nhacungcap = req.body.nhacungcap;
     const PN_Ngaynhap = req.body.ngaynhap;
     const phieunhapct = req.body.phieunhapct;
     try{
-        if(!NV_Ma || !PN_Tongtien || !PN_Dathanhtoan ||!PN_Ngaynhap) {
+        if(!NV_Ma || !PN_Tongtien || !PN_Nhacungcap ||!PN_Ngaynhap || !phieunhapct) {
             return res.status(402).json({
                 err: true,
                 message: "Vui lòng nhập đủ thông tin"
@@ -32,7 +33,7 @@ let NhapHang = async (req, res) => {
             await db.Phieunhap.create({
                 NV_Ma: NV_Ma,
                 PN_Tongtien: PN_Tongtien,
-                PN_Dathanhtoan: PN_Dathanhtoan,
+                PN_Nhacungcap: PN_Nhacungcap,
                 PN_Ngaynhap: PN_Ngaynhap
             }).then((result) => {
                 const arr = [];

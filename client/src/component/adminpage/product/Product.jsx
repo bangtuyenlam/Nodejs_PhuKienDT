@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./product.css";
 import { useParams } from "react-router-dom";
-import {
-  CategoryOutlined,
-  Smartphone,
-  AttachMoney,
-  ColorLens,
-  Description,
-  StorageOutlined,
-  
-} from "@material-ui/icons";
 import defaultImg from "../../image/default.png";
 import axios from "axios";
-
+import ReactQuill from "react-quill";
 export default function Product() {
   const productId = useParams();
   const [product, setProduct] = useState([]);
@@ -125,82 +116,34 @@ export default function Product() {
 
   return (
     <div className="product">
-      <div className="productTitleContainer">
-        <h4 className="productTitle">Thông tin sản phẩm</h4>
-      </div>
+      <div className="border border-3 rounded p-lg-3 shadow-lg bg-black bg-opacity-25 ">
       {product && (
-        <div className="productContainer">
-          <div className="productShow">
-            <div className="productShowTop">
-              <img
-                src={`http://localhost:5000/image/${product.Anhdaidien}`}
-                alt="Anh dai dien"
-                className="productShowImg"
-              />
-
-              <div className="productShowTopTitle">
-                <span className="productShowName">{product.SP_Ten}</span>
-              </div>
-            </div>
-            <div className="productShowBottom">
-              <span className="productShowTitle">Thông tin chi tiết</span>
-              <div className="productShowInfo">
-                <CategoryOutlined className="productShowIcon"/>
-                <span className="productInfoTitle">
-                  {product["Loaisanpham.LSP_Ten"]}
-                </span>
-              </div>
-              <div className="productShowInfo">
-                <Smartphone className="productShowIcon" />
-
-                <span className="productInfoTitle">
-                  {product["Dienthoai.DT_Ten"]}
-                </span>
-              </div>
-              <div className="productShowInfo">
-                <AttachMoney className="productShowIcon" />
-                <span className="productInfoTitle">{product.SP_Gia}</span>
-              </div>
-              <div className="productShowInfo">
-                <StorageOutlined className="productShowIcon" />
-                <span className="productInfoTitle">{product.Soluong}</span>
-              </div>
-              <div className="productShowInfo">
-                <ColorLens className="productShowIcon" />
-                <span className="productInfoTitle">{product.Mausac}</span>
-              </div>
-              <div className="productShowInfo">
-                <Description className="productShowIcon" />
-                <span className="productInfoTitle" style={{whiteSpace: 'pre-line'}}>{product.SP_Mota}</span>
-              </div>
-            </div>
-          </div>
-          <div className="productEdit">
-            <span className="productUpdateTitle">Chỉnh sửa</span>
-            <form action="" className="productUpdateForms">
-              <div className="productUpdateLeft">
-                <div className="productUpdateItem">
+        
+          <div>
+             <h4 className="newProductTitle">Chỉnh sửa sản phẩm</h4>
+            <form action="" className="newProductForm">
+                <div className="newProductItem">
                   <label>Tên sản phẩm</label>
                   <input
                     type="text"
                     placeholder={product.SP_Ten}
                     value={productName}
-                    className="productUpdateInput"
+                   
                     onChange={(value) => {
                       setProductName(value.target.value);
                     }}
                   />
                 </div>
-                <div className="productUpdateItem">
+                <div className="newProductItem">
                   <label>Giá tiền</label>
                   <input
                     type="text"
                     value={price}
-                    className="productUpdateInput"
+                   
                     onChange={(value) => setPrice(value.target.value)}
                   ></input>
                 </div>
-                <div className="productUpdateItem">
+                <div className="newProductItem">
                   <label>Loại sản phẩm</label>
                   <select
                   
@@ -221,7 +164,7 @@ export default function Product() {
                     })}
                   </select>
                 </div>
-                <div className="productUpdateItem">
+                <div className="newProductItem">
                   <label>Điện thoại</label>
                   <select
                     className="form-control"
@@ -242,46 +185,48 @@ export default function Product() {
                       })}
                   </select>
                 </div>
-                <div className="productUpdateItem">
+                <div className="newProductItem">
                   <label> Số lượng</label>
                   <input
-                   className="productUpdateInput"
+                 
                     type="number"
                     value={amount}
                     onChange={(value) => setAmount(value.target.value)}
                   ></input>
                 </div>
-                <div className="productUpdateItem">
+                <div className="newProductItem">
                   <label> Màu sắc</label>
                   <input
-                   className="productUpdateInput"
+                   
                     type="text"
                     defaultValue={color}
                     onChange={(value) => setColor(value.target.value)}
                   ></input>
                 </div>
-                <div className="productUpdateItem">
+                <div className="newProductItem">
                   <label> Chọn ảnh mới</label>
                   <input type="file" id="file" onChange={uploadImage} />
-                  <div className="col-md-3 mt-2 rounded mx-auto d-block">
+                  <div className="row">
+                  <div className="col-md-4 mt-2">
           <img src={previewImg} alt="" id="img" className='img-fluid'/>
           </div>
+
+          <div className="col-md-4 mt-2">
+          <img src={`http://localhost:5000/image/${product.Anhdaidien}`} alt="" id="img" className='img-fluid'/>
+         </div>
+          </div>
                 </div>
-                <div className="productUpdateItem">
+                <div className="newProductItem">
                   <label> Mô tả</label>
-                  <textarea
-                    style={{float: "right"}}
-                    type="text"
-                    value={describe}
-                    onChange={(value) => setDescribe(value.target.value)}
-                    rows="5"
-                    cols={70}
-                  ></textarea>
+                  <div className="bg-white" style={{height: "200px"}}>
+          <ReactQuill value={describe} onChange={setDescribe} style={{height: "80%", marginBottom: "17px"}}/>
+</div>       
+          
                 </div>
-                <button className="productUpdateButton" onClick={handleUpdate}>
+                <button className="newProductButton" onClick={handleUpdate}>
                   Cập nhật
                 </button>
-              </div>
+              
               {/* <div className="productUpdateRight">
                 <div className="productUpdateUpload">
                
@@ -292,8 +237,9 @@ export default function Product() {
               </div> */}
             </form>
           </div>
-        </div>
+        
       )}
+       </div>
     </div>
   );
 }

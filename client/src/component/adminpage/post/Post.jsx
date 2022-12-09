@@ -28,11 +28,12 @@ export default function Post() {
   
     return (
       <div className="post">
+         <div className="border border-3 rounded p-lg-3 shadow-lg bg-success bg-opacity-25 ">
         <div className="postTitleContainer">
           <h4 className="postTitle">Thông tin bài đăng</h4>
         </div>
         {post && (
-          <div className="postContainer">
+          <div className="postContainer bg-white">
             <div className="postShow">
               <div className="postShowTop">
                 <img
@@ -70,6 +71,7 @@ export default function Post() {
           
           </div>
         )}
+        </div>
       </div>
     );
 }

@@ -53,7 +53,7 @@ let ChinhSuaNhanVien = async (req, res) => {
   const Diachi = req.body.location;
   const Chucvu = req.body.chucvu;
   const Tenquyen = req.body.tenquyen;
- 
+  // console.log(id, TenNV, Gioitinh, email, Ngaysinh, sdt, Diachi, Chucvu, Tenquyen);
   try {
     const Maquyen = await db.Quyensudung.findAll({
       attributes: ["id"],

@@ -67,7 +67,7 @@ export default function ListOrder({customer}) {
    
      const columns = [
        {
-         field: 'Khachhang.KH_Hoten',
+         field: 'TenNguoiNhan',
          headerName: 'Tên khách hàng',
          headerClassName: 'super-app-theme--header',
          width: 200,
@@ -90,7 +90,8 @@ export default function ListOrder({customer}) {
               if (params.row.Trangthai === 0) return <div>Chuẩn bị hàng</div>;
               else if (params.row.Trangthai === 1) return <div>Đang giao</div>;
               else if (params.row.Trangthai === 2) return <div>Đã nhận hàng</div>
-              else return <div>Đã hủy đơn hàng</div>
+              else if (params.row.Trangthai === 3) return <div>Đã hủy đơn hàng</div>
+              else return <div>Đã giao</div>
           }
       },
        {

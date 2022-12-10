@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import defaultImg from "../../image/default.png";
 import axios from "axios";
 import ReactQuill from "react-quill";
+import { useNavigate } from "react-router";
 export default function Product() {
   const productId = useParams();
   const [product, setProduct] = useState([]);
@@ -19,15 +20,13 @@ export default function Product() {
   const [color, setColor] = useState("");
   const [previewImg, setPreviewImg] = useState();
   const [error, setError] = useState();
-
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .post(`/sanpham/${productId.id}`)
       .then((res) => {
         setProduct(res.data);
         setProductName(res.data.SP_Ten);
-        setCategory(res.data.LSP_Ma);
-        setPhone(res.data.DT_Ma);
         setPrice(res.data.SP_Gia);
         setDescribe(res.data.SP_Mota);
         setAmount(res.data.Soluong);
@@ -71,13 +70,14 @@ export default function Product() {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
-        console.log(res.data);
+        window.location.href = "/admin/productManager";
       })
       .catch((error) => {
         if (error.response.status === 500)
           console.log("Cập nhật không thành công");
       });
   };
+  
 
   useEffect(() => {
     axios

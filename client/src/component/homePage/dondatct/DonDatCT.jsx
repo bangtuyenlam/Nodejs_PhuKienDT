@@ -119,7 +119,7 @@ export default function DonDatCT() {
                           </td>
                         )}
                           <td>{val.Soluongdat} </td>
-                          <td>{val.Gia * val.Soluongdat.toString().replace(
+                          <td>{(val.Gia * val.Soluongdat).toString().replace(
                                   /\B(?=(\d{3})+(?!\d))/g,
                                   "."
                                 )} đ</td>
@@ -141,6 +141,7 @@ export default function DonDatCT() {
             </table>
             <div className="col-md-12">
                         <div className="form-group mb-3 text-end">
+                          {/**Trạng thái 0 chờ duyệt đơn được phép hủy */}
                           {dondat.Trangthai === 0 ? (
                             <button
                               key={dondat.id}
@@ -156,7 +157,8 @@ export default function DonDatCT() {
                           )}
                         </div>
                       </div>
-                      {dondat.Trangthai === 1 ? (
+                      {/**Trạng thái 4 đã giao hàng có thể nhấn nhận được hàng */}
+                      {dondat.Trangthai === 4 ? (
                         <div className="col-md-12">
                           <div className="form-group mb-3 text-end">
                             <button
@@ -167,6 +169,42 @@ export default function DonDatCT() {
                               onClick={handleFinish}
                             >
                               Đã nhận được hàng
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                      {/**Trạng thái 2 đã nhận hàng hiện lable */}
+                       {dondat.Trangthai === 2 ? (
+                        <div className="col-md-12">
+                          <div className="form-group mb-3 text-end">
+                            <button
+                              key={"nhanhang"}
+                              type="button"
+                              name="nhanhang"
+                              className="btn btn-primary opacity-25"
+                              disabled={true}
+                            >
+                              Đã nhận được hàng
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                       {/**Trạng thái 3 đã nhận hủy đơn hiện lable */}
+                       {dondat.Trangthai === 3 ? (
+                        <div className="col-md-12">
+                          <div className="form-group mb-3 text-end">
+                            <button
+                              key={"nhanhang"}
+                              type="button"
+                              name="nhanhang"
+                              className="btn btn-light"
+                              disabled={true}
+                            >
+                              Đã hủy đơn hàng
                             </button>
                           </div>
                         </div>
@@ -200,7 +238,7 @@ export default function DonDatCT() {
                 {dondat.Ngaygiao !== null ? 
                 <div className="card-text btn-info">
                 
-                <span className=" fw-bolder">Ngày giao: </span> {dateFormat(dondat.Ngaygiao, "H:MM dd-mm-yyyy")}
+                <span className=" fw-bolder">Ngày giao: </span> {dateFormat(dondat.Ngaygiao, "h:MM:ss TT dd-mm-yyyy")}
                  
                 </div>
                  : <></>}

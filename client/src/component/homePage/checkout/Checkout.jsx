@@ -259,13 +259,13 @@ console.log(cart);
                       <div className="form-group mb-3">
                         <label>
                           Họ tên khách hàng
-                          <span class="text-danger"> (*) </span>
+                          <span className="text-danger"> (*) </span>
                         </label>
                         <input
                           type="text"
                           name="name"
                           className="form-control"
-                          value={fullname}
+                          value={fullname || ""}
                           onChange={(value) => setFullName(value.target.value)}
                         ></input>
                       </div>
@@ -278,8 +278,9 @@ console.log(cart);
                         <input
                           type="text"
                           name="phone"
+                          pattern="[0-9]{10}"
                           className="form-control"
-                          value={numphone}
+                          value={numphone || ""}
                           onChange={(value) => setNumPhone(value.target.value)}
                         ></input>
                       </div>
@@ -297,7 +298,7 @@ console.log(cart);
                           type="text"
                           name="name"
                           className="form-control"
-                          value={address}
+                          value={address|| ""}
                           onChange={(value) => setAddress(value.target.value)}
                         ></textarea>
                       </div>

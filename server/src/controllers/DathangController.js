@@ -11,7 +11,7 @@ let DatHang = async (req, res) => {
     const Diachinhan = req.body.diachi;
     const SDTNhan = req.body.sdt;
 
-   // console.log(NV_Ma, KH_Ma, Ngaydat, Trangthai, Ghichu, dondatct);
+   console.log(NV_Ma, KH_Ma, Ngaydat, Trangthai, Ghichu, dondatct);
     try{
         if(!NV_Ma || !KH_Ma || !Ngaydat) {
             return res.status(402).json({
@@ -29,8 +29,32 @@ let DatHang = async (req, res) => {
                 TenNguoiNhan: nguoinhan,
                 DiaChiNhan: Diachinhan,
                 SDTNhan: SDTNhan,
-            });
-           await ChiTietDonDat(Ngaydat, dondatct);
+            }).then((result) => {
+              dondatct.map(dondat => {
+                if(dondat["KM_Ma"] === null)
+                   db.Dondatct.create({
+                    SP_Ma: dondat.id,
+                    DD_Ma: result.id,
+                    Soluongdat: dondat.amount,
+                    Gia: dondat.SP_Gia
+                  });
+                else 
+                db.Dondatct.create({
+                  SP_Ma: dondat.id,
+                  DD_Ma: result.id,
+                  Soluongdat: dondat.amount,
+                  Gia: dondat.SP_Gia - (dondat.SP_Gia * dondat["Khuyenmai_SP.PhanTramKM"])/100
+                });
+                 db.Sanpham.update({
+                  Soluong: dondat.Soluong - dondat.amount
+                 },
+                    {where: {
+                      id: dondat.id
+                    }
+                  });
+              })
+            })
+           
             return res.json({
                 message: "Đặt hàng thành công",
               });
@@ -43,50 +67,16 @@ let DatHang = async (req, res) => {
       }
 }
 
-const ChiTietDonDat = async (ngaydat, dsdondat) => {
-    try{
-        const MaDD= await db.Dondat.findAll({
-            attributes: ["id"],
-            raw: true,
-            where: {
-              Ngaydat: ngaydat,
-            }
-          });
-          
-          dsdondat.map(dondat => {
-            if(dondat["KM_Ma"] === null)
-               db.Dondatct.create({
-                SP_Ma: dondat.id,
-                DD_Ma: MaDD[0].id,
-                Soluongdat: dondat.amount,
-                Gia: dondat.SP_Gia
-              });
-            else 
-            db.Dondatct.create({
-              SP_Ma: dondat.id,
-              DD_Ma: MaDD[0].id,
-              Soluongdat: dondat.amount,
-              Gia: dondat.SP_Gia - (dondat.SP_Gia * dondat["Khuyenmai_SP.PhanTramKM"])/100
-            });
-             db.Sanpham.update({
-              Soluong: dondat.Soluong - dondat.amount
-             },
-                {where: {
-                  id: dondat.id
-                }
-              });
-          })
-    }
-    catch(err) {
-        console.log("Lỗi server");
-    }
-}
 
 const danhSachDonDat = async (req, res) => {
   try {
     const dondat = await db.Dondat.findAll({
       raw: true,  
-      include: db.Khachhang
+      include: db.Khachhang,
+      order: [
+        ['Ngaydat', 'DESC'],
+        ['Trangthai', 'ASC'],
+    ]
     });
     return res.json(dondat);
   } 
@@ -166,13 +156,34 @@ const DanhSachDatCT = async (req, res) => {
 const DuyetDonHang = (req, res) => {
   const NV_Ma = req.body.manv;
   const id = req.body.id;
-  const Ngaygiao = req.body.ngaygiao;
   const Trangthai = req.body.trangthai;
   try{
     const dd = db.Dondat.update({
       NV_Ma: NV_Ma,
-      Ngaygiao: Ngaygiao,
       Trangthai: Trangthai
+    },
+    {
+      where: {
+        id: id
+      }
+    });
+    return res.json(dd[0]);
+  }catch(err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server",
+    });
+  }
+}
+
+const XacNhanGiao = (req, res) => {
+  const id = req.body.id;
+  const Trangthai = req.body.trangthai;
+  const Ngaygiao = req.body.ngaygiao;
+  try{
+    const dd = db.Dondat.update({
+      Trangthai: Trangthai,
+      Ngaygiao: Ngaygiao
     },
     {
       where: {
@@ -247,5 +258,6 @@ module.exports = {
     DuyetDonHang: DuyetDonHang,
     DanhSachDonDatTheoKhachHang: DanhSachDonDatTheoKhachHang,
     HuyDonDat: HuyDonDat,
-    NhanHang: NhanHang
+    NhanHang: NhanHang,
+    XacNhanGiao: XacNhanGiao
 }

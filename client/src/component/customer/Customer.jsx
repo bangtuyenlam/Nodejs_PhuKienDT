@@ -134,7 +134,8 @@ export default function Customer() {
               <div className="customerShowInfo">
                 <CalendarToday className="customerShowIcon" />
                 <span className="customerInfoTitle">
-                  {dateFormat(customer.KH_Ngaysinh, "dd/mm/yyyy")}
+
+                  {customer.KH_Ngaysinh ? dateFormat(customer.KH_Ngaysinh, "dd/mm/yyyy") : <></>}
                 </span>
               </div>
               <span className="customerShowTitle">Thông tin liên lạc</span>
@@ -161,7 +162,7 @@ export default function Customer() {
                   <input
                     type="text"
                     placeholder={customer.KH_Hoten}
-                    value={customerName}
+                    value={customerName || ""}
                     className="customerUpdateInput p-1"
                     onChange={(value) => {
                       setCustomerName(value.target.value);
@@ -177,7 +178,7 @@ export default function Customer() {
                         type="radio"
                         name="isMale"
                         id="inlineRadio1"
-                        value="1"
+                        value={1 || ""}
                         onChange={(value) => setGender(value.target.value)}
                       />
                       <label className="form-check-label">Nam</label>
@@ -188,7 +189,7 @@ export default function Customer() {
                         type="radio"
                         name="isMale"
                         id="inlineRadio2"
-                        value="0"
+                        value={0 || ""}
                         onChange={(value) => setGender(value.target.value)}
                       />
                       <label className="form-check-label">Nữ</label>
@@ -201,10 +202,10 @@ export default function Customer() {
                     <DatePicker
                       id="date-picker-dialog"
                       format="dd/MM/yyyy"
-                      value={selectedDate}
+                      value={selectedDate || "1990-01-01"}
                       onChange={handleDateChange}
                       maxDate={"2010-12-31"}
-                      minDate={"1952-12-31"}
+                      minDate={"1952-01-01"}
                       className="col-8"
                     />
                   </MuiPickersUtilsProvider>
@@ -213,7 +214,7 @@ export default function Customer() {
                   <label>Email</label>
                   <input
                     type="email"
-                    placeholder={customer.KH_Email}
+                    placeholder={customer.KH_Email || ""}
                     value={email}
                     className="customerUpdateInput"
                     onChange={(value) => setEmail(value.target.value)}
@@ -223,7 +224,7 @@ export default function Customer() {
                   <label>Số điện thoại</label>
                   <input
                     type="text"
-                    value={phoneNumber}
+                    value={phoneNumber || ""}
                     pattern="[0-9]{10}"
                     placeholder={customer.KH_SDT}
                     className="customerUpdateInput"
@@ -235,7 +236,7 @@ export default function Customer() {
                   <input
                     disabled={true}
                     type="text"
-                    value={location}
+                    value={location || ""}
                     placeholder={customer.KH_Diachi}
                     className="customerUpdateInput"
                    

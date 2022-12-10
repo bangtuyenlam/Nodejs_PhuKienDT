@@ -24,10 +24,10 @@ export default function InvoiceManager() {
     //     sort: 'desc',
     //   },
     // ]);
-  const sortModel = [{
-    field: 'Ngaydat',
-    sort: 'desc'
-  }];
+  // const sortModel = [{
+  //   field: 'Ngaydat',
+  //   sort: 'desc'
+  // }];
   useEffect( () => {
     getData();
     
@@ -75,7 +75,8 @@ export default function InvoiceManager() {
             if (params.row.Trangthai === 0) return <div>Chưa duyệt</div>;
             else if (params.row.Trangthai === 1) return <div>Đã duyệt</div>;
             else if (params.row.Trangthai === 2 ) return <div>Đã nhận hàng</div>;
-            else return <div>Đã hủy đơn hàng</div>
+            else if (params.row.Trangthai === 3) return <div>Đã hủy đơn hàng</div>
+            else return <div>Đã giao</div>
         }
     },
      {
@@ -115,7 +116,7 @@ export default function InvoiceManager() {
       pageSize={7}
       // checkboxSelection
       disableSelectionOnClick
-      sortModel={sortModel}
+      // sortModel={sortModel}
      // onSortModelChange={(model) => setSortModel(model)}
     />
     )

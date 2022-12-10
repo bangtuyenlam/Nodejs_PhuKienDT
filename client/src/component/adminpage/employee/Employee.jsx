@@ -75,7 +75,8 @@ export default function Employee() {
         tenquyen: tenquyen,
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log("aaa");
+       window.location.reload();
       })
       .catch((error) => {
         if (error.response.status === 500)
@@ -223,7 +224,7 @@ export default function Employee() {
                         value={selectedDate}
                         onChange={handleDateChange}
                         maxDate={"2010-12-31"}
-                        minDate={"1952-12-31"}
+                        minDate={"1952-01-01"}
                       />
                     </MuiPickersUtilsProvider>
                   </div>

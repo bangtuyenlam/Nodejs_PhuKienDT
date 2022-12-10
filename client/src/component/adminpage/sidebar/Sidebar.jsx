@@ -13,8 +13,10 @@ import {
   InputOutlined,
 } from "@material-ui/icons";
 import "./sidebar.css";
+import {getUser} from "../../../Utils/Common";
 import { Link } from "react-router-dom";
 export default function Sidebar() {
+  const nv = getUser();
   return (
     <div className="sidebar ">
       <div className="container-fluid">
@@ -147,6 +149,7 @@ export default function Sidebar() {
                         </span>
                       </Link>
                     </li>
+                    {nv["Nhanvien.Maquyen"] === 1 ? (
                     <li className="nav-item btn btn-outline-dark ps-4 pe-4 border-0">
                       <Link
                          to={"/admin/employeeManager"}
@@ -158,6 +161,7 @@ export default function Sidebar() {
                         </span>
                       </Link>
                     </li>
+                    ) : <></>}
                     {/* <li className="nav-item btn btn-outline-dark ps-4 pe-4 border-0">
                       <Link
                         to={"/admin/discountProducts"}

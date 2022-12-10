@@ -43,7 +43,6 @@ export default function OrderDetail() {
       .post("/dathang/duyetdon", {
         id: dondatId.id,
         manv: user["Nhanvien.id"],
-        ngaygiao: selectedDate,
         trangthai: 1,
       })
       .then((res) => {
@@ -54,6 +53,22 @@ export default function OrderDetail() {
         console.log("Duyệt đơn hàng không thành công");
       });
   };
+
+  const handleComfirm = () => {
+    axios
+      .post("/dathang/dagiao", {
+        id: dondatId.id,
+        ngaygiao: selectedDate,
+        trangthai: 4,
+      })
+      .then((res) => {
+        console.log(res.data);
+        navigate("/admin/invoiceManager");
+      })
+      .catch((error) => {
+        console.log("Xác nhận giao đơn hàng không thành công");
+      });
+  }
 
   return (
     <div className="order">
@@ -116,7 +131,10 @@ export default function OrderDetail() {
                           </td>
                         )}
                           <td>{val.Soluongdat}</td>
-                          <td>{val.Gia * val.Soluongdat}</td>
+                          <td>{(val.Gia * val.Soluongdat).toString().replace(
+                              /\B(?=(\d{3})+(?!\d))/g,
+                              "."
+                            )} đ</td>
                         </tr>
                       );
                     })}
@@ -125,30 +143,36 @@ export default function OrderDetail() {
                       Tổng tiền
                     </td>
                     <td colSpan="2" className="text-end">
-                      {totalPrice}
+                      {totalPrice.toString().replace(
+                              /\B(?=(\d{3})+(?!\d))/g,
+                              "."
+                            )} đ
                     </td>
                   </tr>
                 </tbody>
             </table>
-            {dondat.Ngaygiao == null ? (
-                        <div className="col-md-12">
-                          <div className="form-group mb-3">
-                            <label className="me-4 btn btn-info p-2">Chọn ngày giao (dự kiến)</label>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <DateTimePicker
-                                id="date-picker-dialog"
-                                format="dd/MM/yyyy hh:mm a"
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                disablePast={true}
-                              />
-                            </MuiPickersUtilsProvider>
-                          </div>
-                        </div>
+            {/* {dondat.Ngaygiao == null ? (
+              <></>
+              // dondat.Trangthai === 1 ? (
+              //           <div className="col-md-12">
+              //             <div className="form-group mb-3">
+              //               <label className="me-4 btn btn-info p-2">Chọn ngày giao</label>
+              //               <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              //                 <DateTimePicker
+              //                   id="date-picker-dialog"
+              //                   format="dd/MM/yyyy hh:mm a"
+              //                   value={selectedDate}
+              //                   onChange={handleDateChange}
+              //                   minDate={dateFormat(dondat.Ngaydat, "h:MM:ss TT dd/mm/yyyy")}
+              //                 />
+              //               </MuiPickersUtilsProvider>
+              //             </div>
+              //           </div>
+              // ) : <></>
                       ) : (
                         <div className="col-md-12">
                           <div className="form-group mb-3">
-                            <label className="me-4 btn btn-info p-2">Ngày giao (dự kiến)</label>
+                            <label className="me-4 btn btn-info p-2">Ngày giao</label>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <DateTimePicker
                                 id="date-picker-dialog"
@@ -160,7 +184,7 @@ export default function OrderDetail() {
                             </MuiPickersUtilsProvider>
                           </div>
                         </div>
-                      )}
+                      )} */}
            {dondat.Trangthai === 0 ? (
                         <div className="col-md-12">
                           <div className="form-group text-end">
@@ -175,14 +199,55 @@ export default function OrderDetail() {
                           </div>
                         </div>
                       ) : (
+                       <></>
+                      )}
+
+{dondat.Trangthai === 1 ? (
                         <div className="col-md-12">
                           <div className="form-group text-end">
-                            <label className="btn btn-success">
-                              Đơn hàng đã được duyệt
-                            </label>
+                            <button
+                              type="button"
+                              name="email"
+                              className="btn btn-primary"
+                              onClick={handleComfirm}
+                            >
+                              Xác nhận đã giao
+                            </button>
                           </div>
                         </div>
+                      ) : (
+                        <></>
                       )}
+
+{dondat.Trangthai === 4 ? (
+                         <div className="col-md-12">
+                         <div className="form-group text-end">
+                           <label className="btn btn-warning opacity-50 text-black">
+                             Giao hàng thành công
+                           </label>
+                         </div>
+                       </div>
+                      ) : <></>}
+                      
+{dondat.Trangthai === 2 ? (
+                         <div className="col-md-12">
+                         <div className="form-group text-end">
+                           <label className="btn btn-success opacity-75 text-black">
+                             Đã nhận được hàng
+                           </label>
+                         </div>
+                       </div>
+                      ) : <></>}
+
+                      {dondat.Trangthai === 3 ? (
+                         <div className="col-md-12">
+                         <div className="form-group text-end">
+                           <label className="btn btn-light opacity-75 text-black">
+                             Đơn hàng bị hủy
+                           </label>
+                         </div>
+                       </div>
+                      ) : <></>}
 
           </div>
           {dondat && (
@@ -207,7 +272,7 @@ export default function OrderDetail() {
                 {dondat.Ngaygiao !== null ? 
                 <div className="card-text btn-info">
                 
-                <span className=" fw-bolder">Ngày giao: </span> {dateFormat(dondat.Ngaygiao, "H:MM dd-mm-yyyy")}
+                <span className=" fw-bolder">Ngày giao: </span> {dateFormat(dondat.Ngaygiao, "h:MM:ss TT dd-mm-yyyy")}
                  
                 </div>
                  : <></>}

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
-import {DeleteOutline, RemoveRedEyeOutlined} from '@material-ui/icons'
+import {RemoveRedEyeOutlined} from '@material-ui/icons'
 import { Link} from 'react-router-dom';
 import dateFormat from 'dateformat';
 import { makeStyles } from '@material-ui/styles';
@@ -20,15 +20,15 @@ function ImportProduct() {
       getData();
     }, []);
   
-    const handleDelete = (id, avatar) => {
-      axios.delete(`/sanpham/xoa/${id}`, {
-        data: {
-          anhdaidien: avatar,
-        },
-      })
-      console.log("xóa thành công");
-      getData()
-     }
+    // const handleDelete = (id, avatar) => {
+    //   axios.delete(`/sanpham/xoa/${id}`, {
+    //     data: {
+    //       anhdaidien: avatar,
+    //     },
+    //   })
+    //   console.log("xóa thành công");
+    //   getData()
+    //  }
   
    const getData = async () => {
     await axios.get("/nhaphang/")
@@ -69,6 +69,12 @@ function ImportProduct() {
         headerName: 'Tổng tiền',
         width: 137,
         headerClassName: "super-app-theme--header",
+        renderCell: (params) => {
+          return <div>{params.row.PN_Tongtien.toString().replace(
+            /\B(?=(\d{3})+(?!\d))/g,
+            "."
+          )} đ</div>
+        }
       },
       {
         field: 'action',
@@ -79,14 +85,14 @@ function ImportProduct() {
           
           return(
             <>
-            <Link to={`/admin/product/${params.row.id}`} className="btn btn-success ms-1">
+            <Link to={`/admin/import/${params.row.id}`} className="btn btn-success ms-1">
            <RemoveRedEyeOutlined/>
             </Link>
-            <div className="btn btn-outline-danger ms-1">
+            {/* <div className="btn btn-outline-danger ms-1">
             <DeleteOutline className="productManagerDelete"
                 onClick = {() => handleDelete(params.row.id, params.row.Anhdaidien)}
             />
-            </div>
+            </div> */}
             </>
           )
         }

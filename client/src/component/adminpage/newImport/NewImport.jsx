@@ -9,10 +9,10 @@ function NewImport() {
   const [productList, setProductList] = useState([]);
   const [product, setProduct] = useState(2);
   const [vendor, setVendor] = useState("");
-  const [error, setError] = useState();
+  // const [error, setError] = useState();
   const navigate = useNavigate();
-  const [add, setAdd] = useState(false);
-  const [employee, setEmployee] = useState();
+  // const [add, setAdd] = useState(false);
+  // const [employee, setEmployee] = useState();
   const [listDetail, setListDetail] = useState([{ SP_Ma:2, Soluong: "", Giatien:  ""}]);
   const [amount, setAmount] = useState();
   const [price, setPrice] = useState();
@@ -109,6 +109,7 @@ function NewImport() {
  console.log(listDetail);
   return (
     <div className="newProduct">
+       <div className="border border-3 rounded p-lg-3 shadow-lg bg-primary bg-opacity-25 ">
       <h4 className="newProductTitle">Thêm phiếu nhập</h4>
       <div className="container">
       <form className="newProductForm">
@@ -214,6 +215,7 @@ function NewImport() {
         </div>
        
       </div>
+    </div>
     </div>
   );
 }

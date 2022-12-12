@@ -4,7 +4,7 @@ import {DataGrid} from '@material-ui/data-grid';
 import axios from 'axios';
 import {DeleteOutline, EditOutlined} from '@material-ui/icons'
 import { Link} from 'react-router-dom';
-import dateFormat from 'dateformat';
+// import dateFormat from 'dateformat';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
@@ -22,15 +22,15 @@ export default function EmployeeManager() {
     getData();
   }, []);
 
-  const handleDelete = (id, MaTK) => {
-     axios.delete(`/nhanvien/xoa/${id}`, {
-       data: {
-         MaTK: MaTK
-       }
-     })
-     console.log("xóa");
-     getData()
-    }
+  // const handleDelete = (id, MaTK) => {
+  //    axios.delete(`/nhanvien/xoa/${id}`, {
+  //      data: {
+  //        MaTK: MaTK
+  //      }
+  //    })
+  //    console.log("xóa");
+  //    getData()
+  //   }
 
   const getData = async () => {
    await axios.get("/nhanvien")
@@ -94,11 +94,11 @@ export default function EmployeeManager() {
           <Link to={`/admin/employee/${params.row.id}`} className="btn btn-secondary ms-1">
            <EditOutlined />
           </Link>
-          <div className="btn btn-outline-danger ms-1">
+          {/* <div className="btn btn-outline-danger ms-1">
           <DeleteOutline className="employeeManagerDelete"
               onClick = {() => handleDelete(params.row.id, params.row.MaTK)}
           />
-          </div>
+          </div> */}
           </>
         )
       }

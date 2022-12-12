@@ -23,6 +23,7 @@ import ProductImg from "./adminpage/productImg/ProductImg";
 import ImportProduct from "./adminpage/importProduct/ImportProduct";
 import NewImport from "./adminpage/newImport/NewImport";
 import InvoiceManager from "./adminpage/invoiceManager/InvoiceManager";
+import Import from "./adminpage/import/Import";
 function Admin() {
   return (
     <div>
@@ -40,6 +41,7 @@ function Admin() {
 
           <Route path="importProduct" element={<ImportProduct/>}/>
           <Route path="newImport" element={<NewImport/>}/>
+          <Route path="import/:id" element={<Import/>}/>
 
           <Route path="employeeManager" element={<EmployeeManager/>}/>
           <Route path="employee/:id" element={<Employee/>} />

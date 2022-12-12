@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import ProvincesVN from "../../provincesVN/ProvincesVN";
 import Swal from "sweetalert2";
+import CloseIcon from "@material-ui/icons/Close";
 export default function NewEmployee() {
   const [isChange, setIsChange] = useState(false);
   const [nhanvienName, setNhanvienName] = useState("");
@@ -61,6 +62,10 @@ export default function NewEmployee() {
 
   const handleChangeAddress = () => {
     setIsChange(true);
+  };
+
+  const handleClose = () => {
+    setIsChange(false);
   };
 
   const getAddress = (province, district, ward, street) => {
@@ -193,6 +198,14 @@ export default function NewEmployee() {
 
           {isChange ? (
             <div className="mt-3">
+              <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button
+                              className=" bg-danger"
+                              onClick={handleClose}
+                            >
+                              <CloseIcon />
+                            </button>
+                          </div>
               <ProvincesVN getAddress={getAddress} />{" "}
             </div>
           ) : (

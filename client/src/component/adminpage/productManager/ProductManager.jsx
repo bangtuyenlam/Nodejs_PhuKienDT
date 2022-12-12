@@ -9,27 +9,27 @@ import {
   EditOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles((theme) =>( {
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles((theme) => ({
   root: {
     "& .super-app-theme--header": {
       backgroundColor: "rgba(255, 7, 0, 0.55)",
     },
   },
   modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width: '600px',
+    width: "600px",
   },
 }));
 
@@ -41,18 +41,19 @@ export default function ProductManager() {
 
   const handleOpen = (id) => {
     axios
-    .post(`/sanpham/${id}`)
-    .then((res) => {
-     setProduct(res.data)
-    }) .catch((err) => {
-      if (err.response.status === 404)
-        console.log("Sản phẩm này không tồn tại");
-      else console.log(err + " Lỗi không lấy được thông tin sản phẩm");
-    });
+      .post(`/sanpham/${id}`)
+      .then((res) => {
+        setProduct(res.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 404)
+          console.log("Sản phẩm này không tồn tại");
+        else console.log(err + " Lỗi không lấy được thông tin sản phẩm");
+      });
     setOpen(true);
-    
   };
-console.log(product);
+
+  console.log(product);
   const handleClose = () => {
     setOpen(false);
   };
@@ -108,10 +109,12 @@ console.log(product);
       width: 135,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => {
-        return <div>{params.row.SP_Gia.toString().replace(
-          /\B(?=(\d{3})+(?!\d))/g,
-          "."
-        )} đ</div>;
+        return (
+          <div>
+            {params.row.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}{" "}
+            đ
+          </div>
+        );
       },
     },
     {
@@ -134,67 +137,75 @@ console.log(product);
             >
               <AddPhotoAlternateOutlined />
             </Link>
-            <div
-              
-              className="btn btn-success ms-1"
-            >
-              <RemoveRedEyeOutlined onClick={() =>
-                handleOpen(params.row.id)                  
-                } />
-                 <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          
-          <div className={classes.paper}>
-        
-          { product && (
-             <div className="productShowBottom">
-              <span className="productShowTitle text-black fw-bolder">Thông tin sản phẩm</span>
-              <div className="productShowInfo">
-              <img className="rounded-circle" style={{width: "40px", height: "40px"}} src={`http://localhost:5000/image/${product.Anhdaidien}`}/>
-                  <div> {product.SP_Ten} </div>
-              </div>
-              <div className="productShowInfo">
-
-                <span className="form-control">
-                <b> Điện thoại: </b> {product["Dienthoai.DT_Ten"]}
-                </span>
-              </div>
-              <div className="productShowInfo">
-               
-              <span className="form-control">
-                <b> Giá sản phẩm: </b> {product.SP_Gia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ
-                </span>
-              </div>
-              <div className="productShowInfo">
-              <span className="form-control">
-                <b> Số lượng: </b> {product.Soluong}
-                </span>
-              </div>
-              <div className="productShowInfo">
-        
-                <span className="form-control" style={{whiteSpace: 'pre-line'}}
-                dangerouslySetInnerHTML={{__html: product.SP_Mota}}
-                >
-                 
-                </span>
-              </div>
-            </div>
-          )}
-          </div>
-      
-        </Fade>
-      </Modal>
+            <div className="btn btn-success ms-1">
+              <RemoveRedEyeOutlined onClick={() => handleOpen(params.row.id)} />
+              <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+              >
+                <Fade in={open}>
+                  <div className={classes.paper}>
+                    {product && (
+                      <div className="productShowBottom">
+                        <span className="productShowTitle text-black fw-bolder">
+                          Thông tin sản phẩm
+                        </span>
+                        <div className="productShowInfo">
+                          <img
+                            className="rounded-circle"
+                            style={{ width: "40px", height: "40px" }}
+                            src={`http://localhost:5000/image/${product.Anhdaidien}`}
+                          />
+                          <div> {product.SP_Ten} </div>
+                        </div>
+                        <div className="productShowInfo">
+                          <span className="form-control">
+                            <b> Điện thoại: </b> {product["Dienthoai.DT_Ten"]}
+                          </span>
+                        </div>
+                        <div className="productShowInfo">
+                          <span className="form-control">
+                            <b> Loại sản phẩm: </b>{" "}
+                            {product["Loaisanpham.LSP_Ten"]}
+                          </span>
+                        </div>
+                        <div className="productShowInfo">
+                          <span className="form-control">
+                            <b> Giá sản phẩm: </b>{" "}
+                            {product.SP_Gia.toString().replace(
+                              /\B(?=(\d{3})+(?!\d))/g,
+                              "."
+                            )}{" "}
+                            đ
+                          </span>
+                        </div>
+                        <div className="productShowInfo">
+                          <span className="form-control">
+                            <b> Số lượng: </b> {product.Soluong}
+                          </span>
+                        </div>
+                        <div className="productShowInfo">
+                          <span
+                            className="form-control"
+                            style={{ whiteSpace: "pre-line" }}
+                            dangerouslySetInnerHTML={{
+                              __html: product.SP_Mota,
+                            }}
+                          ></span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </Fade>
+              </Modal>
             </div>
             <Link
               to={`/admin/product/${params.row.id}`}

@@ -177,14 +177,13 @@ let ProductId = async (req, res) => {
   }
 };
 
-let ProductUpdate = (req, res) => {
+let ProductUpdate = async (req, res) => {
   const id = req.body.id;
   const LSP = req.body.loaisp;
   const DT = req.body.tendt;
   const TenSP = req.body.tensp;
   const Gia = req.body.gia;
   const Mota = req.body.mota;
-  const Soluong = req.body.soluong;
   const Mausac = req.body.mausac;
   const update = {
     LSP_Ma: LSP,
@@ -193,22 +192,21 @@ let ProductUpdate = (req, res) => {
     SP_Gia: Gia,
     SP_Mota: Mota,
     Mausac: Mausac,
-    Soluong: Soluong,
   };
-
   if (req.file) {
     const Anh = req.file.filename;
     update.Anhdaidien = Anh;
   }
-  console.log(update);
   try {
-    const result = db.Sanpham.update(update, {
+    const result = await db.Sanpham.update(update, {
       where: {
         id: id,
       },
     });
-
-    return res.json(result[0]);
+    // console.log(result);
+    return res.json({
+      message: "Thành công"
+    });
   } catch (err) {
     return res.status(500).json({
       error: true,

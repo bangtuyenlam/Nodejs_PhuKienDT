@@ -5,18 +5,18 @@ import defaultImg from "../../image/default.png";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 export default function Product() {
   const productId = useParams();
   const [product, setProduct] = useState([]);
   const [productName, setProductName] = useState("");
   const [categoryList, setCategoryList] = useState([]);
   const [phoneList, setPhoneList] = useState([]);
-  const [category, setCategory] = useState(1);
-  const [phone, setPhone] = useState(1);
+  const [category, setCategory] = useState();
+  const [phone, setPhone] = useState();
   const [price, setPrice] = useState("");
   const [describe, setDescribe] = useState("");
   const [avatar, setAvatar] = useState();
-  const [amount, setAmount] = useState("");
   const [color, setColor] = useState("");
   const [previewImg, setPreviewImg] = useState();
   const [error, setError] = useState();
@@ -29,8 +29,9 @@ export default function Product() {
         setProductName(res.data.SP_Ten);
         setPrice(res.data.SP_Gia);
         setDescribe(res.data.SP_Mota);
-        setAmount(res.data.Soluong);
         setColor(res.data.Mausac);
+        setCategory(res.data.LSP_Ma);
+        setPhone(res.data.DT_Ma)
       })
       .catch((err) => {
         if (err.response.status === 404)
@@ -38,6 +39,7 @@ export default function Product() {
         else console.log(err + " Lỗi không lấy được thông tin sản phẩm");
       });
   }, []);
+ 
 
   useEffect(() => {
     if (!avatar) {
@@ -63,14 +65,20 @@ export default function Product() {
     formdata.append("tensp", productName);
     formdata.append("gia", price);
     formdata.append("mota", describe);
-    formdata.append("soluong", amount);
     formdata.append("mausac", color);
    await axios
-      .put("/sanpham/capnhat", formdata, {
+      .post("/sanpham/capnhat", formdata, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
-        window.location.href = "/admin/productManager";
+        console.log(res.data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Nhập hàng thành công!',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        setTimeout(() => {window.location.href = "/admin/importProduct"}, 1700)         
       })
       .catch((error) => {
         if (error.response.status === 500)
@@ -113,7 +121,7 @@ export default function Product() {
   }
       setAvatar(e.target.files[0]);
   };
-
+console.log(product);
   return (
     <div className="product">
       <div className="border border-3 rounded p-lg-3 shadow-lg bg-black bg-opacity-25 ">
@@ -122,6 +130,7 @@ export default function Product() {
           <div>
              <h4 className="newProductTitle">Chỉnh sửa sản phẩm</h4>
             <form action="" className="newProductForm">
+              
                 <div className="newProductItem">
                   <label>Tên sản phẩm</label>
                   <input
@@ -134,6 +143,7 @@ export default function Product() {
                     }}
                   />
                 </div>
+                
                 <div className="newProductItem">
                   <label>Giá tiền</label>
                   <input
@@ -151,16 +161,20 @@ export default function Product() {
                     id="district"
                     onChange={selectCategoryChange}
                   >
-                    <option disabled default>
-                      Chọn loại sản phẩm
+                    <option value={product.LSP_Ma || ""}>
+                     {product["Loaisanpham.LSP_Ten"]}
                     </option>
 
                     {categoryList.map((loaisp) => {
+                      if(product.LSP_Ma !== loaisp.id) {
                       return (
+                         
                         <option value={loaisp.id} key={loaisp.id}>
                           {loaisp.LSP_Ten}
                         </option>
+                        
                       );
+                      }
                     })}
                   </select>
                 </div>
@@ -171,38 +185,24 @@ export default function Product() {
                     id="district"
                     onChange={selectPhoneChange}
                   >
-                    <option disabled default>
-                      Chọn điện thoại
+                    <option value={product.DT_Ma || ""}>
+                      {product["Dienthoai.DT_Ten"]}
                     </option>
 
                     {phoneList &&
                       phoneList.map((val) => {
+                        if(product.DT_Ma !== val.id) {
                         return (
                           <option value={val.id} key={val.id}>
                             {val.DT_Ten}
                           </option>
                         );
+                        }
                       })}
                   </select>
                 </div>
-                <div className="newProductItem">
-                  <label> Số lượng</label>
-                  <input
-                 
-                    type="number"
-                    value={amount}
-                    onChange={(value) => setAmount(value.target.value)}
-                  ></input>
-                </div>
-                <div className="newProductItem">
-                  <label> Màu sắc</label>
-                  <input
-                   
-                    type="text"
-                    defaultValue={color}
-                    onChange={(value) => setColor(value.target.value)}
-                  ></input>
-                </div>
+           
+             
                 <div className="newProductItem">
                   <label> Chọn ảnh mới</label>
                   <input type="file" id="file" onChange={uploadImage} />
@@ -216,6 +216,7 @@ export default function Product() {
          </div>
           </div>
                 </div>
+               
                 <div className="newProductItem">
                   <label> Mô tả</label>
                   <div className="bg-white" style={{height: "200px"}}>
@@ -223,6 +224,16 @@ export default function Product() {
 </div>       
           
                 </div>
+                <div className="newProductItem">
+                  <label> Màu sắc</label>
+                  <input
+                   
+                    type="text"
+                    defaultValue={color}
+                    onChange={(value) => setColor(value.target.value)}
+                  ></input>
+                </div>
+               
                 <button className="newProductButton" onClick={handleUpdate}>
                   Cập nhật
                 </button>

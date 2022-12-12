@@ -15,7 +15,7 @@ const upload = multer({
     storage: storage
 })
 
-router.put("/capnhat", upload.single('avatar'), sanphamController.ProductUpdate);
+router.post("/capnhat", upload.single('avatar'), sanphamController.ProductUpdate);
 router.post("/them",upload.single('avatar'),sanphamController.createProduct);
 router.post("/dadat", sanphamController.productPurchased);
 router.post("/danhgia", sanphamController.reviewProduct);

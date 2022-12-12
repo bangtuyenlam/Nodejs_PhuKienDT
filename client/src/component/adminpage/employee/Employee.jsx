@@ -11,6 +11,7 @@ import {
   LocationSearching,
   Work,
 } from "@material-ui/icons";
+import CloseIcon from "@material-ui/icons/Close";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
@@ -63,7 +64,7 @@ export default function Employee() {
 
   const handleUpdate = (e) => {
     axios
-      .put("/nhanvien/capnhat", {
+      .post("/nhanvien/capnhat", {
         NhanvienId: NhanvienId.id,
         NhanvienName: NhanvienName,
         gender: gender,
@@ -85,6 +86,10 @@ export default function Employee() {
   };
   const handleChangeAddress = () => {
     setIsChange(true);
+  };
+
+  const handleClose = () => {
+    setIsChange(false);
   };
 
   const getAddress = (province, district, ward, street) => {
@@ -278,6 +283,14 @@ export default function Employee() {
                     />{" "}
                     {isChange ? (
                       <div className="mt-3">
+                       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button
+                              className=" bg-danger"
+                              onClick={handleClose}
+                            >
+                              <CloseIcon />
+                            </button>
+                          </div>
                         <ProvincesVN getAddress={getAddress} />{" "}
                       </div>
                     ) : (

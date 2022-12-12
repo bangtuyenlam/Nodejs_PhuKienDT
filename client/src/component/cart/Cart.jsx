@@ -44,14 +44,15 @@ function Cart({ cart, setCart, handleChange, xoa, handleClick }) {
             <p>{item.SP_Ten}</p>
           </div>
           <div className="ms-3">
-            {//Số lượng đặt hàng không vượt quá sl có trong kho
+           
+             <button onClick={() => handleChange(item, -1)}>-</button>
+            <button>{item.amount}</button>
+             {//Số lượng đặt hàng không vượt quá sl có trong kho
             item.Soluong !== item.amount ? (
               <button onClick={() => handleChange(item, 1)}>+</button>
             ) : (
               <button disabled={true}>+</button>
             )}
-            <button>{item.amount}</button>
-            <button onClick={() => handleChange(item, -1)}>-</button>
           </div>
           <div className="d-flex flex-row-reverse mb-2">
             { item.KM_Ma != null ? (

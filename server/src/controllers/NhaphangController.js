@@ -17,6 +17,35 @@ let DSPhieuNhap = async (req, res) => {
   }
 };
 
+let PhieuNhapTheoID = async (req, res) => {
+  const PN_Ma = req.body.MaPN;
+  console.log(PN_Ma);
+  try{
+    const phieunhapct = await db.Phieunhapct.findAll({
+      raw: true,
+      where: {
+        PN_Ma: PN_Ma
+      },
+      include: [
+        {
+          model: db.Sanpham,
+        },
+        {
+          model: db.Phieunhap,
+          include: db.Nhanvien,
+        },
+      ],
+    })
+    // console.log(phieunhapct);
+    return res.json(phieunhapct);
+  }catch(err) {
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server"
+    })
+  }
+}
+
 let NhapHang = async (req, res) => {
   const NV_Ma = req.body.manv;
   const PN_Nhacungcap = req.body.nhacungcap;
@@ -85,4 +114,5 @@ let NhapHang = async (req, res) => {
 module.exports = {
   DSPhieuNhap: DSPhieuNhap,
   NhapHang: NhapHang,
+  PhieuNhapTheoID: PhieuNhapTheoID
 };

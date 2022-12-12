@@ -13,32 +13,65 @@ function NewImport() {
   const navigate = useNavigate();
   const [add, setAdd] = useState(false);
   const [employee, setEmployee] = useState();
-  const [listDetail, setListDetail] = useState([{ SP_Ma:"", Soluongnhap: 0, Gianhap: 0 }]);
+  const [listDetail, setListDetail] = useState([{ SP_Ma:2, Soluong: "", Giatien:  ""}]);
   const [amount, setAmount] = useState();
   const [price, setPrice] = useState();
   const [a, setA] = useState(0);
-  
   useEffect(() => {
     getProduct();
   }, [])
 
   const handleSave = () => {
     let trunglap = [];
-    let check = false;
+    let checkNotNull = true;
     console.log(listDetail);
     listDetail.filter((item, index) => {
-      if(listDetail.findIndex((i) => i.SP_Ma === item.SP_Ma) !== index)
+      if(listDetail.findIndex((i) => i.SP_Ma == item.SP_Ma) !== index)
         trunglap.push(item);
-        
+     if(item.SP_Ma == "" || item.Giatien == "" || item.Soluong == "")
+        checkNotNull = false;
   })
  if(trunglap[0])
   Swal.fire({
     icon: "error",
     title: "Thông báo",
-    text: "Có hàng trùng tên sản phẩm, vui lòng xóa bớt!",
+    text: "Có sản phẩm trùng nhau, vui lòng xóa bớt!",
     confirmButtonText: "OK",
+    allowOutsideClick: false,
   })
-  console.log(trunglap);
+  else if (checkNotNull === false || vendor == "") {
+    checkNotNull = true;
+    Swal.fire({
+      icon: "error",
+      title: "Thông báo",
+      text: "Vui lòng nhập đầy đủ thông tin cho phiếu nhập",
+      confirmButtonText: "OK",
+      allowOutsideClick: false,
+    });
+  }
+  else {
+    axios.post("/nhaphang/them", {
+      manv: user["Nhanvien.id"],
+      nhacungcap: vendor,
+      ngaynhap: new Date(),
+      phieunhapct: listDetail
+    }).then((res) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Nhập hàng thành công!',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      setTimeout(() => {window.location.href = "/admin/importProduct"}, 1700)         
+    })
+    .catch((err) => {
+      console.log(err + " Không thể lấy được sản phẩm");
+    })
+  }
+
+  
+  
+  console.log(checkNotNull, vendor == "", vendor, checkNotNull === false || vendor == "");
   }
 
   const getProduct = async () => {
@@ -54,7 +87,7 @@ function NewImport() {
     
   const handleAddRow = () => {
     setA(a + 1);
-    setListDetail([...listDetail, { SP_Ma: 0, Soluong: 0, Giatien: 0 }]);
+    setListDetail([...listDetail, { SP_Ma: 2, Soluong: "", Giatien: "" }]);
 
     setAmount(0);
     setPrice(0);
@@ -113,10 +146,10 @@ function NewImport() {
             {listDetail &&
           listDetail.map((item, index) => (
             
-              <ul className="list-group list-group-horizontal-sm" >
+              <ul className="list-group list-group-horizontal-sm" key={index}>
                 <li className="list-group-item col-4">
                   <select  className="form-control" id="district" onChange={(e) => {selectChange(e); item.SP_Ma = e.target.value}}>
-                    <option default value={0}>
+                    <option default disabled>
                       Chọn sản phẩm
                     </option>
 
@@ -134,16 +167,17 @@ function NewImport() {
                     type="number"
                     className="form-control"
                     min={0}
-                    value={item.Soluong}
+                    value={item.Soluong || ""}
                     onChange={(value) =>{item.Soluong = value.target.value; setAmount(value.target.value) }}
                   ></input>
                 </li>
                 <li className="list-group-item col-2">
                   <input
                     type="text"
-                    onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                    // onKeyPress={(event) =>  event.charCode >= 48 && event.charCode <= 57}
                     className="form-control"
-                    value={item.Giatien}
+                    value={item.Giatien || ""}
+                    min={0}
                     onChange={(value) =>{item.Giatien = value.target.value; setPrice(value.target.value)}}
                   ></input>
                 </li>
@@ -172,6 +206,7 @@ function NewImport() {
 }
               </div>
               </ul>
+
            
           ))}
           </div>

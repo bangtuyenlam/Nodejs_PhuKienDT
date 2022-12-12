@@ -19,6 +19,7 @@ let DatHang = async (req, res) => {
                 message: "Vui lòng nhập đủ thông tin",
               });
         }
+        
         else{
            await db.Dondat.create({
                 NV_Ma: NV_Ma,

@@ -106,6 +106,7 @@ let XoaNhanVien = async (req, res) => {
       },
     });
   } catch (err) {
+    console.log(err + "Lỗi");
     return res.status(500).json({
       error: true,
       message: "Lỗi server",

@@ -62,15 +62,15 @@ export default function ProductManager() {
     getData();
   }, []);
 
-  const handleDelete = (id, avatar) => {
-    axios.delete(`/sanpham/xoa/${id}`, {
-      data: {
-        anhdaidien: avatar,
-      },
-    });
-    console.log("xóa thành công");
-    getData();
-  };
+  // const handleDelete = (id, avatar) => {
+  //   axios.delete(`/sanpham/xoa/${id}`, {
+  //     data: {
+  //       anhdaidien: avatar,
+  //     },
+  //   });
+  //   console.log("xóa thành công");
+  //   getData();
+  // };
 
   const getData = async () => {
     await axios
@@ -213,14 +213,14 @@ export default function ProductManager() {
             >
               <EditOutlined />
             </Link>
-            <div className="btn btn-outline-danger ms-1">
+            {/* <div className="btn btn-outline-danger ms-1">
               <DeleteOutline
                 className="productManagerDelete"
                 onClick={() =>
                   handleDelete(params.row.id, params.row.Anhdaidien)
                 }
               />
-            </div>
+            </div> */}
           </>
         );
       },

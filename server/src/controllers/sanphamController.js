@@ -1,7 +1,7 @@
 const db = require("../models/index");
 const path = require("path");
 const fs = require("fs");
-
+const { Op } = require("sequelize");
 let listProduct = async (req, res) => {
   try {
     const Sanpham = await db.Sanpham.findAll({
@@ -22,6 +22,11 @@ let productVsRating = async (req, res) => {
   try {
     const Sanpham = await db.Sanpham.findAndCountAll({
       raw: true,
+      where: {
+        'Soluong': {
+          [Op.not] : 0
+        }
+      },
       attributes: [
         "id",
         "LSP_Ma",
@@ -71,11 +76,11 @@ let createProduct = (req, res) => {
   const Gia = req.body.gia;
   const Mota = req.body.mota;
   const Anh = req.file === undefined ? null : req.file.filename;
-  const Soluong = req.body.soluong;
+  const Soluong = 0;
   const Mausac = req.body.mausac;
 
   try {
-    if (!LSP || !DT || !TenSP || !Gia || !Mota || !Anh || !Soluong || !Mausac) {
+    if (!LSP || !DT || !TenSP || !Gia || !Mota || !Anh  || !Mausac) {
       return res.status(402).json({
         err: true,
         message: "Vui lòng nhập đủ các trường",
@@ -225,7 +230,9 @@ let deleteProduct = async (req, res) => {
         id: id,
       },
     });
+    console.log("abc");
   } catch (err) {
+    console.log("lỗi");
     return res.status(500).json({
       error: true,
       message: "Lỗi server",
@@ -388,7 +395,11 @@ let listHotProduct = async (req, res) => {
       order: [
         ["Soluongdat", "DESC"]
       ],
-      
+      where: {
+        'Soluong': {
+          [Op.not] : 0
+        }
+      }
     });
     return res.json(Sanpham);
   } catch (err) {

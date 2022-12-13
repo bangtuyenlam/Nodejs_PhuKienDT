@@ -85,7 +85,11 @@ export default function Product() {
           console.log("Cập nhật không thành công");
       });
   };
-  
+  const preventMinus = (e) => {
+    if (e.code === 'Minus') {
+        e.preventDefault();
+    }
+};
 
   useEffect(() => {
     axios
@@ -147,9 +151,10 @@ console.log(product);
                 <div className="newProductItem">
                   <label>Giá tiền</label>
                   <input
-                    type="text"
+                    type="number"
                     value={price}
-                   
+                    min={0}
+                    onKeyPress={preventMinus}
                     onChange={(value) => setPrice(value.target.value)}
                   ></input>
                 </div>

@@ -79,7 +79,7 @@ export default function DiscountProducts() {
         renderCell: (params) => {
           return (
             <>
-              <Link to={`/admin/customer/${params.row.id}`} className="btn btn-secondary">
+              <Link to={`/admin/discount/${params.row.id}`} className="btn btn-secondary">
                 <EditOutlined/>
               </Link>
               <div className='btn btn-outline-danger ms-1'>

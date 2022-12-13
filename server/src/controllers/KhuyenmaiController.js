@@ -45,6 +45,32 @@ let checkexpired = async(req, res) => {
 }
 }
 
+const distcountbyId = async(req, res) => {
+  const KM_Ma = req.body.KM_Ma;
+  
+  try{
+    const Khuyenmaict = await db.Sanpham.findAll({
+      raw: true,
+      where: {
+        KM_Ma: KM_Ma
+      },
+      include: [
+        {
+          model: db.Khuyenmai_SP,
+        },
+      ],
+    })
+    
+    return res.json(Khuyenmaict);
+  }catch(err) {
+    
+    return res.status(500).json({
+      error: true,
+      message: "Lỗi server"
+    })
+  }
+}
+
 const listDiscountDetail = async(req, res) => {
   const date = new Date();
  
@@ -90,7 +116,12 @@ const listDiscountDetail = async(req, res) => {
       where: {
         'KM_Ma': {
           [Op.not] : null
-        }
+        },
+        
+          'Soluong': {
+            [Op.not] : 0
+          }
+        
       }
     });
   //  console.log(Khuyenmaict);
@@ -180,4 +211,5 @@ module.exports = {
     deleteDiscount: deleteDiscount,
     listDiscountDetail: listDiscountDetail,
     checkexpired: checkexpired,
+    distcountbyId: distcountbyId,
 }

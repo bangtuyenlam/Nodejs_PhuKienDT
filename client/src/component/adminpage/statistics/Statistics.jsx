@@ -60,7 +60,7 @@ function Statistics() {
       })
       .then((res) => {
         setRevenue(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -72,7 +72,7 @@ function Statistics() {
       .get("/thongke/laynam")
       .then((res) => {
         setListYear(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -90,7 +90,7 @@ function Statistics() {
         setRevenueByMonth(res.data);
         res.data.map((item) => (a += item.tongtien));
         setTongDoanhThu(a);
-        console.log(res.data);
+        // console.log(res.data);
       });
   };
 
@@ -108,7 +108,7 @@ function Statistics() {
       })
       .then((res) => {
         setReceipt(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       });
   };
 
@@ -132,7 +132,7 @@ function Statistics() {
       })
       .then((res) => {
         setCancelList(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       });
   };
 

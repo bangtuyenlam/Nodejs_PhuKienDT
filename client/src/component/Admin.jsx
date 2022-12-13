@@ -24,6 +24,7 @@ import ImportProduct from "./adminpage/importProduct/ImportProduct";
 import NewImport from "./adminpage/newImport/NewImport";
 import InvoiceManager from "./adminpage/invoiceManager/InvoiceManager";
 import Import from "./adminpage/import/Import";
+import DiscountDetail from "./adminpage/discountdetail/DiscountDetail";
 function Admin() {
   return (
     <div>
@@ -57,6 +58,7 @@ function Admin() {
 
           <Route path="discountProducts" element={<DiscountProducts/>}/>
           <Route path="newdiscount" element={<NewDiscount/>}/>
+          <Route path="discount/:id" element={<DiscountDetail/>}/>
 
           <Route path="invoiceManager" element={<InvoiceManager/>}/>
         </Routes>

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import defaultImg from "../../image/default.png";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
+import Swal from "sweetalert2";
 export default function NewProduct() {
   const [productName, setProductName] = useState("");
   const [categoryList, setCategoryList] = useState([]);
@@ -14,11 +15,18 @@ export default function NewProduct() {
   const [price, setPrice] = useState("");
   const [describe, setDescribe] = useState("");
   const [avatar, setAvatar] = useState();
-  const [amount, setAmount] = useState("");
+  // const [amount, setAmount] = useState("");
   const [color, setColor] = useState("");
   const [error, setError] = useState();
   const [previewImg, setPreviewImg] = useState();
   const navigate = useNavigate();
+
+  const preventMinus = (e) => {
+    if (e.code === 'Minus') {
+        e.preventDefault();
+    }
+};
+
 
   const handleCreate = () => {
     const formdata = new FormData();
@@ -28,7 +36,6 @@ export default function NewProduct() {
     formdata.append("tensp", productName);
     formdata.append("gia", price);
     formdata.append("mota", describe);
-    formdata.append("soluong", amount);
     formdata.append("mausac", color);
     axios
       .post("/sanpham/them", formdata, {
@@ -42,10 +49,17 @@ export default function NewProduct() {
         if (error.response.status === 402) {
           setError(error.response.data.message);
           console.log("Lỗi nhập chưa nhập đủ thông tin");
+          Swal.fire({
+            icon: "error",
+            title: "Thông báo",
+            text: "Vui lòng nhập đầy đủ thông tin",
+            confirmButtonText: "OK",
+            allowOutsideClick: false,
+          });
         } else console.log("Thêm sản phẩm không thành công");
       });
   };
-  console.log(avatar);
+
 
   useEffect(() => {
     axios
@@ -130,8 +144,10 @@ export default function NewProduct() {
         <div className="newProductItem">
           <label>Giá tiền</label>
           <input
-            type="text"
+           type="number"
+           min={0}
             value={price}
+            onKeyPress={preventMinus}
             onChange={(value) => setPrice(value.target.value)}
           ></input>
         </div>
@@ -156,23 +172,16 @@ export default function NewProduct() {
               })}
           </select>
         </div>
-        <div className="newProductItem">
-          <label> Màu sắc</label>
-          <input
-            type="text"
-            value={color}
-            onChange={(value) => setColor(value.target.value)}
-          ></input>
-        </div>
+      
 
-        <div className="newProductItem">
+        {/* <div className="newProductItem">
           <label> Số lượng</label>
           <input
             type="number"
             value={amount}
             onChange={(value) => setAmount(value.target.value)}
           ></input>
-        </div>
+        </div> */}
         <div className="newProductItem">
           <label>Ảnh đại diện</label>
           <input type="file" id="file" onChange={uploadImage}></input>
@@ -195,6 +204,14 @@ export default function NewProduct() {
           <ReactQuill value={describe} onChange={setDescribe} style={{height: "80%", marginBottom: "17px"}}/>
 </div>       
           
+        </div>
+        <div className="newProductItem">
+          <label> Màu sắc</label>
+          <input
+            type="text"
+            value={color}
+            onChange={(value) => setColor(value.target.value)}
+          ></input>
         </div>
         <button
             className="newProductButton"

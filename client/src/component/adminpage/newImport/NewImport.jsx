@@ -105,7 +105,11 @@ function NewImport() {
   const selectChange = (e) => {
     setProduct(e.target.value);
   };
-  
+  const preventMinus = (e) => {
+    if (e.code === 'Minus') {
+        e.preventDefault();
+    }
+};
  console.log(listDetail);
   return (
     <div className="newProduct">
@@ -168,14 +172,15 @@ function NewImport() {
                     type="number"
                     className="form-control"
                     min={0}
+                    onKeyPress={preventMinus}
                     value={item.Soluong || ""}
                     onChange={(value) =>{item.Soluong = value.target.value; setAmount(value.target.value) }}
                   ></input>
                 </li>
                 <li className="list-group-item col-2">
                   <input
-                    type="text"
-                    // onKeyPress={(event) =>  event.charCode >= 48 && event.charCode <= 57}
+                    type="number"
+                    onKeyPress={preventMinus}
                     className="form-control"
                     value={item.Giatien || ""}
                     min={0}
